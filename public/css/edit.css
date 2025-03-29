@@ -1,14 +1,16 @@
-/* Variables globales mejoradas */
+/* Variables globales actualizadas */
 :root {
     --primary-color: #003366;
     --secondary-color: #276fb7;
     --text-color: #333;
     --border-color: #e0e0e0;
+    --success-color: #4CAF50;
+    --warning-color: #FFC107;
+    --danger-color: #F44336;
+    --disabled-color: #9E9E9E;
     --form-bg: #ffffff;
     --section-bg: #f8f9fa;
     --header-gradient: linear-gradient(135deg, #003366 0%, #276fb7 100%);
-    --input-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Estilos generales */
@@ -18,20 +20,18 @@
     box-sizing: border-box;
 }
 
-/* Mejoras al body */
 body {
     font-family: 'Arial', sans-serif;
     line-height: 1.6;
     color: var(--text-color);
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    min-height: 100vh;
+    background-color: #f5f5f5;
 }
 
 /* Mejoras al encabezado */
 .sheet-header {
     background: var(--header-gradient);
     padding: 30px 20px;
-    box-shadow: var(--card-shadow);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     margin-bottom: 40px;
     border-radius: 0 0 15px 15px;
 }
@@ -48,8 +48,11 @@ body {
     background: rgba(255, 255, 255, 0.95);
     border-radius: 12px;
     padding: 25px;
-    box-shadow: var(--card-shadow);
-    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin: 20px 0;
 }
 
 .company-logo {
@@ -64,29 +67,11 @@ body {
 
 .company-contacts p {
     font-size: 15px;
-    font-weight: 200;
     color: var(--text-color);
+    margin-bottom: 5px;
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-    .company-info {
-        flex-direction: column;
-        text-align: center;
-        padding: 15px;
-    }
-
-    .company-logo {
-        width: 100px;
-        margin-bottom: 15px;
-    }
-
-    .text-center {
-        font-size: 20px;
-    }
-}
-
-/* Mejoras al contenedor principal */
+/* Contenedor principal */
 .main-content {
     max-width: 1200px;
     margin: 0 auto;
@@ -95,9 +80,9 @@ body {
 
 /* Mejoras al formulario */
 .equipment-form {
-    background: var(--form-bg);
+    background-color: var(--form-bg);
     border-radius: 15px;
-    box-shadow: var(--card-shadow);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     overflow: hidden;
 }
 
@@ -116,7 +101,6 @@ body {
     border-bottom: 2px solid var(--secondary-color);
 }
 
-/* Mejoras al grid del formulario */
 .form-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -133,34 +117,18 @@ body {
     color: var(--text-color);
     margin-bottom: 8px;
     display: block;
-    font-weight: 500;
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea {
-    width: 100%;
     padding: 12px 15px;
     border: 2px solid var(--border-color);
     border-radius: 8px;
     font-size: 15px;
     transition: all 0.3s ease;
-    background-color: white;
-    box-shadow: var(--input-shadow);
-}
-
-.form-group textarea {
-    min-height: 120px;
-    resize: vertical;
-}
-
-select {
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 1rem center;
-    background-size: 1em;
-    padding-right: 2.5rem;
+    background-color: #fff;
+    width: 100%;
 }
 
 .form-group input:focus,
@@ -169,26 +137,51 @@ select {
     border-color: var(--secondary-color);
     box-shadow: 0 0 0 3px rgba(39, 111, 183, 0.1);
     transform: translateY(-1px);
+    outline: none;
 }
 
-.full-width {
-    grid-column: 1 / -1;
+/* Mejoras para campos específicos */
+select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1em;
 }
 
-/* Mejoras para los botones de acción */
+textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* Estado con colores */
+.status-field {
+    position: relative;
+}
+
+.status-field::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Estilos para botones de formulario */
 .form-actions {
-    display: flex;
-    gap: 15px;
-    justify-content: flex-end;
-    margin-top: 30px;
     padding: 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
     background-color: #f8f9fa;
-    border-radius: 0 0 8px 8px;
+    border-top: 1px solid var(--border-color);
 }
 
 .btn-submit,
-.btn-reset,
-.btn-show {
+.btn-cancel {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -199,12 +192,13 @@ select {
     cursor: pointer;
     transition: all 0.3s ease;
     text-decoration: none;
-    border: none;
+    min-width: 160px;
 }
 
 .btn-submit {
     background-color: var(--primary-color);
     color: white;
+    border: none;
     box-shadow: 0 2px 4px rgba(0, 51, 102, 0.2);
 }
 
@@ -214,76 +208,127 @@ select {
     box-shadow: 0 4px 8px rgba(0, 51, 102, 0.3);
 }
 
-.btn-reset {
-    background-color: #dc3545;
-    color: white;
-    box-shadow: 0 2px 4px rgba(220, 53, 69, 0.2);
+.btn-cancel {
+    background-color: #fff;
+    color: var(--text-color);
+    border: 2px solid var(--border-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-.btn-reset:hover {
-    background-color: #c82333;
+.btn-cancel:hover {
+    background-color: #f8f9fa;
+    color: var(--danger-color);
+    border-color: var(--danger-color);
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
-}
-
-.btn-show {
-    background-color: var(--secondary-color);
-    color: white;
-    box-shadow: 0 2px 4px rgba(39, 111, 183, 0.2);
-}
-
-.btn-show:hover {
-    background-color: #1a5a9e;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(39, 111, 183, 0.3);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Iconos para los botones */
 .btn-submit::before,
-.btn-reset::before,
-.btn-show::before {
+.btn-cancel::before {
     margin-right: 8px;
-    font-weight: bold;
+    font-size: 18px;
 }
 
 .btn-submit::before {
     content: '💾';
 }
 
-.btn-reset::before {
-    content: '🔄';
+.btn-cancel::before {
+    content: '❌';
 }
 
-.btn-show::before {
-    content: '📋';
-}
-
-/* Mejoras responsive */
+/* Responsive design para botones */
 @media (max-width: 768px) {
-    .sheet-header {
-        padding: 20px;
-        margin-bottom: 30px;
-    }
-
-    .form-section {
-        padding: 20px;
-    }
-
-    .form-grid {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-
     .form-actions {
         flex-direction: column;
-        gap: 10px;
+        padding: 15px;
     }
 
     .btn-submit,
-    .btn-reset,
-    .btn-show {
+    .btn-cancel {
         width: 100%;
+        justify-content: center;
+        padding: 14px 20px;
     }
+}
+
+/* Estilos para botones de acción */
+.btn-edit,
+.btn-details {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    border: none;
+    gap: 8px;
+}
+
+.btn-edit {
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 51, 102, 0.2);
+}
+
+.btn-edit:hover {
+    background-color: #004080;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 51, 102, 0.3);
+}
+
+.btn-details {
+    background-color: var(--secondary-color);
+    color: white;
+    box-shadow: 0 2px 4px rgba(39, 111, 183, 0.2);
+}
+
+.btn-details:hover {
+    background-color: #1a5a9e;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(39, 111, 183, 0.3);
+}
+
+/* Iconos para los botones */
+.btn-edit::before {
+    content: '✏️';
+}
+
+.btn-details::before {
+    content: '';
+}
+
+/* Ajustes responsive para los botones */
+@media (max-width: 768px) {
+
+    .btn-edit,
+    .btn-details {
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 8px;
+    }
+}
+
+/* Estilos para los estados */
+#status option[value="Bueno"] {
+    color: var(--success-color);
+}
+
+#status option[value="Regular"] {
+    color: var(--warning-color);
+}
+
+#status option[value="Malo"] {
+    color: var(--danger-color);
+}
+
+#status option[value="Deshabilitado"] {
+    color: var(--disabled-color);
 }
 
 /* Estilos para las alertas */
@@ -361,7 +406,7 @@ select {
     }
 }
 
-/* Animaciones mejoradas */
+/* Animaciones y transiciones */
 @keyframes formFadeIn {
     from {
         opacity: 0;
@@ -371,5 +416,38 @@ select {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .company-info {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .btn-submit,
+    .btn-cancel {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .sheet-header {
+        padding: 20px;
+        margin-bottom: 30px;
+    }
+
+    .form-section {
+        padding: 20px;
     }
 }

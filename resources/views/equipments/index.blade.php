@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Equipos-EMCASERVICIOS</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('imgs/Emcaservicios.png') }}">
     <link rel="stylesheet" href="{{ asset('css/index.css') }}">
@@ -198,10 +199,10 @@
                         <label for="status">Estado</label>
                         <select name="status" id="status" required>
                             <option value="">Seleccione un Estado</option>
-                            <option value="bueno" style="color: #4CAF50">Bueno</option>
-                            <option value="regular" style="color: #FFC107">Regular</option>
-                            <option value="malo" style="color: #F44336">Malo</option>
-                            <option value="deshabilitado" style="color: #9E9E9E">Deshabilitado</option>
+                            <option value="Bueno" style="color: #4CAF50">Bueno</option>
+                            <option value="Regular" style="color: #FFC107">Regular</option>
+                            <option value="Malo" style="color: #F44336">Malo</option>
+                            <option value="Deshabilitado" style="color: #9E9E9E">Deshabilitado</option>
                         </select>
                     </div>
 

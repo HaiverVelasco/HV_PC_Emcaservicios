@@ -6,9 +6,33 @@
     <title>Equipos-EMCASERVICIOS</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('imgs/Emcaservicios.png') }}">
     <link rel="stylesheet" href="{{asset('css/show.css')}}">
-    <script src="{{ asset('js/show.js') }}" defer></script>
+    <link rel="stylesheet" href=" {{asset('css/edit.css')}} ">
+    
 </head>
 <body>
+    <div class="alerts-container">
+        @if(session()->has('success'))
+            <div class="alert alert-success" role="alert">
+                {{ session('success') }}
+                <button class="alert-close">&times;</button>
+            </div>
+        @endif
+
+        @if(session()->has('info'))
+            <div class="alert alert-info" role="alert">
+                {{ session('info') }}
+                <button class="alert-close">&times;</button>
+            </div>
+        @endif
+
+        @if(session()->has('error'))
+            <div class="alert alert-error" role="alert">
+                {{ session('error') }}
+                <button class="alert-close">&times;</button>
+            </div>
+        @endif
+    </div>
+
     <!-- Encabezado existente -->
     <header class="sheet-header">
         <h1 class="text-center">EQUIPOS REGISTRADOS</h1>
@@ -48,7 +72,13 @@
                             </div>
                             <div class="equipment-footer">
                                 <a href="{{ route('equipment.edit', $equipment->id) }}" class="btn-edit">Editar</a>
-                                <a href="{{ route('equipment.show', $equipment->id) }}" class="btn-details">Detalles</a>
+                                <form action="{{ route('equipment.destroy', $equipment->id) }}" method="POST" class="delete-form">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-delete" onclick="return confirm('¿Está seguro que desea eliminar este equipo?')">
+                                        Eliminar
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     @empty
@@ -64,5 +94,7 @@
             Agregar Equipo
         </a>
     </div>
+
+    <script src="{{ asset('js/show.js') }}"></script>
 </body>
 </html>

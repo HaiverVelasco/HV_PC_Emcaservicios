@@ -3,7 +3,10 @@
     --primary-color: #003366;
     --secondary-color: #276fb7;
     --text-color: #333;
-    --border-color: gray;
+    --border-color: #e0e0e0;
+    --card-bg: #ffffff;
+    --section-bg: #f5f7fa;
+    --hover-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
 /* Estilos generales */
@@ -82,14 +85,18 @@ body {
     padding: 20px;
     max-width: 1400px;
     margin: 0 auto;
+    background-color: var(--section-bg);
+    border-radius: 12px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .area-section {
-    background: white;
-    border-radius: 8px;
+    background: var(--card-bg);
+    border-radius: 12px;
     margin-bottom: 30px;
     border: 2px solid;
     overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .area-title {
@@ -104,25 +111,37 @@ body {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
     padding: 20px;
+    transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .equipment-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .equipment-card {
-    background: white;
+    background: var(--card-bg);
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     overflow: hidden;
-    transition: transform 0.2s;
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+    backdrop-filter: blur(10px);
 }
 
 .equipment-card:hover {
     transform: translateY(-5px);
+    box-shadow: var(--hover-shadow);
+    border-color: var(--secondary-color);
 }
 
 .equipment-header {
-    padding: 10px;
+    padding: 12px 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: #f8f9fa;
     border-bottom: 1px solid var(--border-color);
 }
 
@@ -132,52 +151,76 @@ body {
 }
 
 .status-badge {
-    padding: 4px 8px;
-    border-radius: 4px;
+    padding: 6px 12px;
+    border-radius: 20px;
     font-size: 12px;
-    font-weight: bold;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .status-bueno {
     background-color: #4CAF50;
     color: white;
+    box-shadow: 0 2px 4px rgba(76, 175, 80, 0.2);
 }
 
 .status-regular {
     background-color: #FFC107;
-    color: black;
+    color: #000;
+    box-shadow: 0 2px 4px rgba(255, 193, 7, 0.2);
 }
 
 .status-malo {
     background-color: #F44336;
     color: white;
+    box-shadow: 0 2px 4px rgba(244, 67, 54, 0.2);
 }
 
 .status-deshabilitado {
     background-color: #9E9E9E;
     color: white;
+    box-shadow: 0 2px 4px rgba(158, 158, 158, 0.2);
 }
 
 .equipment-body {
-    padding: 15px;
+    padding: 20px;
+    background: linear-gradient(to bottom, #ffffff, #f8f9fa);
 }
 
 .equipment-body h3 {
-    margin: 0 0 10px 0;
+    margin: 0 0 15px 0;
     color: var(--primary-color);
+    font-size: 16px;
+    font-weight: 600;
 }
 
 .equipment-body p {
-    margin: 5px 0;
+    margin: 8px 0;
     font-size: 14px;
+    color: #555;
+    display: flex;
+    justify-content: space-between;
+}
+
+.equipment-body p strong {
+    color: var(--primary-color);
+    min-width: 120px;
 }
 
 .equipment-footer {
-    padding: 10px;
     display: flex;
-    justify-content: flex-end;
     gap: 10px;
+    padding: 15px;
     border-top: 1px solid var(--border-color);
+    background: var(--section-bg);
+}
+
+@media (max-width: 768px) {
+    .equipment-footer {
+        flex-direction: column;
+    }
 }
 
 .btn-edit,
@@ -196,6 +239,40 @@ body {
 .btn-details {
     background-color: var(--secondary-color);
     color: white;
+}
+
+.btn-delete {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    border: none;
+    background-color: var(--danger-color);
+    color: white;
+    box-shadow: 0 2px 4px rgba(244, 67, 54, 0.2);
+}
+
+.btn-delete:hover {
+    background-color: #d32f2f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(244, 67, 54, 0.3);
+}
+
+.btn-delete::before {
+    content: '🗑️';
+    margin-right: 8px;
+}
+
+@media (max-width: 768px) {
+    .btn-delete {
+        width: 100%;
+    }
 }
 
 .no-equipment {
@@ -238,7 +315,7 @@ body {
 
 .btn-add:hover {
     transform: translateY(-2px) scale(1.05);
-    background-color: #004080; 
+    background-color: #004080;
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
 }
 
@@ -261,4 +338,93 @@ body {
         max-width: 300px;
         justify-content: center;
     }
+}
+
+/* Estilos para alertas */
+.alert {
+    padding: 15px 20px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    min-width: 300px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    animation: slideIn 0.5s ease-out;
+    z-index: 1000;
+}
+
+.alert-success {
+    background-color: var(--success-color);
+    color: white;
+    border-left: 4px solid #2E7D32;
+}
+
+.alert-info {
+    background-color: var(--secondary-color);
+    color: white;
+    border-left: 4px solid var(--primary-color);
+}
+
+.alert-error {
+    background-color: var(--danger-color);
+    color: white;
+    border-left: 4px solid #C62828;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Estilos para equipos ocultos */
+.equipment-card.hidden {
+    display: none;
+}
+
+/* Estilos para el botón Ver más/menos */
+.btn-show-more {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px auto;
+    padding: 12px 24px;
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: fit-content;
+}
+
+.btn-show-more:hover {
+    background-color: #1a5a9e;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-show-more.expanded {
+    background-color: #dc3545;
+}
+
+.btn-show-more .equipment-count {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 14px;
 }
