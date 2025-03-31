@@ -23,3 +23,39 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 5000);
     });
 });
+
+function previewImages(event) {
+    const preview = document.getElementById('image-preview');
+    preview.innerHTML = '';
+    
+    Array.from(event.target.files).forEach((file, index) => {
+        if (file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            const div = document.createElement('div');
+            div.className = 'image-preview';
+            
+            reader.onload = function(e) {
+                div.innerHTML = `
+                    <img src="${e.target.result}" alt="Preview">
+                    <button type="button" class="remove-image" onclick="removeImage(${index}, this)">×</button>
+                `;
+            };
+            
+            reader.readAsDataURL(file);
+            preview.appendChild(div);
+        }
+    });
+}
+
+function removeImage(index, button) {
+    const input = document.getElementById('images');
+    const dt = new DataTransfer();
+    const { files } = input;
+    
+    for(let i = 0; i < files.length; i++) {
+        if(i !== index) dt.items.add(files[i]);
+    }
+    
+    input.files = dt.files;
+    button.parentElement.remove();
+}

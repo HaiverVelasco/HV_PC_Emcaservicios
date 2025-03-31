@@ -5,8 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\EquipmentSoftware;
-
-
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Equipment extends Model
 {
@@ -60,5 +59,13 @@ class Equipment extends Model
         return $this->belongsToMany(Software::class, 'equipment_software')
         ->using(EquipmentSoftware::class)
         ->withPivot('installation_date', 'license_key');
+    }
+
+    /**
+     * Get all of the equipment's images.
+     */
+    public function images(): MorphMany
+    {
+        return $this->morphMany(Image::class, 'imageable');
     }
 }

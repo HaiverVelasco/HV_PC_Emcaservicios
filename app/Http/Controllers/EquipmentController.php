@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Area;
 use App\Models\Software;
 use App\Models\Equipment;
+use App\Models\Image;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Storage;
 
 class EquipmentController extends Controller
 {
@@ -64,6 +67,18 @@ class EquipmentController extends Controller
 
             if ($request->has('softwares')) {
                 $equipment->softwares()->attach($request->softwares);
+            }
+
+            // Handle image uploads
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $image) {
+                    $path = $image->store('equipment_images', 'public');
+                    
+                    $equipment->images()->create([
+                        'url' => $path,
+                        'description' => 'Imagen de ' . $equipment->equipment_name
+                    ]);
+                }
             }
 
             // Obtener el nombre del área
@@ -160,4 +175,25 @@ class EquipmentController extends Controller
                 ->with('error', 'Error al eliminar el equipo: ' . $e->getMessage());
         }
     }
+
+    public function generatePDF(Equipment $equipment)
+    {
+        $equipment->load(['area', 'softwares']);
+        
+        $pdf = PDF::loadView('equipments.pdf', compact('equipment'));
+        
+        return $pdf->download('equipo-' . $equipment->inventory_code . '.pdf');
+    }
+
+    // public function deleteImage(Image $image)
+    // {
+    //     try {
+    //         Storage::disk('public')->delete($image->url);
+    //         $image->delete();
+            
+    //         return response()->json(['success' => true]);
+    //     } catch (\Exception $e) {
+    //         return response()->json(['success' => false, 'message' => $e->getMessage()]);
+    //     }
+    // }
 }

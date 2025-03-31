@@ -58,7 +58,7 @@
 
     <!-- Formulario de equipo -->
     <main class="main-content">
-        <form action="{{ route('equipment.store') }}" method="POST" class="equipment-form">
+        <form action="{{ route('equipment.store') }}" method="POST" class="equipment-form" enctype="multipart/form-data">
             @csrf
             
             <!-- Información General -->
@@ -219,39 +219,58 @@
             </section>
 
             <!-- Nueva sección: Fallas Detectadas -->
-<section class="form-section">
-    <h2>Fallas Detectadas</h2>
-    <div class="form-grid">
-        <div class="form-group">
-            <label for="depreciation">Depreciación</label>
-            <input type="text" id="depreciation" name="depreciation">
-        </div>
+            <section class="form-section">
+                <h2>Fallas Detectadas</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="depreciation">Depreciación</label>
+                        <input type="text" id="depreciation" name="depreciation">
+                    </div>
 
-        <div class="form-group">
-            <label for="bad_operation">Mal Funcionamiento</label>
-            <input type="text" id="bad_operation" name="bad_operation">
-        </div>
+                    <div class="form-group">
+                        <label for="bad_operation">Mal Funcionamiento</label>
+                        <input type="text" id="bad_operation" name="bad_operation">
+                    </div>
 
-        <div class="form-group">
-            <label for="bad_installation">Mala Instalación</label>
-            <input type="text" id="bad_installation" name="bad_installation">
-        </div>
+                    <div class="form-group">
+                        <label for="bad_installation">Mala Instalación</label>
+                        <input type="text" id="bad_installation" name="bad_installation">
+                    </div>
 
-        <div class="form-group">
-            <label for="accessories">Accesorios</label>
-            <input type="text" id="accessories" name="accessories">
-        </div>
+                    <div class="form-group">
+                        <label for="accessories">Accesorios</label>
+                        <input type="text" id="accessories" name="accessories">
+                    </div>
 
-        <div class="form-group">
-            <label for="failure">Estado de Fallas</label>
-            <select name="failure" id="failure">
-                <option value="">Seleccione estado</option>
-                <option value="Unknown">Desconocido</option>
-                <option value="No Failures">Sin Fallas</option>
-            </select>
-        </div>
-    </div>
-</section>
+                    <div class="form-group">
+                        <label for="failure">Estado de Fallas</label>
+                        <select name="failure" id="failure">
+                            <option value="">Seleccione estado</option>
+                            <option value="Unknown">Desconocido</option>
+                            <option value="No Failures">Sin Fallas</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Imágenes del Equipo -->
+            <section class="form-section">
+                <h2>Imágenes del Equipo</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="images">Seleccionar Imágenes</label>
+                        <div class="image-upload-container">
+                            <input type="file" id="images" name="images[]" accept="image/*" multiple 
+                                    class="image-upload-input" onchange="previewImages(event)">
+                            <label for="images" class="image-upload-label">
+                                📸 Seleccionar Archivos
+                            </label>
+                        </div>
+                        <div id="image-preview" class="image-preview-container"></div>
+                    </div>
+                </div>
+            </section>
+
             <!-- Observaciones -->
             <section class="form-section">
                 <h2>Observaciones</h2>

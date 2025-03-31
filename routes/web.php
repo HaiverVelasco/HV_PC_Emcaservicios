@@ -10,3 +10,5 @@ Route::post('/equipment', [EquipmentController::class, 'store'])->name('equipmen
 Route::get('/equipment/{equipment}/edit', [EquipmentController::class, 'edit'])->name('equipment.edit');
 Route::put('/equipment/{equipment}', [EquipmentController::class, 'update'])->name('equipment.update');
 Route::delete('/equipment/{equipment}', [EquipmentController::class, 'destroy'])->name('equipment.destroy');
+Route::get('/equipment/{equipment}/pdf', [EquipmentController::class, 'generatePDF'])->name('equipment.pdf');
+Route::delete('/equipment/image/{image}', [EquipmentController::class, 'deleteImage'])->name('equipment.image.delete');

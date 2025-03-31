@@ -6,7 +6,9 @@
     <title>Editar Equipo - EMCASERVICIOS</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('imgs/Emcaservicios.png') }}">
     <link rel="stylesheet" href="{{asset('css/edit.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/index.css') }}">
     <script src="{{ asset('js/edit.js') }}"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
     <header class="sheet-header">
@@ -22,7 +24,7 @@
     </header>
 
     <main class="main-content">
-        <form action="{{ route('equipment.update', $equipment->id) }}" method="POST" class="equipment-form">
+        <form action="{{ route('equipment.update', $equipment->id) }}" method="POST" class="equipment-form" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -155,8 +157,36 @@
                     </div>
                 </div>
             </section>
+
+            <!-- Imágenes del Equipo -->
+            <section class="form-section">
+                <h2>Imágenes del Equipo</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="images">Imágenes Actuales</label>
+                        <div class="current-images-container">
+                            @foreach($equipment->images as $image)
+                                <div class="image-preview" data-image-id="{{ $image->id }}">
+                                    <img src="{{ Storage::url($image->url) }}" alt="Imagen del equipo">
+                                    <button type="button" class="remove-image" onclick="deleteImage({{ $image->id }}, this)">×</button>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <label for="images" class="mt-3">Agregar Nuevas Imágenes</label>
+                        <div class="image-upload-container">
+                            <input type="file" id="images" name="new_images[]" accept="image/*" multiple 
+                                   class="image-upload-input" onchange="previewImages(event)">
+                            <label for="images" class="image-upload-label">
+                                📸 Seleccionar Archivos
+                            </label>
+                        </div>
+                        <div id="image-preview" class="image-preview-container"></div>
+                    </div>
+                </div>
+            </section>
             
-                <!-- Observaciones -->
+            <!-- Observaciones -->
             <section class="form-section">
                 <h2>Observaciones</h2>
                 <div class="form-group full-width">

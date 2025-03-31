@@ -72,6 +72,7 @@
                             </div>
                             <div class="equipment-footer">
                                 <a href="{{ route('equipment.edit', $equipment->id) }}" class="btn-edit">Editar</a>
+                                <a href="{{ route('equipment.pdf', $equipment->id) }}" class="btn-pdf" target="_blank">Generar PDF</a>
                                 <form action="{{ route('equipment.destroy', $equipment->id) }}" method="POST" class="delete-form">
                                     @csrf
                                     @method('DELETE')
