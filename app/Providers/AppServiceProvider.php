@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
+use Carbon\Carbon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,9 +22,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Establecer longitud predeterminada para strings
-    Schema::defaultStringLength(191);
-    
-    // Establecer el formato de fechas
-    \Carbon\Carbon::setLocale('es');
+        Schema::defaultStringLength(191);
+
+        // Establecer el formato de fechas
+        Carbon::setLocale('es');
+        setlocale(LC_TIME, 'es_ES.utf8');
     }
 }

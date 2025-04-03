@@ -41,6 +41,14 @@ return new class extends Migration
             $table->string('graphic_card')->nullable();
             $table->string('ram_memory')->nullable();
             $table->string('storage')->nullable();
+            $table->enum('equipment_type', [
+                'computador',
+                'impresora',
+                'ups',
+                'scanner',
+                'telefonia',
+                'otro'
+            ])->nullable();
             
             // Estado del Equipo
             $table->enum('status', [

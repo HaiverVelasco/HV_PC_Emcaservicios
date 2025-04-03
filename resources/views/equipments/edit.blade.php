@@ -14,7 +14,7 @@
     <header class="sheet-header">
         <h1 class="text-center">EDITAR EQUIPO</h1>
         <div class="company-info">
-            <img src="{{ asset('imgs/Emcaservicios.png') }}" alt="Logo empresa" class="company-logo">
+            <a href="https://www.pdacauca.gov.co/#"><img src="{{ asset('imgs/Emcaservicios.png') }}" alt="Logo empresa" class="company-logo"></a>
             <div class="company-contacts">
                 <p>EMPRESA CAUCANA DE SERVICIOS PÚBLICOS S.A. E.S.P.</p>
                 <p>Carrera 4 N° 22N-02 / Edificio de Infraestructura, primer piso</p>
@@ -85,28 +85,83 @@
                 <h2>Información Técnica</h2>
                 <div class="form-grid">
                     <div class="form-group">
-                        <label for="processor">Procesador</label>
-                        <input type="text" id="processor" name="processor" value="{{ $equipment->processor }}">
+                        <label for="equipment_type">Tipo de Equipo</label>
+                        <select name="equipment_type" id="equipment_type" required onchange="toggleSpecificFields()">
+                            <option value="">Seleccione el tipo de equipo</option>
+                            <option value="computador" {{ $equipment->equipment_type == 'computador' ? 'selected' : '' }}>Computador</option>
+                            <option value="impresora" {{ $equipment->equipment_type == 'impresora' ? 'selected' : '' }}>Impresora</option>
+                            <option value="ups" {{ $equipment->equipment_type == 'ups' ? 'selected' : '' }}>UPS</option>
+                            <option value="scanner" {{ $equipment->equipment_type == 'scanner' ? 'selected' : '' }}>Escáner</option>
+                            <option value="telefonia" {{ $equipment->equipment_type == 'telefonia' ? 'selected' : '' }}>Equipo de Telefonía</option>
+                            <option value="otro" {{ $equipment->equipment_type == 'otro' ? 'selected' : '' }}>Otro</option>
+                        </select>
                     </div>
 
-                    <div class="form-group">
-                        <label for="operating_system">Sistema Operativo</label>
-                        <input type="text" id="operating_system" name="operating_system" value="{{ $equipment->operating_system }}">
+                    <!-- Campos específicos para computadores -->
+                    <div class="specific-fields computer-fields" style="display: {{ $equipment->equipment_type == 'computador' ? 'block' : 'none' }}">
+                        <div class="specific-fields-grid">
+                            <div class="form-group">
+                                <label for="processor">Procesador</label>
+                                <input type="text" id="processor" name="processor" value="{{ $equipment->processor }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="ram_memory">Memoria RAM</label>
+                                <input type="text" id="ram_memory" name="ram_memory" value="{{ $equipment->ram_memory }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="storage">Almacenamiento</label>
+                                <input type="text" id="storage" name="storage" value="{{ $equipment->storage }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="operating_system">Sistema Operativo</label>
+                                <input type="text" id="operating_system" name="operating_system" value="{{ $equipment->operating_system }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="graphic_card">Tarjeta Gráfica</label>
+                                <input type="text" id="graphic_card" name="graphic_card" value="{{ $equipment->graphic_card }}">
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="ram_memory">Memoria RAM</label>
-                        <input type="text" id="ram_memory" name="ram_memory" value="{{ $equipment->ram_memory }}">
+                    <!-- Campos específicos para impresoras -->
+                    <div class="specific-fields printer-fields" style="display: {{ $equipment->equipment_type == 'impresora' ? 'block' : 'none' }}">
+                        <div class="specific-fields-grid">
+                            <div class="form-group">
+                                <label for="printing_technology">Tecnología de Impresión</label>
+                                <select name="printing_technology" id="printing_technology">
+                                    <option value="laser" {{ $equipment->printing_technology == 'laser' ? 'selected' : '' }}>Láser</option>
+                                    <option value="inkjet" {{ $equipment->printing_technology == 'inkjet' ? 'selected' : '' }}>Inyección de Tinta</option>
+                                    <option value="matrix" {{ $equipment->printing_technology == 'matrix' ? 'selected' : '' }}>Matriz de Puntos</option>
+                                    <option value="thermal" {{ $equipment->printing_technology == 'thermal' ? 'selected' : '' }}>Térmica</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="storage">Almacenamiento</label>
-                        <input type="text" id="storage" name="storage" value="{{ $equipment->storage }}">
+                    <!-- Campos específicos para equipos de red -->
+                    <div class="specific-fields network-fields" style="display: {{ $equipment->equipment_type == 'red' ? 'block' : 'none' }}">
+                        <div class="specific-fields-grid">
+                            <div class="form-group">
+                                <label for="ports_number">Número de Puertos</label>
+                                <input type="number" id="ports_number" name="ports_number" value="{{ $equipment->ports_number }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="network_speed">Velocidad de Red</label>
+                                <input type="text" id="network_speed" name="network_speed" value="{{ $equipment->network_speed }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="network_protocol">Protocolo de Red</label>
+                                <input type="text" id="network_protocol" name="network_protocol" value="{{ $equipment->network_protocol }}">
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="graphic_card">Tarjeta Gráfica</label>
-                        <input type="text" id="graphic_card" name="graphic_card" value="{{ $equipment->graphic_card }}">
+                    <!-- Campo para otros tipos de equipo -->
+                    <div class="specific-fields other-fields" style="display: {{ $equipment->equipment_type == 'otro' ? 'block' : 'none' }}">
+                        <div class="form-group">
+                            <label for="technical_specifications">Especificaciones Técnicas</label>
+                            <textarea id="technical_specifications" name="technical_specifications" rows="4">{{ $equipment->technical_specifications }}</textarea>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -163,21 +218,28 @@
                 <h2>Imágenes del Equipo</h2>
                 <div class="form-grid">
                     <div class="form-group">
-                        <label for="images">Imágenes Actuales</label>
+                        <label>Imágenes Actuales</label>
                         <div class="current-images-container">
-                            @foreach($equipment->images as $image)
-                                <div class="image-preview" data-image-id="{{ $image->id }}">
-                                    <img src="{{ Storage::url($image->url) }}" alt="Imagen del equipo">
-                                    <button type="button" class="remove-image" onclick="deleteImage({{ $image->id }}, this)">×</button>
-                                </div>
-                            @endforeach
+                            @if($equipment->images->count() > 0)
+                                @foreach($equipment->images as $image)
+                                    <div class="image-preview" data-image-id="{{ $image->id }}">
+                                        <img src="{{ asset('storage/' . $image->url) }}" alt="Imagen del equipo">
+                                        <div class="image-info">
+                                            <span class="image-date">{{ Carbon\Carbon::parse($image->created_at)->format('d/m/Y H:i') }}</span>
+                                        </div>
+                                        <button type="button" class="remove-image" onclick="deleteImage({{ $image->id }}, this)">×</button>
+                                    </div>
+                                @endforeach
+                            @else
+                                <p>No hay imágenes cargadas</p>
+                            @endif
                         </div>
 
-                        <label for="images" class="mt-3">Agregar Nuevas Imágenes</label>
+                        <label class="mt-3">Agregar Nuevas Imágenes</label>
                         <div class="image-upload-container">
-                            <input type="file" id="images" name="new_images[]" accept="image/*" multiple 
-                                   class="image-upload-input" onchange="previewImages(event)">
-                            <label for="images" class="image-upload-label">
+                            <input type="file" id="new_images" name="new_images[]" accept="image/*" multiple 
+                                    class="image-upload-input" onchange="previewImages(event)">
+                            <label for="new_images" class="image-upload-label">
                                 📸 Seleccionar Archivos
                             </label>
                         </div>

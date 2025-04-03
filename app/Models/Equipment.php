@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\EquipmentSoftware;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Support\Facades\Storage;
 
 class Equipment extends Model
 {
@@ -41,8 +40,22 @@ class Equipment extends Model
         'bad_installation',
         'accessories',
         'failure',
-        'observations'
+        'observations',
+        'equipment_type',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+        
+        // Antes de eliminar el equipo, eliminar todas las imágenes asociadas
+        static::deleting(function($equipment) {
+            foreach ($equipment->images as $image) {
+                Storage::disk('public')->delete($image->url);
+            }
+            $equipment->images()->delete();
+        });
+    }
 
     public function area()
     {
@@ -52,13 +65,6 @@ class Equipment extends Model
     public function maintenances()
     {
         return $this->hasMany(Maintenance::class);
-    }
-
-    public function softwares()
-    {
-        return $this->belongsToMany(Software::class, 'equipment_software')
-        ->using(EquipmentSoftware::class)
-        ->withPivot('installation_date', 'license_key');
     }
 
     /**

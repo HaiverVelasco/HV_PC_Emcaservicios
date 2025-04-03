@@ -128,6 +128,8 @@ body {
     transition: all 0.3s ease;
     border: 1px solid var(--border-color);
     backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
 }
 
 .equipment-card:hover {
@@ -187,6 +189,7 @@ body {
 .equipment-body {
     padding: 20px;
     background: linear-gradient(to bottom, #ffffff, #f8f9fa);
+    flex: 1;
 }
 
 .equipment-body h3 {
@@ -209,8 +212,16 @@ body {
     min-width: 120px;
 }
 
-/* Update equipment footer styles */
+.equipment-images {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    position: relative;
+    isolation: isolate;
+}
+
 .equipment-footer {
+    margin-top: auto;
+    /* Esto empujará el footer al final de la card */
     display: flex;
     gap: 12px;
     padding: 15px;
@@ -475,4 +486,82 @@ body {
 .btn-pdf::before {
     content: '📄';
     margin-right: 8px;
+}
+
+/* Estilos para la galería de imágenes */
+.equipment-images {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    position: relative;
+    isolation: isolate;
+}
+
+.images-preview {
+    display: flex;
+    gap: 8px;
+    position: relative;
+}
+
+.equipment-thumbnail {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.equipment-thumbnail:hover {
+    transform: scale(1.05);
+}
+
+.more-images {
+    width: 100px;
+    height: 80px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 18px;
+    position: relative;
+    transition: background-color 0.3s ease;
+}
+
+.more-images:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.images-gallery {
+    display: none;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 8px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.images-gallery.active {
+    display: grid;
+}
+
+/* Personalización del lightbox */
+.lb-data .lb-caption {
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.lb-nav a.lb-prev,
+.lb-nav a.lb-next {
+    opacity: 0.8;
+}
+
+.lb-nav a.lb-prev:hover,
+.lb-nav a.lb-next:hover {
+    opacity: 1;
 }
