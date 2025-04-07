@@ -6,9 +6,26 @@
     --border-color: #e0e0e0;
     --form-bg: #ffffff;
     --section-bg: #f8f9fa;
-    --header-gradient: linear-gradient(135deg, #003366 0%, #276fb7 100%);
-    --input-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --header-gradient: linear-gradient(135deg, #003366 0%, #276fb7 90%);
+    --input-shadow: 0 2px 4px rgba(0, 51, 102, 0.05);
+    --card-shadow: 0 4px 8px rgba(0, 51, 102, 0.1);
+    --hover-shadow: 0 6px 12px rgba(0, 51, 102, 0.15);
+    --body-bg: #f5f7fa;
+}
+
+/* Variables para modo oscuro */
+[data-theme="dark"] {
+    --primary-color: #4a9eff;
+    --secondary-color: #1e88e5;
+    --text-color: #e0e0e0;
+    --border-color: #404040;
+    --form-bg: #2d2d2d;
+    --section-bg: #1c1c1c;
+    --header-gradient: linear-gradient(135deg, #003366 0%, #276fb7 90%);
+    --input-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+    --hover-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    --body-bg: #121212;
 }
 
 /* Estilos generales */
@@ -23,7 +40,7 @@ body {
     font-family: 'Arial', sans-serif;
     line-height: 1.6;
     color: var(--text-color);
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background: var(--body-bg);
     min-height: 100vh;
 }
 
@@ -182,7 +199,8 @@ select {
     justify-content: flex-end;
     margin-top: 30px;
     padding: 20px;
-    background-color: #f8f9fa;
+    background-color: var(--section-bg);
+    border-top: 1px solid var(--border-color);
     border-radius: 0 0 8px 8px;
 }
 
@@ -211,7 +229,7 @@ select {
 .btn-submit:hover {
     background-color: #004080;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 51, 102, 0.3);
+    box-shadow: var(--hover-shadow);
 }
 
 .btn-reset {
@@ -235,7 +253,7 @@ select {
 .btn-show:hover {
     background-color: #1a5a9e;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(39, 111, 183, 0.3);
+    box-shadow: var(--hover-shadow);
 }
 
 /* Iconos para los botones */
@@ -399,7 +417,7 @@ select {
 .image-upload-label:hover {
     background-color: #1a5a9e;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(39, 111, 183, 0.3);
+    box-shadow: var(--hover-shadow);
 }
 
 .image-preview-container {
@@ -447,4 +465,47 @@ select {
 .image-preview .remove-image:hover {
     background: #dc3545;
     transform: scale(1.1);
+}
+
+/* Botón de cambio de tema */
+.theme-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: var(--hover-shadow);
+}
+
+/* Ajustes para modo oscuro */
+[data-theme="dark"] .form-group input,
+[data-theme="dark"] .form-group select,
+[data-theme="dark"] .form-group textarea {
+    background-color: #333;
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .company-info {
+    background: rgba(45, 45, 45, 0.95);
+}
+
+[data-theme="dark"] .form-section {
+    background: linear-gradient(to bottom, var(--form-bg), var(--section-bg));
 }

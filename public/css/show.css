@@ -5,8 +5,34 @@
     --text-color: #333;
     --border-color: #e0e0e0;
     --card-bg: #ffffff;
-    --section-bg: #f5f7fa;
-    --hover-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    --section-bg: #f8f9fa;
+    --hover-shadow: 0 8px 16px rgba(0, 51, 102, 0.15);
+    --card-shadow: 0 4px 8px rgba(0, 51, 102, 0.1);
+    --body-bg: var(--secondary-color);
+    --success-color: #4CAF50;
+    --warning-color: #FFC107;
+    --danger-color: #F44336;
+    --disabled-color: #9E9E9E;
+    --header-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    --equipment-transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Variables para modo oscuro */
+[data-theme="dark"] {
+    --primary-color: #4a9eff;
+    --secondary-color: #1e88e5;
+    --text-color: #e0e0e0;
+    --border-color: #404040;
+    --card-bg: #2d2d2d;
+    --section-bg: #1c1c1c;
+    --hover-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+    --body-bg: #121212;
+    --success-color: #66BB6A;
+    --warning-color: #FFD54F;
+    --danger-color: #EF5350;
+    --disabled-color: #757575;
+    --header-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 /* Estilos generales */
@@ -23,11 +49,16 @@ body {
     background-color: var(--secondary-color);
 }
 
+/* Ajustes para modo oscuro */
+[data-theme="dark"] body {
+    background-color: var(--body-bg);
+}
+
 /* Estilos del encabezado */
 .sheet-header {
     background-color: white;
     padding: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--header-shadow);
 }
 
 .text-center {
@@ -46,6 +77,10 @@ body {
     border-top: 2px solid var(--border-color);
     border-bottom: 2px solid var(--border-color);
     margin: 20px 0;
+}
+
+[data-theme="dark"] .company-info {
+    background: rgba(45, 45, 45, 0.95);
 }
 
 .company-logo {
@@ -96,7 +131,12 @@ body {
     margin-bottom: 30px;
     border: 2px solid;
     overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--card-shadow);
+}
+
+[data-theme="dark"] .area-section {
+    background: var(--card-bg);
+    border-color: var(--border-color);
 }
 
 .area-title {
@@ -111,7 +151,7 @@ body {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
     padding: 20px;
-    transition: all 0.3s ease;
+    transition: var(--equipment-transition);
 }
 
 @media (max-width: 768px) {
@@ -123,13 +163,18 @@ body {
 .equipment-card {
     background: var(--card-bg);
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--card-shadow);
     overflow: hidden;
-    transition: all 0.3s ease;
+    transition: var(--equipment-transition);
     border: 1px solid var(--border-color);
     backdrop-filter: blur(10px);
     display: flex;
     flex-direction: column;
+}
+
+[data-theme="dark"] .equipment-card {
+    background: var(--card-bg);
+    border-color: var(--border-color);
 }
 
 .equipment-card:hover {
@@ -145,6 +190,10 @@ body {
     align-items: center;
     background-color: #f8f9fa;
     border-bottom: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .equipment-header {
+    background-color: var(--section-bg);
 }
 
 .inventory-code {
@@ -163,25 +212,25 @@ body {
 }
 
 .status-bueno {
-    background-color: #4CAF50;
+    background-color: var(--success-color);
     color: white;
     box-shadow: 0 2px 4px rgba(76, 175, 80, 0.2);
 }
 
 .status-regular {
-    background-color: #FFC107;
+    background-color: var(--warning-color);
     color: #000;
     box-shadow: 0 2px 4px rgba(255, 193, 7, 0.2);
 }
 
 .status-malo {
-    background-color: #F44336;
+    background-color: var(--danger-color);
     color: white;
     box-shadow: 0 2px 4px rgba(244, 67, 54, 0.2);
 }
 
 .status-deshabilitado {
-    background-color: #9E9E9E;
+    background-color: var(--disabled-color);
     color: white;
     box-shadow: 0 2px 4px rgba(158, 158, 158, 0.2);
 }
@@ -190,6 +239,10 @@ body {
     padding: 20px;
     background: linear-gradient(to bottom, #ffffff, #f8f9fa);
     flex: 1;
+}
+
+[data-theme="dark"] .equipment-body {
+    background: linear-gradient(to bottom, var(--card-bg), var(--section-bg));
 }
 
 .equipment-body h3 {
@@ -205,6 +258,10 @@ body {
     color: #555;
     display: flex;
     justify-content: space-between;
+}
+
+[data-theme="dark"] .equipment-body p {
+    color: var(--text-color);
 }
 
 .equipment-body p strong {
@@ -310,6 +367,108 @@ body {
     color: #666;
     grid-column: 1 / -1;
     padding: 20px;
+}
+
+.no-equipment-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px 20px;
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    border: 2px dashed var(--border-color);
+    margin: 20px 0;
+    color: var(--text-color);
+}
+
+.no-equipment-message.filter-message,
+.empty-area-message {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    margin: 20px;
+    color: var(--text-color);
+    width: 100%;
+}
+
+.empty-area-message {
+    border: 2px solid var(--border-color);
+    background-color: var(--section-bg);
+}
+
+.no-equipment-message.filter-message {
+    border: 2px dashed var(--border-color);
+    display: none;
+}
+
+.no-equipment-message p,
+.empty-area-message p {
+    font-size: 16px;
+    margin: 0;
+    opacity: 0.8;
+}
+
+[data-theme="dark"] .no-equipment-message.filter-message,
+[data-theme="dark"] .empty-area-message {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+}
+
+/* Estilos para los mensajes de no equipos */
+.message-container {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    margin: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.message-icon {
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+
+.reset-filter {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.reset-filter:hover {
+    background-color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+[data-theme="dark"] .message-container {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+}
+
+.no-equipment-message.filter-message .message-container {
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Estilos para el botón flotante */
@@ -564,4 +723,78 @@ body {
 .lb-nav a.lb-prev:hover,
 .lb-nav a.lb-next:hover {
     opacity: 1;
+}
+
+/* Estilos para los botones de filtrado */
+.equipment-type-filters {
+    display: flex;
+    gap: 10px;
+    padding: 15px 20px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--section-bg);
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    border: 2px solid var(--border-color);
+    border-radius: 20px;
+    background-color: transparent;
+    color: var(--text-color);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.filter-count {
+    background-color: var(--border-color);
+    padding: 2px 6px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    min-width: 24px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+    border-color: var(--secondary-color);
+    color: var(--secondary-color);
+    transform: translateY(-1px);
+}
+
+.filter-btn:hover .filter-count {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.filter-btn.active {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: white;
+}
+
+.filter-btn.active .filter-count {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+[data-theme="dark"] .filter-btn {
+    background-color: var(--card-bg);
+}
+
+[data-theme="dark"] .filter-count {
+    background-color: var(--border-color);
+}
+
+[data-theme="dark"] .filter-btn:hover {
+    background-color: var(--section-bg);
+}
+
+[data-theme="dark"] .filter-btn.active {
+    background-color: var(--secondary-color);
 }

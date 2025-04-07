@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Equipos-EMCASERVICIOS</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('imgs/Emcaservicios.png') }}">
     <link rel="stylesheet" href="{{ asset('css/index.css') }}">
     <script src="{{ asset('js/index.js') }}" defer></script>
+    <script src="{{ asset('js/themeToggle.js') }}" defer></script>
 </head>
 
 <body>
@@ -47,7 +48,8 @@
     <header class="sheet-header">
         <h1 class="text-center">HOJA DE VIDA EQUIPO</h1>
         <div class="company-info">
-            <a href="https://www.pdacauca.gov.co/#"><img src="{{ asset('imgs/Emcaservicios.png') }}" alt="Logo empresa" class="company-logo"></a>
+            <a href="https://www.pdacauca.gov.co/#"><img src="{{ asset('imgs/Emcaservicios.png') }}" alt="Logo empresa"
+                    class="company-logo"></a>
             <div class="company-contacts">
                 <p>EMPRESA CAUCANA DE SERVICIOS PÚBLICOS S.A. E.S.P.</p>
                 <p>Carrera 4 N° 22N-02 / Edificio de Infraestructura, primer piso</p>
@@ -343,6 +345,7 @@
             </div>
         </form>
     </main>
+    <button class="theme-toggle" aria-label="Toggle dark mode"></button>
 </body>
 
 </html>
