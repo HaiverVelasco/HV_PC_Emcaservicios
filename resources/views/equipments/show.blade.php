@@ -11,6 +11,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="{{ asset('js/themeToggle.js') }}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 
 <body>
@@ -39,7 +40,9 @@
 
     <!-- Encabezado existente -->
     <header class="sheet-header">
-        <h1 class="text-center">EQUIPOS REGISTRADOS</h1>
+        <div class="header-content">
+            <h1 class="text-center">EQUIPOS REGISTRADOS</h1>
+        </div>
         <div class="company-info">
             <a href="https://www.pdacauca.gov.co/#"><img src="{{ asset('imgs/Emcaservicios.png') }}" alt="Logo empresa"
                     class="company-logo"></a>
@@ -50,6 +53,17 @@
             </div>
         </div>
     </header>
+
+    <div class="search-container">
+        <div class="search-wrapper">
+            <input type="text" id="searchEquipment" placeholder="Buscar por código, nombre, serie..."
+                class="search-input">
+            <div class="search-icon">🔍</div>
+            <div class="search-results" style="display: none;">
+                <!-- Los resultados se insertarán aquí dinámicamente -->
+            </div>
+        </div>
+    </div>
 
     <main class="equipment-container">
         @foreach ($areas as $area)
@@ -152,20 +166,31 @@
                                         </div>
                                     </div>
                                 @endif
-                                <div class="equipment-footer">
-                                    <a href="{{ route('equipment.edit', $equipment->id) }}" class="btn-edit">Editar</a>
-                                    <a href="{{ route('equipment.pdf', $equipment->id) }}" class="btn-pdf"
-                                        target="_blank">Generar PDF</a>
-                                    <form action="{{ route('equipment.destroy', $equipment->id) }}" method="POST"
-                                        class="delete-form">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn-delete"
-                                            onclick="return confirm('¿Está seguro que desea eliminar este equipo?')">
-                                            Eliminar
+                                @if (session('is_admin'))
+                                    <div class="equipment-footer">
+                                        <a href="{{ route('equipment.edit', $equipment->id) }}"
+                                            class="btn-edit">Editar</a>
+                                        <a href="{{ route('equipment.pdf', $equipment->id) }}" class="btn-pdf"
+                                            target="_blank">Generar PDF</a>
+                                        <button class="btn-qr"
+                                            onclick="generateQR(
+                                            '{{ $equipment->id }}', 
+                                            '{{ $equipment->equipment_name }}', 
+                                            '{{ route('equipment.pdf', $equipment->id) }}'
+                                        )">
+                                            QR
                                         </button>
-                                    </form>
-                                </div>
+                                        <form action="{{ route('equipment.destroy', $equipment->id) }}"
+                                            method="POST" class="delete-form">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn-delete"
+                                                onclick="return confirm('¿Está seguro que desea eliminar este equipo?')">
+                                                Eliminar
+                                            </button>
+                                        </form>
+                                    </div>
+                                @endif
                             </div>
                         @endforeach
                     </div>
@@ -181,11 +206,13 @@
         @endforeach
     </main>
 
-    <div class="floating-button">
-        <a href="{{ route('equipment.create') }}" class="btn-add">
-            Agregar Equipo
-        </a>
-    </div>
+    @if (session('is_admin'))
+        <div class="floating-button">
+            <a href="{{ route('equipment.create') }}" class="btn-add">
+                Agregar Equipo
+            </a>
+        </div>
+    @endif
 
     <script src="{{ asset('js/show.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -196,7 +223,75 @@
             'wrapAround': true,
             'albumLabel': "Imagen %1 de %2"
         });
+
+        // Asegurarnos de que el DOM esté cargado
+        document.addEventListener('DOMContentLoaded', function() {
+            // Función para generar QR
+            window.generateQR = function(id, name, pdfUrl) {
+                const modal = document.getElementById('qrModal');
+                const qrContainer = document.getElementById('qrcode');
+                const qrTitle = document.getElementById('qrTitle');
+
+                qrContainer.innerHTML = '';
+
+                new QRCode(qrContainer, {
+                    text: pdfUrl,
+                    width: 256,
+                    height: 256,
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.L // Cambiado a L para menor densidad
+                });
+
+                qrTitle.textContent = `Código QR - ${name}`;
+                modal.style.display = 'block';
+
+                // Agregar mensaje informativo
+                const infoText = document.createElement('p');
+                infoText.className = 'qr-info-text';
+                infoText.textContent = 'Escanea para ver el PDF del equipo';
+                qrContainer.appendChild(infoText);
+            };
+
+            // Event listeners para el modal
+            const closeBtn = document.querySelector('.close-modal');
+            const modal = document.getElementById('qrModal');
+
+            if (closeBtn) {
+                closeBtn.onclick = () => modal.style.display = "none";
+            }
+
+            window.onclick = (event) => {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            };
+        });
+
+        // Función para descargar QR
+        function downloadQR() {
+            const canvas = document.querySelector("#qrcode canvas");
+            if (canvas) {
+                const image = canvas.toDataURL("image/png");
+                const link = document.createElement('a');
+                link.download = 'qr-equipo.png';
+                link.href = image;
+                link.click();
+            }
+        }
     </script>
+
+    <!-- Modal del QR -->
+    <div id="qrModal" class="qr-modal">
+        <div class="qr-modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 id="qrTitle"></h2>
+            <div id="qrcode"></div>
+            <p class="qr-info-text">Escanea para ver la información del equipo</p>
+            <button class="btn-download" onclick="downloadQR()">Descargar QR</button>
+        </div>
+    </div>
+
 </body>
 
 </html>

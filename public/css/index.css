@@ -11,6 +11,7 @@
     --card-shadow: 0 4px 8px rgba(0, 51, 102, 0.1);
     --hover-shadow: 0 6px 12px rgba(0, 51, 102, 0.15);
     --body-bg: #f5f7fa;
+    --danger-color: #dc3545;
 }
 
 /* Variables para modo oscuro */
@@ -58,6 +59,68 @@ body {
     margin-bottom: 25px;
     font-size: 28px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos para el header y botón logout */
+.main-header {
+    background-color: var(--card-bg);
+    padding: 15px 20px;
+    box-shadow: var(--header-shadow);
+}
+
+.header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logout-form {
+    margin-left: auto;
+}
+
+.btn-logout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background-color: var(--danger-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.btn-logout:hover {
+    background-color: #c82333;
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.btn-logout:active {
+    transform: scale(0.95);
+}
+
+[data-theme="dark"] .btn-logout {
+    background-color: #d32f2f;
+}
+
+[data-theme="dark"] .btn-logout:hover {
+    background-color: #b71c1c;
+}
+
+@media (max-width: 768px) {
+    .btn-logout {
+        width: 35px;
+        height: 35px;
+        font-size: 18px;
+    }
 }
 
 /* Mejoras a la información de la empresa */
@@ -508,4 +571,55 @@ select {
 
 [data-theme="dark"] .form-section {
     background: linear-gradient(to bottom, var(--form-bg), var(--section-bg));
+}
+
+/* Estilos para el botón de logout */
+.logout-form {
+    position: fixed;
+    top: 80%;
+    right: 22px;
+    z-index: 1000;
+}
+
+.btn-logout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    background-color: var(--danger-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.btn-logout:hover {
+    background-color: #c82333;
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.btn-logout:active {
+    transform: scale(0.95);
+}
+
+[data-theme="dark"] .btn-logout {
+    background-color: #d32f2f;
+}
+
+[data-theme="dark"] .btn-logout:hover {
+    background-color: #b71c1c;
+}
+
+@media (max-width: 768px) {
+    .btn-logout {
+        width: 35px;
+        height: 35px;
+        font-size: 18px;
+    }
 }

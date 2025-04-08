@@ -46,6 +46,12 @@
 
     <!-- Encabezado existente -->
     <header class="sheet-header">
+        @if (session('is_admin'))
+            <form action="{{ route('logout') }}" method="POST" class="logout-form">
+                @csrf
+                <button type="submit" class="btn-logout" title="Cerrar Sesión">⏻</button>
+            </form>
+        @endif
         <h1 class="text-center">HOJA DE VIDA EQUIPO</h1>
         <div class="company-info">
             <a href="https://www.pdacauca.gov.co/#"><img src="{{ asset('imgs/Emcaservicios.png') }}" alt="Logo empresa"

@@ -94,11 +94,16 @@ class EquipmentController extends Controller
         }
     }
 
-    public function show(Equipment $equipment)
+    public function show(Equipment $equipment = null)
     {
-        $areas = Area::all();
-        $equipment->load(['area', 'images']); // Asegurarse de cargar las imágenes
-        return view('equipments.show', compact('equipment', 'areas'));
+        if ($equipment === null) {
+            // Vista de lista general
+            $areas = Area::with('equipment.images')->get();
+            return view('equipments.index', compact('areas'));
+        }
+
+        // Vista de equipo individual
+        return view('equipments.show', compact('equipment'));
     }
 
     public function edit(Equipment $equipment)
