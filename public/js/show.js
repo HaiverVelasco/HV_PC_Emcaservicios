@@ -560,15 +560,295 @@ window.downloadQR = function() {
     link.click();
 }
 
+// Función para descargar todos los QR
+window.downloadAllQRs = function() {
+    // Mostrar mensaje de proceso
+    const modal = document.getElementById('bulkQRModal');
+    modal.style.display = 'block';
+    const statusElement = document.getElementById('bulkQRStatus');
+    statusElement.textContent = "Preparando códigos QR...";
+    
+    // Obtener todos los equipos
+    const equipments = [];
+    document.querySelectorAll('.equipment-card').forEach(card => {
+        const qrButton = card.querySelector('.btn-qr');
+        if (qrButton) {
+            // Extraer los datos necesarios del botón QR
+            const dataString = qrButton.getAttribute('onclick');
+            const matches = dataString.match(/generateQR\(\s*'([^']+)',\s*'([^']+)',\s*'([^']+)'\s*\)/);
+            
+            if (matches && matches.length === 4) {
+                equipments.push({
+                    id: matches[1],
+                    name: matches[2],
+                    pdfUrl: matches[3]
+                });
+            }
+        }
+    });
+    
+    statusElement.textContent = `Generando ${equipments.length} códigos QR...`;
+    
+    // Crear un contenedor temporal invisible para generar todos los QR
+    const tempContainer = document.createElement('div');
+    tempContainer.style.position = 'absolute';
+    tempContainer.style.left = '-9999px';
+    tempContainer.style.top = '-9999px';
+    document.body.appendChild(tempContainer);
+    
+    // Crear un ZIP para contener todos los QR
+    const JSZip = window.JSZip;
+    const zip = new JSZip();
+    let processedCount = 0;
+    
+    // Generar cada QR y añadirlo al ZIP
+    equipments.forEach((equipment, index) => {
+        const qrDiv = document.createElement('div');
+        qrDiv.id = `temp-qr-${index}`;
+        tempContainer.appendChild(qrDiv);
+        
+        new QRCode(qrDiv, {
+            text: equipment.pdfUrl,
+            width: 256,
+            height: 256,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.L
+        });
+        
+        // Esperar a que se genere el QR
+        setTimeout(() => {
+            const canvas = qrDiv.querySelector('canvas');
+            if (canvas) {
+                const imageData = canvas.toDataURL("image/png").replace(/^data:image\/(png|jpg);base64,/, "");
+                
+                // Nombre del archivo formateado con código de inventario si está disponible
+                let inventoryCode = '';
+                const equipmentCard = document.getElementById(`card-${equipment.id}`) || 
+                                    document.querySelector(`.equipment-card[data-card-id="${equipment.id}"]`);
+                if (equipmentCard) {
+                    inventoryCode = equipmentCard.querySelector('.inventory-code')?.textContent || '';
+                    inventoryCode = inventoryCode.replace(/\//g, '-').trim();
+                }
+                
+                // Crear nombre de archivo con código de inventario o ID si está disponible
+                const fileName = inventoryCode ? 
+                    `QR_${inventoryCode}_${equipment.name.replace(/[^\w\s]/gi, '')}.png` : 
+                    `QR_${equipment.id}_${equipment.name.replace(/[^\w\s]/gi, '')}.png`;
+                
+                zip.file(fileName, imageData, {base64: true});
+                
+                processedCount++;
+                statusElement.textContent = `Procesando... (${processedCount}/${equipments.length})`;
+                
+                // Cuando todos los QR están listos, descargar el ZIP
+                if (processedCount === equipments.length) {
+                    zip.generateAsync({type: "blob"}).then(function(content) {
+                        statusElement.textContent = "¡Descarga lista!";
+                        
+                        const zipLink = document.createElement('a');
+                        zipLink.href = URL.createObjectURL(content);
+                        zipLink.download = "todos_los_qr_equipos.zip";
+                        document.body.appendChild(zipLink);
+                        zipLink.click();
+                        document.body.removeChild(zipLink);
+                        
+                        // Limpiar
+                        setTimeout(() => {
+                            document.body.removeChild(tempContainer);
+                            modal.style.display = 'none';
+                        }, 2000);
+                    });
+                }
+            }
+        }, 100 * index); // Pequeño retraso para evitar problemas de renderizado
+    });
+}
+
+// Función para descargar todos los QR de un área específica
+window.downloadAreaQRs = function(areaId, areaName) {
+    // Mostrar mensaje de proceso
+    const modal = document.getElementById('bulkQRModal');
+    modal.style.display = 'block';
+    const statusElement = document.getElementById('bulkQRStatus');
+    statusElement.textContent = `Preparando códigos QR para ${areaName}...`;
+    
+    // Obtener todos los equipos del área específica de forma más simple y compatible
+    const equipments = [];
+    
+    // Método compatible: buscar por el botón que contiene el ID del área
+    const downloadButton = document.querySelector(`button[onclick*="downloadAreaQRs('${areaId}'"]`);
+    let areaSection = null;
+    
+    if (downloadButton) {
+        areaSection = downloadButton.closest('.area-section');
+    }
+    
+    // Si no encontramos por el botón, intentamos buscar todas las secciones y comparar
+    if (!areaSection) {
+        const allSections = document.querySelectorAll('.area-section');
+        for (let i = 0; i < allSections.length; i++) {
+            const titleElement = allSections[i].querySelector('.area-title');
+            if (titleElement && titleElement.textContent.trim().includes(areaName)) {
+                areaSection = allSections[i];
+                break;
+            }
+        }
+    }
+    
+    // Si encontramos la sección, recolectar los equipos
+    if (areaSection) {
+        collectEquipmentsFromSection(areaSection);
+    }
+    
+    function collectEquipmentsFromSection(section) {
+        // Buscar todos los botones QR en las tarjetas de equipos de esta sección
+        const qrButtons = section.querySelectorAll('.btn-qr');
+        qrButtons.forEach(button => {
+            const dataString = button.getAttribute('onclick');
+            const matches = dataString.match(/generateQR\(\s*'([^']+)',\s*'([^']+)',\s*'([^']+)'\s*\)/);
+            
+            if (matches && matches.length === 4) {
+                // Extraer el código de inventario directamente de la tarjeta actual
+                const card = button.closest('.equipment-card');
+                let inventoryCode = '';
+                if (card) {
+                    const inventoryElement = card.querySelector('.inventory-code');
+                    if (inventoryElement) {
+                        inventoryCode = inventoryElement.textContent.trim();
+                    }
+                }
+                
+                equipments.push({
+                    id: matches[1],
+                    name: matches[2],
+                    pdfUrl: matches[3],
+                    inventoryCode: inventoryCode
+                });
+            }
+        });
+    }
+    
+    // Verificación simple
+    console.log(`Encontrados ${equipments.length} equipos en el área ${areaName}`);
+    
+    // Si no hay equipos, mostrar mensaje y salir
+    if (equipments.length === 0) {
+        statusElement.textContent = `No se encontraron equipos para generar QR en el área ${areaName}`;
+        setTimeout(() => {
+            modal.style.display = 'none';
+        }, 3000);
+        return;
+    }
+    
+    statusElement.textContent = `Generando ${equipments.length} códigos QR para ${areaName}...`;
+    
+    // Crear un contenedor temporal invisible para generar todos los QR
+    const tempContainer = document.createElement('div');
+    tempContainer.style.position = 'absolute';
+    tempContainer.style.left = '-9999px';
+    tempContainer.style.top = '-9999px';
+    document.body.appendChild(tempContainer);
+    
+    // Crear un ZIP para contener todos los QR
+    const JSZip = window.JSZip;
+    const zip = new JSZip();
+    let processedCount = 0;
+    
+    // Generar cada QR y añadirlo al ZIP
+    equipments.forEach((equipment, index) => {
+        const qrDiv = document.createElement('div');
+        qrDiv.id = `temp-qr-${index}`;
+        tempContainer.appendChild(qrDiv);
+        
+        new QRCode(qrDiv, {
+            text: equipment.pdfUrl,
+            width: 256,
+            height: 256,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.L
+        });
+        
+        // Esperar a que se genere el QR
+        setTimeout(() => {
+            const canvas = qrDiv.querySelector('canvas');
+            if (canvas) {
+                const imageData = canvas.toDataURL("image/png").replace(/^data:image\/(png|jpg);base64,/, "");
+                
+                // Usar el código de inventario ya extraído en el paso anterior
+                const safeInventoryCode = equipment.inventoryCode.replace(/\//g, '-');
+                
+                // Crear nombre de archivo con código de inventario o ID si está disponible
+                const fileName = safeInventoryCode ? 
+                    `QR_${safeInventoryCode}_${equipment.name.replace(/[^\w\s]/gi, '')}.png` : 
+                    `QR_${equipment.id}_${equipment.name.replace(/[^\w\s]/gi, '')}.png`;
+                
+                zip.file(fileName, imageData, {base64: true});
+                
+                processedCount++;
+                statusElement.textContent = `Procesando... (${processedCount}/${equipments.length})`;
+                
+                // Cuando todos los QR están listos, descargar el ZIP
+                if (processedCount === equipments.length) {
+                    zip.generateAsync({type: "blob"}).then(function(content) {
+                        statusElement.textContent = "¡Descarga lista!";
+                        
+                        const zipLink = document.createElement('a');
+                        zipLink.href = URL.createObjectURL(content);
+                        
+                        // Simplificar el nombre del archivo
+                        const date = new Date().toISOString().split('T')[0]; // formato YYYY-MM-DD
+                        zipLink.download = `QR_${areaName.replace(/[^\w\s]/gi, '')}_${date}.zip`;
+                        
+                        document.body.appendChild(zipLink);
+                        zipLink.click();
+                        document.body.removeChild(zipLink);
+                        
+                        // Limpiar
+                        setTimeout(() => {
+                            document.body.removeChild(tempContainer);
+                            modal.style.display = 'none';
+                        }, 2000);
+                    });
+                }
+            }
+        }, 100 * index); // Pequeño retraso para evitar problemas de renderizado
+    });
+}
+
+// Función auxiliar para obtener el color del área por su ID
+function getAreaColor(areaId) {
+    // Buscar dinámicamente el color en el DOM
+    const areaTitle = document.querySelector(`[onclick*="downloadAreaQRs('${areaId}'"]`);
+    if (areaTitle) {
+        const parentSection = areaTitle.closest('.area-section');
+        if (parentSection) {
+            const borderColor = window.getComputedStyle(parentSection).borderColor;
+            return borderColor;
+        }
+    }
+    return ''; // Si no se encuentra, devolver cadena vacía
+}
+
 // Cerrar modal
 document.querySelector('.close-modal')?.addEventListener('click', function() {
     document.getElementById('qrModal').style.display = "none";
 });
 
+// Cerrar modal de bulk QR
+document.querySelector('.close-bulk-modal')?.addEventListener('click', function() {
+    document.getElementById('bulkQRModal').style.display = "none";
+});
+
 // Cerrar modal al hacer clic fuera
 window.addEventListener('click', function(event) {
     const modal = document.getElementById('qrModal');
+    const bulkModal = document.getElementById('bulkQRModal');
     if (event.target === modal) {
         modal.style.display = "none";
+    }
+    if (event.target === bulkModal) {
+        bulkModal.style.display = "none";
     }
 });

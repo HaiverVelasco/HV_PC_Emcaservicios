@@ -12,6 +12,7 @@
     <script src="{{ asset('js/themeToggle.js') }}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 </head>
 
 <body>
@@ -70,6 +71,12 @@
             <section class="area-section" style="border-color: {{ $area->color }}">
                 <h2 class="area-title" style="background-color: {{ $area->color }}">
                     {{ $area->name }}
+                    @if (session('is_admin') && $area->equipment->count() > 0)
+                        <button class="btn-download-area-qr"
+                            onclick="downloadAreaQRs('{{ $area->id }}', '{{ $area->name }}')">
+                            Descargar QRs
+                        </button>
+                    @endif
                 </h2>
 
                 @if ($area->equipment->count() > 0)
@@ -166,20 +173,13 @@
                                         </div>
                                     </div>
                                 @endif
-                                @if (session('is_admin'))
-                                    <div class="equipment-footer">
+
+                                <!-- Footer con botones para todos los usuarios -->
+                                <div class="equipment-footer">
+                                    <!-- Botones solo para administradores -->
+                                    @if (session('is_admin'))
                                         <a href="{{ route('equipment.edit', $equipment->id) }}"
                                             class="btn-edit">Editar</a>
-                                        <a href="{{ route('equipment.pdf', $equipment->id) }}" class="btn-pdf"
-                                            target="_blank">Generar PDF</a>
-                                        <button class="btn-qr"
-                                            onclick="generateQR(
-                                            '{{ $equipment->id }}', 
-                                            '{{ $equipment->equipment_name }}', 
-                                            '{{ route('equipment.pdf', $equipment->id) }}'
-                                        )">
-                                            QR
-                                        </button>
                                         <form action="{{ route('equipment.destroy', $equipment->id) }}"
                                             method="POST" class="delete-form">
                                             @csrf
@@ -189,8 +189,20 @@
                                                 Eliminar
                                             </button>
                                         </form>
-                                    </div>
-                                @endif
+                                    @endif
+
+                                    <!-- Botones visibles para todos los usuarios (administradores y visitantes) -->
+                                    <a href="{{ route('equipment.pdf', $equipment->id) }}" class="btn-pdf"
+                                        target="_blank">Generar PDF</a>
+                                    <button class="btn-qr"
+                                        onclick="generateQR(
+                                        '{{ $equipment->id }}', 
+                                        '{{ $equipment->equipment_name }}', 
+                                        '{{ route('equipment.pdf', $equipment->id) }}'
+                                    )">
+                                        QR
+                                    </button>
+                                </div>
                             </div>
                         @endforeach
                     </div>
@@ -291,6 +303,23 @@
             <button class="btn-download" onclick="downloadQR()">Descargar QR</button>
         </div>
     </div>
+
+    <!-- Modal para descarga masiva de QRs -->
+    <div id="bulkQRModal" class="bulk-qr-modal">
+        <div class="bulk-qr-modal-content">
+            <span class="close-bulk-modal">&times;</span>
+            <h2 class="bulk-modal-title">Descarga de Códigos QR</h2>
+            <div class="bulk-status">
+                <span class="loading-indicator"></span>
+                <span id="bulkQRStatus">Procesando...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón para cambiar el tema (solo visible para visitantes) -->
+    @if (!session('is_admin'))
+        <button class="theme-toggle" aria-label="Toggle dark mode"></button>
+    @endif
 
 </body>
 

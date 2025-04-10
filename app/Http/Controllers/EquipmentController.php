@@ -169,9 +169,12 @@ class EquipmentController extends Controller
             // Obtener el nombre del área
             $area = Area::find($validatedData['area_id']);
 
-            return redirect()->route('equipment.show', $equipment->id)
-                ->with('success', '¡Equipo actualizado exitosamente! Código de inventario: ' . $equipment->inventory_code)
-                ->with('info', 'Equipo asignado al área: ' . $area->name);
+            // Guardar mensajes en la sesión
+            session()->flash('success', '¡Equipo ' . $equipment->inventory_code . ' actualizado exitosamente!');
+            session()->flash('info', 'Equipo asignado al área: ' . $area->name);
+            
+            // Usar una redirección directa con URL completa
+            return redirect()->to(url('/equipments'));
         } catch (\Exception $e) {
             Log::error('Error al actualizar equipo: ' . $e->getMessage());
             return redirect()->back()

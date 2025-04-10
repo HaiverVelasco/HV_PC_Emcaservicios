@@ -180,6 +180,55 @@ body {
     padding: 15px;
     margin: 0;
     font-size: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Botón para descargar QRs por área */
+.btn-download-area-qr {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-download-area-qr:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-download-area-qr::before {
+    content: '📱';
+    margin-right: 8px;
+}
+
+.btn-download-area-qr:active {
+    transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+    .area-title {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+
+    .btn-download-area-qr {
+        margin-left: 0;
+        align-self: flex-end;
+    }
 }
 
 .equipment-grid {
@@ -540,8 +589,8 @@ body {
 /* Estilos para el botón flotante */
 .floating-button {
     position: fixed;
-    bottom: 30px;
-    right: 30px;
+    bottom: 130px;
+    right: 10px;
     z-index: 1000;
 }
 
@@ -708,6 +757,57 @@ body {
     margin-right: 8px;
 }
 
+/* Estilos para el botón descargar todos los QR */
+.btn-download-all-qr {
+    position: fixed;
+    bottom: 90px;
+    /* Posicionado encima del botón flotante existente */
+    right: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #6B48FF;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 50px;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    font-weight: bold;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    z-index: 999;
+}
+
+.btn-download-all-qr::before {
+    content: '📱';
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.btn-download-all-qr:hover {
+    transform: translateY(-2px) scale(1.05);
+    background-color: #5639CC;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.btn-download-all-qr:active {
+    transform: translateY(0) scale(0.95);
+}
+
+@media (max-width: 768px) {
+    .btn-download-all-qr {
+        bottom: 80px;
+        right: 20px;
+        left: 20px;
+        justify-content: center;
+        width: calc(100% - 40px);
+        max-width: 300px;
+        margin: 0 auto;
+    }
+}
+
 /* Estilos para el botón QR */
 .btn-qr {
     display: inline-flex;
@@ -752,6 +852,120 @@ body {
     width: 90%;
     max-width: 400px;
     position: relative;
+}
+
+/* Modal para descarga masiva de QR */
+.bulk-qr-modal {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.bulk-qr-modal-content {
+    background-color: var(--card-bg);
+    margin: 15% auto;
+    padding: 25px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.bulk-modal-title {
+    margin: 0 0 20px 0;
+    color: var(--primary-color);
+    font-size: 22px;
+}
+
+.bulk-status {
+    font-size: 16px;
+    margin: 15px 0;
+    color: var(--text-color);
+    position: relative;
+    padding: 10px 15px;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 6px;
+    min-height: 30px;
+}
+
+.loading-indicator {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border: 3px solid rgba(0, 51, 102, 0.3);
+    border-radius: 50%;
+    border-top-color: var(--primary-color);
+    animation: spin 1s ease-in-out infinite;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.close-modal,
+.close-bulk-modal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--text-color);
+    opacity: 0.7;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.close-modal:hover,
+.close-bulk-modal:hover {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.1);
+    transform: scale(1.1);
+}
+
+.btn-download {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-download:hover {
+    background-color: #004080;
+    transform: translateY(-2px);
+}
+
+.qr-info-text {
+    text-align: center;
+    margin-top: 10px;
+    color: var(--text-color);
+    font-style: italic;
+    opacity: 0.8;
 }
 
 #qrcode {
@@ -1172,4 +1386,46 @@ mark {
     text-align: center;
     color: var(--text-color);
     font-style: italic;
+}
+
+.theme-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: var(--hover-shadow);
+}
+
+/* Ajustes para modo oscuro */
+[data-theme="dark"] .form-group input,
+[data-theme="dark"] .form-group select,
+[data-theme="dark"] .form-group textarea {
+    background-color: #333;
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .company-info {
+    background: rgba(45, 45, 45, 0.95);
+}
+
+[data-theme="dark"] .form-section {
+    background: linear-gradient(to bottom, var(--form-bg), var(--section-bg));
 }

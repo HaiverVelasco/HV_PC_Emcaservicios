@@ -1,9 +1,14 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Create theme toggle button
-    const button = document.createElement('button');
-    button.className = 'theme-toggle';
-    button.innerHTML = '🌙'; // Moon emoji for dark mode
-    document.body.appendChild(button);
+    // Buscar si ya existe un botón de cambio de tema
+    let button = document.querySelector('.theme-toggle');
+
+    // Crear el botón solo si no existe
+    if (!button) {
+        button = document.createElement('button');
+        button.className = 'theme-toggle';
+        button.setAttribute('aria-label', 'Toggle dark mode');
+        document.body.appendChild(button);
+    }
 
     // Check for saved theme preference or use system preference
     const savedTheme = localStorage.getItem('theme');
@@ -14,6 +19,8 @@ document.addEventListener('DOMContentLoaded', function() {
         document.documentElement.setAttribute('data-theme', 'dark');
         button.innerHTML = '☀️';
         localStorage.setItem('theme', 'dark');
+    } else {
+        button.innerHTML = '🌙';  // Valor predeterminado para modo claro
     }
 
     // Toggle theme function
