@@ -12,7 +12,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Equipment Resource Routes
 Route::get('/equipments', [EquipmentController::class, 'index'])->name('equipment.index');
-Route::get('/equipment/list', [EquipmentController::class, 'show'])->name('equipment.list'); // Nueva ruta para la lista
+Route::get('/equipment/list', [EquipmentController::class, 'show'])->name('equipment.list');
 
 // Single Equipment Routes
 Route::prefix('equipment')->group(function () {

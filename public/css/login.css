@@ -6,26 +6,115 @@
     --error-color: #dc3545;
     --text-color: #333;
     --bg-color: #f8f9fa;
+    --accent-color: #0099cc;
+    --highlight-color: #005580;
+    --lime-color: #a2ce71;
+}
+
+@keyframes animateCircle {
+    0% {
+        background-position: 0% 0%;
+        background-size: 100% 100%;
+    }
+
+    25% {
+        background-size: 150% 150%;
+    }
+
+    50% {
+        background-position: 100% 100%;
+        background-size: 200% 200%;
+    }
+
+    75% {
+        background-size: 150% 150%;
+    }
+
+    100% {
+        background-position: 0% 0%;
+        background-size: 100% 100%;
+    }
+}
+
+/* Animación del fondo anterior */
+@keyframes animateBackground {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Añadir animación de aparición */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Añadir animación de pulso para elementos destacados */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Añadir efecto de brillo para botones */
+@keyframes shine {
+    0% {
+        background-position: -100% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
 }
 
 body {
     margin: 0;
     padding: 0;
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    background: radial-gradient(circle, var(--secondary-color), var(--lime-color), var(--accent-color), var(--primary-color), var(--highlight-color));
+    background-size: 300% 300%;
+    animation: animateCircle 20s ease infinite;
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    overflow: hidden;
 }
 
 .login-container {
     background: white;
     padding: 2rem;
     border-radius: 10px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15),
+        0 0 0 2px rgba(163, 207, 113, 0.3);
     width: 100%;
     max-width: 400px;
+    animation: fadeInUp 0.8s ease-out forwards;
+    border-top: 4px solid var(--lime-color);
 }
 
 .login-header {
@@ -43,12 +132,14 @@ body {
     color: var(--primary-color);
     font-size: 1.5rem;
     margin: 0;
+    animation: fadeInUp 0.8s ease-out 0.3s both;
 }
 
 .login-options {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    animation: fadeInUp 0.8s ease-out 0.5s both;
 }
 
 .login-button {
@@ -62,7 +153,27 @@ body {
     font-weight: 600;
     text-decoration: none;
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.login-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.3) 50%,
+            rgba(255, 255, 255, 0) 100%);
+    transition: all 0.6s;
+}
+
+.login-button:hover::before {
+    animation: shine 1.5s infinite;
 }
 
 .login-button.admin {
@@ -71,24 +182,35 @@ body {
 }
 
 .login-button.guest {
-    background-color: var(--guest-color);
+    background-color: var(--lime-color);
     color: white;
 }
 
+.login-button.guest:hover {
+    background-color: #4f8512;
+    box-shadow: 0 6px 16px rgba(137, 196, 68, 0.3);
+}
+
 .login-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.login-button:active {
+    transform: translateY(1px);
 }
 
 .icon {
     margin-right: 8px;
     font-size: 1.2rem;
+    animation: pulse 2s infinite;
 }
 
 .login-form {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    animation: fadeInUp 0.8s ease-out 0.5s both;
 }
 
 .form-group {
@@ -107,12 +229,14 @@ body {
     border: 2px solid #ddd;
     border-radius: 5px;
     font-size: 1rem;
-    transition: border-color 0.2s;
+    transition: border-color 0.3s, transform 0.2s;
 }
 
 .form-group input:focus {
     outline: none;
-    border-color: var(--secondary-color);
+    border-color: var(--lime-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(137, 196, 68, 0.2);
 }
 
 .back-button {
@@ -121,10 +245,13 @@ body {
     text-decoration: none;
     margin-top: 1rem;
     font-weight: 600;
+    transition: color 0.3s, transform 0.3s;
+    display: inline-block;
 }
 
 .back-button:hover {
     color: var(--secondary-color);
+    transform: translateX(-5px);
 }
 
 .alert {
@@ -132,6 +259,7 @@ body {
     border-radius: 5px;
     margin-bottom: 1rem;
     font-weight: 600;
+    animation: fadeInUp 0.5s ease-out;
 }
 
 .alert-error {
