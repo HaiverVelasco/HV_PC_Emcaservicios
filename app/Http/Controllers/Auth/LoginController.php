@@ -5,13 +5,11 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
-    protected $adminCredentials = [
-        'username' => 'FabianMazorra',
-        'password' => 'Emca4322Servicios?'
-    ];
+    // Eliminamos las credenciales hardcodeadas
 
     public function showLoginOptions()
     {
@@ -30,17 +28,23 @@ class LoginController extends Controller
             'password' => 'required'
         ]);
 
-        // Agregamos logs para debugging
-        \Log::info('Intento de login:', [
+        // Obtenemos credenciales desde variables de entorno
+        $adminUsername = env('ADMIN_USERNAME', 'admin');
+        $adminPasswordHash = env('ADMIN_PASSWORD_HASH');
+
+        // Agregamos logs para debugging (sin mostrar información sensible)
+        Log::info('Intento de login:', [
             'input_username' => $credentials['username'],
-            'expected_username' => $this->adminCredentials['username'],
-            'username_matches' => $credentials['username'] === $this->adminCredentials['username'],
-            'password_matches' => $credentials['password'] === $this->adminCredentials['password']
+            'expected_username' => $adminUsername,
+            'username_matches' => $credentials['username'] === $adminUsername,
+            'hash_exists' => !empty($adminPasswordHash),
         ]);
 
+        // Verificamos credenciales usando hash seguro
         if (
-            $credentials['username'] === $this->adminCredentials['username'] && 
-            $credentials['password'] === $this->adminCredentials['password']
+            $credentials['username'] === $adminUsername && 
+            $adminPasswordHash && 
+            Hash::check($credentials['password'], $adminPasswordHash)
         ) {
             session(['is_admin' => true]);
             return redirect()->route('equipment.list')->with('success', '¡Bienvenido, Administrador!');
