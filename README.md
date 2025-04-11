@@ -1,66 +1,139 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sistema de Gestión de Hojas de Vida de Equipos - Emcaservicios
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="public/imgs/Emcaservicios.png" alt="Logo Emcaservicios" width="200">
 </p>
 
-## About Laravel
+## Descripción del Proyecto
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+El Sistema de Gestión de Hojas de Vida de Equipos para Emcaservicios es una aplicación web diseñada para administrar y mantener un registro detallado de los equipos informáticos y tecnológicos de la empresa. Esta plataforma permite llevar un control completo sobre el ciclo de vida de los equipos, desde su adquisición hasta su mantenimiento y eventual retiro.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Objetivos
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Centralizar la información de todos los equipos tecnológicos de la empresa
+- Facilitar el seguimiento y control del estado de los equipos
+- Registrar y programar mantenimientos preventivos y correctivos
+- Generar reportes detallados sobre el estado de los equipos
+- Optimizar los procesos de gestión de activos tecnológicos
+- Mejorar la toma de decisiones basada en datos históricos de los equipos
 
-## Learning Laravel
+## Características Principales
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Gestión de Equipos
+- Registro detallado de equipos (computadores, impresoras, UPS, escáneres, telefonía, etc.)
+- Categorización por áreas y tipos
+- Seguimiento de información técnica (especificaciones, números de serie, fechas de adquisición)
+- Control de garantías y valorización de activos
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Mantenimientos
+- Programación de mantenimientos preventivos
+- Registro de mantenimientos correctivos
+- Seguimiento de instalaciones y desinstalaciones
+- Historial completo de intervenciones técnicas
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Sistema de Imágenes
+- Almacenamiento de imágenes de los equipos
+- Documentación visual del estado de los equipos
 
-## Laravel Sponsors
+### Reportes
+- Generación de PDF con la hoja de vida completa de cada equipo
+- Estadísticas de estado y mantenimientos
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Tecnologías Utilizadas
 
-### Premium Partners
+### Backend
+- **PHP 8.x**
+- **Laravel 10.x**: Framework PHP para el desarrollo del backend
+- **MySQL**: Sistema de gestión de base de datos relacional
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### Frontend
+- **Blade**: Motor de plantillas de Laravel
+- **Bootstrap**: Framework CSS para el diseño responsive
+- **JavaScript/jQuery**: Para interactividad en el lado del cliente
 
-## Contributing
+### Herramientas y Librerías
+- **DomPDF**: Para la generación de reportes en formato PDF
+- **Laravel Sanctum**: Para la autenticación de usuarios
+- **Laravel Storage**: Para la gestión de archivos e imágenes
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Estructura de la Base de Datos
 
-## Code of Conduct
+El sistema se basa en las siguientes entidades principales:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+1. **Users**: Administradores del sistema
+2. **Areas**: Departamentos o secciones de la empresa
+3. **Equipment**: Registro de todos los equipos tecnológicos
+4. **Maintenances**: Historial de mantenimientos realizados
+5. **Images**: Fotografías asociadas a los equipos
 
-## Security Vulnerabilities
+## Requisitos del Sistema
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- PHP >= 8.1
+- Composer
+- MySQL >= 5.7
+- Extensiones PHP: BCMath, Ctype, Fileinfo, JSON, Mbstring, OpenSSL, PDO, Tokenizer, XML
+- Servidor web (Apache o Nginx)
 
-## License
+## Instalación
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+1. Clonar el repositorio:
+   ```
+   git clone [url-del-repositorio]
+   ```
+
+2. Instalar dependencias:
+   ```
+   composer install
+   ```
+
+3. Crear archivo de entorno:
+   ```
+   cp .env.example .env
+   ```
+
+4. Configurar la base de datos en el archivo `.env`
+
+5. Generar clave de aplicación:
+   ```
+   php artisan key:generate
+   ```
+
+6. Ejecutar migraciones:
+   ```
+   php artisan migrate
+   ```
+
+7. Ejecutar seeders (opcional):
+   ```
+   php artisan db:seed
+   ```
+
+8. Crear enlace simbólico para el almacenamiento:
+   ```
+   php artisan storage:link
+   ```
+
+## Uso
+
+1. Iniciar sesión con las credenciales de administrador
+2. Navegar por el menú principal para acceder a las diferentes secciones
+3. Gestionar equipos, áreas y mantenimientos según las necesidades
+
+## Mantenimiento
+
+- Realizar respaldos periódicos de la base de datos
+- Actualizar el sistema operativo y dependencias regularmente
+- Revisar y limpiar los archivos de almacenamiento según sea necesario
+
+## Desarrollado por
+
+👨‍💻 Haiver Velasco (Praticante SENA - Tecnologo en Analisis y Desarrollo de Sofware)
+
+👨‍💻 Fabian Mazorra (Ingeniero en Sistemas de EMCASERVICIOS)
+## Licencia
+
+Este proyecto es propiedad de Emcaservicios y su uso está restringido según los términos acordados.
+
+---
+
+© 2025 Emcaservicios. Todos los derechos reservados.
