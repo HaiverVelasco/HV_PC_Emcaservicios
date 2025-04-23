@@ -177,53 +177,11 @@
                         <input type="text" id="serial_number" name="serial_number" required>
                     </div>
 
-                    <!-- Campos específicos para computadores -->
-                    <div class="specific-fields computer-fields" style="display: none;">
-                        <div class="form-group">
-                            <label for="processor">Procesador</label>
-                            <input type="text" id="processor" name="processor">
-                        </div>
-                        <div class="form-group">
-                            <label for="ram_memory">Memoria RAM</label>
-                            <input type="text" id="ram_memory" name="ram_memory">
-                        </div>
-                        <div class="form-group">
-                            <label for="storage">Almacenamiento</label>
-                            <input type="text" id="storage" name="storage">
-                        </div>
-                        <div class="form-group">
-                            <label for="operating_system">Sistema Operativo</label>
-                            <input type="text" id="operating_system" name="operating_system">
-                        </div>
+                    <div class="form-group">
+                        <label for="technical_brand_model">Marca/Modelo Técnico</label>
+                        <input type="text" id="technical_brand_model" name="technical_brand_model">
                     </div>
 
-                    <!-- Campos específicos para impresoras -->
-                    <div class="specific-fields printer-fields" style="display: none;">
-                        <div class="form-group">
-                            <label for="printing_technology">Tecnología de Impresión</label>
-                            <select name="printing_technology" id="printing_technology">
-                                <option value="laser">Láser</option>
-                                <option value="inkjet">Inyección de Tinta</option>
-                                <option value="matrix">Matriz de Puntos</option>
-                                <option value="thermal">Térmica</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Campo para otros tipos de equipo -->
-                    <div class="specific-fields other-fields" style="display: none;">
-                        <div class="form-group">
-                            <label for="technical_specifications">Especificaciones Técnicas</label>
-                            <textarea id="technical_specifications" name="technical_specifications" rows="4"></textarea>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Información Técnica -->
-            <section class="form-section">
-                <h2>Información Técnica</h2>
-                <div class="form-grid">
                     <div class="form-group">
                         <label for="processor">Procesador</label>
                         <input type="text" id="processor" name="processor">
@@ -245,13 +203,75 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="technical_brand_model">Marca/Modelo Técnico</label>
-                        <input type="text" id="technical_brand_model" name="technical_brand_model">
-                    </div>
-
-                    <div class="form-group">
                         <label for="graphic_card">Tarjeta Gráfica</label>
                         <input type="text" id="graphic_card" name="graphic_card">
+                    </div>
+
+                    <!-- Campos específicos para computadores -->
+                    <div class="specific-fields computer-fields" style="display: none;">
+                        <div class="specific-fields-grid">
+                            <div class="form-group">
+                                <label for="processor">Procesador</label>
+                                <input type="text" id="processor" name="processor">
+                            </div>
+                            <div class="form-group">
+                                <label for="ram_memory">Memoria RAM</label>
+                                <input type="text" id="ram_memory" name="ram_memory">
+                            </div>
+                            <div class="form-group">
+                                <label for="storage">Almacenamiento</label>
+                                <input type="text" id="storage" name="storage">
+                            </div>
+                            <div class="form-group">
+                                <label for="operating_system">Sistema Operativo</label>
+                                <input type="text" id="operating_system" name="operating_system">
+                            </div>
+                            <div class="form-group">
+                                <label for="graphic_card">Tarjeta Gráfica</label>
+                                <input type="text" id="graphic_card" name="graphic_card">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Campos específicos para impresoras -->
+                    <div class="specific-fields printer-fields" style="display: none;">
+                        <div class="specific-fields-grid">
+                            <div class="form-group">
+                                <label for="printing_technology">Tecnología de Impresión</label>
+                                <select name="printing_technology" id="printing_technology">
+                                    <option value="laser">Láser</option>
+                                    <option value="inkjet">Inyección de Tinta</option>
+                                    <option value="matrix">Matriz de Puntos</option>
+                                    <option value="thermal">Térmica</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Campos específicos para equipos de red -->
+                    <div class="specific-fields network-fields" style="display: none;">
+                        <div class="specific-fields-grid">
+                            <div class="form-group">
+                                <label for="ports_number">Número de Puertos</label>
+                                <input type="number" id="ports_number" name="ports_number">
+                            </div>
+                            <div class="form-group">
+                                <label for="network_speed">Velocidad de Red</label>
+                                <input type="text" id="network_speed" name="network_speed">
+                            </div>
+                            <div class="form-group">
+                                <label for="network_protocol">Protocolo de Red</label>
+                                <input type="text" id="network_protocol" name="network_protocol">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Campo para otros tipos de equipo -->
+                    <div class="specific-fields other-fields" style="display: none;">
+                        <div class="form-group">
+                            <label for="technical_specifications">Especificaciones Técnicas</label>
+                            <textarea id="technical_specifications" name="technical_specifications" rows="4"></textarea>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -260,7 +280,7 @@
             <section class="form-section">
                 <h2>Estado y Mantenimiento</h2>
                 <div class="form-grid">
-                    <div class="form-group">
+                    <div class="form-group">    
                         <label for="status">Estado</label>
                         <select name="status" id="status" required>
                             <option value="">Seleccione un Estado</option>
@@ -274,26 +294,26 @@
                     <div class="form-group">
                         <label for="maintenance_type">Tipo de Mantenimiento</label>
                         <select name="maintenance_type" id="maintenance_type">
+                            <option value="">Seleccione un tipo</option>
                             <option value="Preventive">Preventivo</option>
                             <option value="Corrective">Correctivo</option>
                             <option value="Installation">Instalación</option>
                             <option value="Disassembly">Desinstalación</option>
                         </select>
                     </div>
-                </div>
-            </section>
 
-            <!-- Nueva sección: Fallas Detectadas -->
-            <section class="form-section">
-                <h2>Fallas Detectadas</h2>
-                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="technician">Técnico</label>
+                        <input type="text" id="technician" name="technician" placeholder="Nombre del técnico">
+                    </div>
+
                     <div class="form-group">
                         <label for="depreciation">Depreciación</label>
                         <input type="text" id="depreciation" name="depreciation">
                     </div>
 
                     <div class="form-group">
-                        <label for="bad_operation">Mal Funcionamiento</label>
+                        <label for="bad_operation">Mala Operación</label>
                         <input type="text" id="bad_operation" name="bad_operation">
                     </div>
 
@@ -314,6 +334,11 @@
                             <option value="Unknown">Desconocido</option>
                             <option value="No Failures">Sin Fallas</option>
                         </select>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="description">Descripción del Mantenimiento</label>
+                        <textarea id="description" name="description" rows="3" placeholder="Detalles del mantenimiento realizado"></textarea>
                     </div>
                 </div>
             </section>

@@ -65,6 +65,46 @@
                         <input type="text" id="inventory_code" name="inventory_code"
                             value="{{ $equipment->inventory_code }}" required>
                     </div>
+
+                    <div class="form-group">
+                        <label for="manufacturer">Fabricante</label>
+                        <input type="text" id="manufacturer" name="manufacturer"
+                            value="{{ $equipment->manufacturer }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reference">Referencia</label>
+                        <input type="text" id="reference" name="reference" value="{{ $equipment->reference }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="acquisition_date">Fecha de Adquisición</label>
+                        <input type="date" id="acquisition_date" name="acquisition_date"
+                            value="{{ $equipment->acquisition_date }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="operation_start_date">Fecha Inicio Operación</label>
+                        <input type="date" id="operation_start_date" name="operation_start_date"
+                            value="{{ $equipment->operation_start_date }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="value">Valor del Equipo</label>
+                        <input type="number" id="value" name="value" step="0.01"
+                            value="{{ $equipment->value }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="warranty">Garantía</label>
+                        <input type="text" id="warranty" name="warranty" value="{{ $equipment->warranty }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="equipment_location">Ubicación del Equipo</label>
+                        <input type="text" id="equipment_location" name="equipment_location"
+                            value="{{ $equipment->equipment_location }}">
+                    </div>
                 </div>
             </section>
 
