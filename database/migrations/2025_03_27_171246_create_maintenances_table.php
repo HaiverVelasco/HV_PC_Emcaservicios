@@ -15,9 +15,22 @@ return new class extends Migration
             $table->id();
             $table->foreignId('equipment_id')->constrained()->onDelete('cascade');
             $table->date('date')->nullable();
-            $table->enum('type', ['Preventive', 'Corrective', 'Installation', 'Disassembly'])->nullable();
             $table->text('description')->nullable();
             $table->string('technician')->nullable();
+            $table->string('depreciation')->nullable();
+            $table->string('bad_operation')->nullable();
+            $table->string('bad_installation')->nullable();
+            $table->string('accessories')->nullable();
+            $table->enum('failure', ['Unknown', 'No Failures'])->nullable();
+            
+            // Tipo de  Mantenimiento
+            $table->enum('type', [
+                'Preventive',
+                'Corrective', 
+                'Installation', 
+                'Disassembly'
+            ])->nullable();
+
             $table->timestamps();
         });
     }

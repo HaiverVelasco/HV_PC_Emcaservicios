@@ -8,6 +8,7 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('imgs/Emcaservicios.png') }}">
     <link rel="stylesheet" href="{{ asset('css/show.css') }}">
     <link rel="stylesheet" href=" {{ asset('css/edit.css') }} ">
+    <link rel="stylesheet" href=" {{ asset('css/sessionTimer.css') }} ">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="{{ asset('js/themeToggle.js') }}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css">
@@ -71,7 +72,7 @@
             <section class="area-section" style="border-color: {{ $area->color }}">
                 <h2 class="area-title" style="background-color: {{ $area->color }}">
                     {{ $area->name }}
-                    @if (session('is_admin') && $area->equipment->count() > 0)
+                    @if (isAdmin() && $area->equipment->count() > 0)
                         <button class="btn-download-area-qr"
                             onclick="downloadAreaQRs('{{ $area->id }}', '{{ $area->name }}')">
                             Descargar QRs
@@ -177,7 +178,7 @@
                                 <!-- Footer con botones para todos los usuarios -->
                                 <div class="equipment-footer">
                                     <!-- Botones solo para administradores -->
-                                    @if (session('is_admin'))
+                                    @if (isAdmin())
                                         <a href="{{ route('equipment.edit', $equipment->id) }}"
                                             class="btn-edit">Editar</a>
                                         <form action="{{ route('equipment.destroy', $equipment->id) }}"
@@ -218,9 +219,9 @@
         @endforeach
     </main>
 
-    @if (session('is_admin'))
+    @if (isAdmin())
         <div class="floating-button">
-            <a href="{{ route('equipment.create') }}" class="btn-add">
+            <a href="{{ route('equipment.list') }}" class="btn-add">
                 Agregar Equipo
             </a>
         </div>
@@ -229,6 +230,18 @@
     <script src="{{ asset('js/show.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+
+    @if (isAdmin())
+        <!-- Script y variables para el control de tiempo de sesión (solo para administradores) -->
+        <script>
+            // Variables para el control de tiempo de sesión
+            const sessionStartTime = {{ session('admin_session_start_time', 0) }};
+            const sessionExpiryTime =
+            {{ session('admin_session_start_time', 0) + 120 * 60 * 1000 }}; // 2 horas en milisegundos
+        </script>
+        <script src="{{ asset('js/sessionTimer.js') }}"></script>
+    @endif
+
     <script>
         lightbox.option({
             'resizeDuration': 200,
@@ -317,7 +330,7 @@
     </div>
 
     <!-- Botón para cambiar el tema (solo visible para visitantes) -->
-    @if (!session('is_admin'))
+    @if (!isAdmin())
         <button class="theme-toggle" aria-label="Toggle dark mode"></button>
     @endif
 

@@ -9,10 +9,16 @@ class Maintenance extends Model
 {
     protected $fillable = [
         'equipment_id',
-        'maintenance_type',
+        'type', // Cambiado de 'maintenance_type' a 'type' para coincidir con la migración
         'description',
         'date',
-        'technician'
+        'technician',
+        // Campos trasladados desde la tabla de equipos
+        'depreciation',
+        'bad_operation',
+        'bad_installation',
+        'accessories',
+        'failure'
     ];
 
     public function equipment()

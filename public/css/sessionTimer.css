@@ -1,0 +1,91 @@
+/* Estilos para las alertas de tiempo de sesión */
+
+.session-alert-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 350px;
+}
+
+.session-alert {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    animation: session-alert-slide-in 0.3s ease forwards;
+}
+
+.session-alert.session-alert-hiding {
+    animation: session-alert-slide-out 0.3s ease forwards;
+}
+
+.session-alert-info {
+    border-left: 4px solid #2196F3;
+}
+
+.session-alert-warning {
+    border-left: 4px solid #FF9800;
+}
+
+.session-alert-content {
+    padding: 15px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.session-alert-icon {
+    font-size: 20px;
+    line-height: 1;
+}
+
+.session-alert-message {
+    flex: 1;
+    font-size: 14px;
+    color: #333;
+    line-height: 1.4;
+}
+
+.session-alert-close {
+    background: none;
+    border: none;
+    color: #999;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    transition: color 0.2s;
+}
+
+.session-alert-close:hover {
+    color: #555;
+}
+
+@keyframes session-alert-slide-in {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes session-alert-slide-out {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}

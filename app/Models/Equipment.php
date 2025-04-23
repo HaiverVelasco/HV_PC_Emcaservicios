@@ -34,12 +34,6 @@ class Equipment extends Model
         'ram_memory',
         'storage',
         'status',
-        'maintenance_type',
-        'depreciation',
-        'bad_operation',
-        'bad_installation',
-        'accessories',
-        'failure',
         'observations',
         'equipment_type',
     ];

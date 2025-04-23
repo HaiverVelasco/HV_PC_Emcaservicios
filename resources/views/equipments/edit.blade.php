@@ -65,6 +65,32 @@
                         <input type="text" id="inventory_code" name="inventory_code"
                             value="{{ $equipment->inventory_code }}" required>
                     </div>
+                </div>
+            </section>
+
+            <!-- Información del Equipo -->
+            <section class="form-section">
+                <h2>Información del Equipo</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="equipment_type">Tipo de Equipo</label>
+                        <select name="equipment_type" id="equipment_type" required onchange="toggleSpecificFields()">
+                            <option value="">Seleccione el tipo de equipo</option>
+                            <option value="computador"
+                                {{ $equipment->equipment_type == 'computador' ? 'selected' : '' }}>Computador</option>
+                            <option value="impresora"
+                                {{ $equipment->equipment_type == 'impresora' ? 'selected' : '' }}>Impresora</option>
+                            <option value="ups" {{ $equipment->equipment_type == 'ups' ? 'selected' : '' }}>UPS
+                            </option>
+                            <option value="scanner" {{ $equipment->equipment_type == 'scanner' ? 'selected' : '' }}>
+                                Escáner</option>
+                            <option value="telefonia"
+                                {{ $equipment->equipment_type == 'telefonia' ? 'selected' : '' }}>Equipo de Telefonía
+                            </option>
+                            <option value="otro" {{ $equipment->equipment_type == 'otro' ? 'selected' : '' }}>Otro
+                            </option>
+                        </select>
+                    </div>
 
                     <div class="form-group">
                         <label for="equipment_name">Nombre del Equipo</label>
@@ -87,31 +113,39 @@
                         <input type="text" id="serial_number" name="serial_number"
                             value="{{ $equipment->serial_number }}">
                     </div>
-                </div>
-            </section>
 
-            <!-- Información Técnica -->
-            <section class="form-section">
-                <h2>Información Técnica</h2>
-                <div class="form-grid">
                     <div class="form-group">
-                        <label for="equipment_type">Tipo de Equipo</label>
-                        <select name="equipment_type" id="equipment_type" required onchange="toggleSpecificFields()">
-                            <option value="">Seleccione el tipo de equipo</option>
-                            <option value="computador"
-                                {{ $equipment->equipment_type == 'computador' ? 'selected' : '' }}>Computador</option>
-                            <option value="impresora"
-                                {{ $equipment->equipment_type == 'impresora' ? 'selected' : '' }}>Impresora</option>
-                            <option value="ups" {{ $equipment->equipment_type == 'ups' ? 'selected' : '' }}>UPS
-                            </option>
-                            <option value="scanner" {{ $equipment->equipment_type == 'scanner' ? 'selected' : '' }}>
-                                Escáner</option>
-                            <option value="telefonia"
-                                {{ $equipment->equipment_type == 'telefonia' ? 'selected' : '' }}>Equipo de Telefonía
-                            </option>
-                            <option value="otro" {{ $equipment->equipment_type == 'otro' ? 'selected' : '' }}>Otro
-                            </option>
-                        </select>
+                        <label for="technical_brand_model">Marca/Modelo Técnico</label>
+                        <input type="text" id="technical_brand_model" name="technical_brand_model"
+                            value="{{ $equipment->technical_brand_model }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="processor">Procesador</label>
+                        <input type="text" id="processor" name="processor" value="{{ $equipment->processor }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="operating_system">Sistema Operativo</label>
+                        <input type="text" id="operating_system" name="operating_system"
+                            value="{{ $equipment->operating_system }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ram_memory">Memoria RAM</label>
+                        <input type="text" id="ram_memory" name="ram_memory"
+                            value="{{ $equipment->ram_memory }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="storage">Almacenamiento</label>
+                        <input type="text" id="storage" name="storage" value="{{ $equipment->storage }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="graphic_card">Tarjeta Gráfica</label>
+                        <input type="text" id="graphic_card" name="graphic_card"
+                            value="{{ $equipment->graphic_card }}">
                     </div>
 
                     <!-- Campos específicos para computadores -->
@@ -237,13 +271,13 @@
                             </option>
                         </select>
                     </div>
-                </div>
-            </section>
 
-            <!-- Fallas Detectadas -->
-            <section class="form-section">
-                <h2>Fallas Detectadas</h2>
-                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="technician">Técnico</label>
+                        <input type="text" id="technician" name="technician" placeholder="Nombre del técnico"
+                            value="{{ $equipment->technician ?? '' }}">
+                    </div>
+
                     <div class="form-group">
                         <label for="depreciation">Depreciación</label>
                         <input type="text" id="depreciation" name="depreciation"
@@ -251,7 +285,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="bad_operation">Mal Funcionamiento</label>
+                        <label for="bad_operation">Mala Operación</label>
                         <input type="text" id="bad_operation" name="bad_operation"
                             value="{{ $equipment->bad_operation }}">
                     </div>
@@ -260,6 +294,28 @@
                         <label for="bad_installation">Mala Instalación</label>
                         <input type="text" id="bad_installation" name="bad_installation"
                             value="{{ $equipment->bad_installation }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="accessories">Accesorios</label>
+                        <input type="text" id="accessories" name="accessories"
+                            value="{{ $equipment->accessories }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="failure">Estado de Fallas</label>
+                        <select name="failure" id="failure">
+                            <option value="">Seleccione estado</option>
+                            <option value="Unknown" {{ $equipment->failure == 'Unknown' ? 'selected' : '' }}>
+                                Desconocido</option>
+                            <option value="No Failures" {{ $equipment->failure == 'No Failures' ? 'selected' : '' }}>
+                                Sin Fallas</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="description">Descripción del Mantenimiento</label>
+                        <textarea id="description" name="description" rows="3" placeholder="Detalles del mantenimiento realizado">{{ $equipment->description ?? '' }}</textarea>
                     </div>
                 </div>
             </section>

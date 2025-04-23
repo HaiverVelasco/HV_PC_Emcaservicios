@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('city')->nullable();
             $table->string('inventory_code')->nullable();
             $table->date('last_update_date')->nullable();
-            
             $table->string('equipment_name')->nullable();
             $table->string('brand')->nullable();
             $table->string('model')->nullable();
@@ -41,6 +40,8 @@ return new class extends Migration
             $table->string('graphic_card')->nullable();
             $table->string('ram_memory')->nullable();
             $table->string('storage')->nullable();
+            
+            // Tipo de Equipo
             $table->enum('equipment_type', [
                 'computador',
                 'impresora',
@@ -57,21 +58,6 @@ return new class extends Migration
                 'Malo', 
                 'Deshabilitado'
                 ])->nullable();
-            
-            // Tipo de Mantenimiento
-            $table->enum('maintenance_type', [
-                'Preventive', 
-                'Corrective', 
-                'Installation', 
-                'Disassembly'
-            ])->nullable();
-            
-            // Fallas Destectadas
-            $table->string('depreciation')->nullable();
-            $table->string('bad_operation')->nullable();
-            $table->string('bad_installation')->nullable();
-            $table->string('accessories')->nullable();
-            $table->enum('failure', ['Unknown', 'No Failures'])->nullable();
             
             $table->text('observations')->nullable();
             $table->timestamps();
