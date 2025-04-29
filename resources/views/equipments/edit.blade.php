@@ -370,7 +370,7 @@
                             @if ($equipment->images->count() > 0)
                                 @foreach ($equipment->images as $image)
                                     <div class="image-preview" data-image-id="{{ $image->id }}">
-                                        <img src="{{ asset('storage/' . $image->url) }}" alt="Imagen del equipo">
+                                        <img src="{{ asset($image->url) }}" alt="Imagen del equipo">
                                         <div class="image-info">
                                             <span
                                                 class="image-date">{{ Carbon\Carbon::parse($image->created_at)->format('d/m/Y H:i') }}</span>

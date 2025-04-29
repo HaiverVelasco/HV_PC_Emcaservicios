@@ -148,11 +148,11 @@
                                     <div class="equipment-images">
                                         <div class="images-preview">
                                             @foreach ($equipment->images->take(1) as $image)
-                                                <a href="{{ asset('storage/' . $image->url) }}"
+                                                <a href="{{ asset($image->url) }}"
                                                     data-lightbox="equipment-{{ $equipment->id }}"
                                                     data-title="{{ $equipment->equipment_name }}">
-                                                    <img src="{{ asset('storage/' . $image->url) }}"
-                                                        alt="Imagen del equipo" class="equipment-thumbnail">
+                                                    <img src="{{ asset($image->url) }}" alt="Imagen del equipo"
+                                                        class="equipment-thumbnail">
                                                 </a>
                                             @endforeach
                                             @if ($equipment->images->count() > 1)
@@ -164,11 +164,11 @@
                                         </div>
                                         <div class="images-gallery" style="display: none;">
                                             @foreach ($equipment->images as $image)
-                                                <a href="{{ asset('storage/' . $image->url) }}"
+                                                <a href="{{ asset($image->url) }}"
                                                     data-lightbox="equipment-{{ $equipment->id }}"
                                                     data-title="{{ $equipment->equipment_name }} - {{ Carbon\Carbon::parse($image->created_at)->format('d/m/Y H:i') }}">
-                                                    <img src="{{ asset('storage/' . $image->url) }}"
-                                                        alt="Imagen del equipo" class="equipment-thumbnail">
+                                                    <img src="{{ asset($image->url) }}" alt="Imagen del equipo"
+                                                        class="equipment-thumbnail">
                                                 </a>
                                             @endforeach
                                         </div>
@@ -237,7 +237,7 @@
             // Variables para el control de tiempo de sesión
             const sessionStartTime = {{ session('admin_session_start_time', 0) }};
             const sessionExpiryTime =
-            {{ session('admin_session_start_time', 0) + 120 * 60 * 1000 }}; // 2 horas en milisegundos
+                {{ session('admin_session_start_time', 0) + 120 * 60 * 1000 }}; // 2 horas en milisegundos
         </script>
         <script src="{{ asset('js/sessionTimer.js') }}"></script>
     @endif

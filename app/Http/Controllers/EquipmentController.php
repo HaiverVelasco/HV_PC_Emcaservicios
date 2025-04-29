@@ -124,10 +124,15 @@ class EquipmentController extends Controller
             // Handle image uploads
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $image) {
-                    $path = $image->store('equipment_images', 'public');
+                    // Generar un nombre único para la imagen
+                    $filename = uniqid() . '_' . time() . '.' . $image->getClientOriginalExtension();
                     
+                    // Mover la imagen a la carpeta pública
+                    $image->move(public_path('uploads/equipment_images'), $filename);
+                    
+                    // Guardar la referencia en la base de datos con la ruta relativa
                     $equipment->images()->create([
-                        'url' => $path,
+                        'url' => 'uploads/equipment_images/' . $filename,
                         'description' => 'Imagen de ' . $equipment->equipment_name
                     ]);
                 }
@@ -277,9 +282,15 @@ class EquipmentController extends Controller
             // Handle new image uploads
             if ($request->hasFile('new_images')) {
                 foreach ($request->file('new_images') as $image) {
-                    $path = $image->store('equipment_images', 'public');
+                    // Generar un nombre único para la imagen
+                    $filename = uniqid() . '_' . time() . '.' . $image->getClientOriginalExtension();
+                    
+                    // Mover la imagen a la carpeta pública
+                    $image->move(public_path('uploads/equipment_images'), $filename);
+                    
+                    // Guardar la referencia en la base de datos con la ruta relativa
                     $equipment->images()->create([
-                        'url' => $path,
+                        'url' => 'uploads/equipment_images/' . $filename,
                         'description' => 'Imagen de ' . $equipment->equipment_name
                     ]);
                 }
@@ -307,9 +318,12 @@ class EquipmentController extends Controller
         try {
             $inventoryCode = $equipment->inventory_code;
             
-            // Eliminar las imágenes del almacenamiento
+            // Eliminar las imágenes físicas del directorio público
             foreach ($equipment->images as $image) {
-                Storage::disk('public')->delete($image->url);
+                $imagePath = public_path($image->url);
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
+                }
             }
             
             // Eliminar registros de mantenimiento asociados al equipo
@@ -348,7 +362,13 @@ class EquipmentController extends Controller
     public function deleteImage(Image $image)
     {
         try {
-            Storage::disk('public')->delete($image->url);
+            // Eliminar el archivo físico si existe (ruta completa del archivo)
+            $imagePath = public_path($image->url);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+            
+            // Eliminar el registro de la base de datos
             $image->delete();
             
             return response()->json(['success' => true]);

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="utf-8">    
+    <meta charset="utf-8">
     <title>Equipo {{ $equipment->inventory_code }}</title>
     <style>
         :root {
@@ -94,24 +95,24 @@
             text-transform: uppercase;
         }
 
-        .status-bueno { 
-            background: #4CAF50; 
-            color: white; 
+        .status-bueno {
+            background: #4CAF50;
+            color: white;
         }
 
-        .status-regular { 
-            background: #FFC107; 
-            color: black; 
+        .status-regular {
+            background: #FFC107;
+            color: black;
         }
 
-        .status-malo { 
-            background: #F44336; 
-            color: white; 
+        .status-malo {
+            background: #F44336;
+            color: white;
         }
 
-        .status-deshabilitado { 
-            background: #9E9E9E; 
-            color: white; 
+        .status-deshabilitado {
+            background: #9E9E9E;
+            color: white;
         }
 
         .observations {
@@ -129,62 +130,63 @@
             font-size: 12px;
             color: #666;
         }
-        
+
         .images-section {
-    background: #ffffff;
-    border-radius: 8px;
-    padding: 20px;
-    margin: 30px 0;
-    border: 1px solid #e0e0e0;
-}
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px 0;
+            border: 1px solid #e0e0e0;
+        }
 
-.images-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 50px;
-    margin-top: 20px;
-}
+        .images-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+            margin-top: 20px;
+        }
 
-.image-container {
-    background: #ffffff;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
+        .image-container {
+            background: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
 
-.equipment-image {
-    width: 50%;
-    max-width: 50%;
-    height: auto;
-    object-fit: unset; 
-    display: block;
-}
+        .equipment-image {
+            width: 50%;
+            max-width: 50%;
+            height: auto;
+            object-fit: unset;
+            display: block;
+        }
 
-.image-info {
-    padding: 10px;
-    background: #f8f9fa;
-    font-size: 14px;
-    color: #333;
-}
+        .image-info {
+            padding: 10px;
+            background: #f8f9fa;
+            font-size: 14px;
+            color: #333;
+        }
 
 
-@media (max-width: 768px) {
-    .images-grid {
-        grid-template-columns: 1fr;
-    }
-}
+        @media (max-width: 768px) {
+            .images-grid {
+                grid-template-columns: 1fr;
+            }
+        }
 
-@media print {
-    .equipment-info {
-        break-inside: avoid;
-    }
-    
-    .page-break {
-        page-break-before: always;
-    }
-}
+        @media print {
+            .equipment-info {
+                break-inside: avoid;
+            }
+
+            .page-break {
+                page-break-before: always;
+            }
+        }
     </style>
 </head>
+
 <body>
     <div class="header">
         <img src="{{ public_path('imgs/Emcaservicios.png') }}" alt="Logo" class="logo">
@@ -332,15 +334,13 @@
         </div>
     </div>
 
-    @if($equipment->images->count() > 0)
+    @if ($equipment->images->count() > 0)
         <div class="images-section">
             <h2>Imágenes del Equipo</h2>
             <div class="images-grid">
-                @foreach($equipment->images as $image)
+                @foreach ($equipment->images as $image)
                     <div class="image-container">
-                        <img src="{{ public_path('storage/' . $image->url) }}" 
-                                alt="Imagen del equipo" 
-                                class="equipment-image">
+                        <img src="{{ public_path($image->url) }}" alt="Imagen del equipo" class="equipment-image">
                         <div class="image-info">
                             Fecha: {{ Carbon\Carbon::parse($image->created_at)->format('d/m/Y H:i') }}
                         </div>
@@ -362,4 +362,5 @@
         <p>EMCASERVICIOS S.A. E.S.P. - Todos los derechos reservados</p>
     </div>
 </body>
+
 </html>
