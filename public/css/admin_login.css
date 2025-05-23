@@ -11,17 +11,16 @@
     --lime-color: #a2ce71;
 }
 
+/* Animaciones simplificadas con sintaxis consistente */
 @keyframes animateBackground {
-    0% {
+
+    0%,
+    100% {
         background-position: 0% 50%;
     }
 
     50% {
         background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
     }
 }
 
@@ -38,16 +37,14 @@
 }
 
 @keyframes pulse {
-    0% {
+
+    0%,
+    100% {
         transform: scale(1);
     }
 
     50% {
         transform: scale(1.05);
-    }
-
-    100% {
-        transform: scale(1);
     }
 }
 
@@ -61,10 +58,11 @@
     }
 }
 
+/* Estilos base */
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Poppins', 'Arial', sans-serif;
+    font-family: 'Poppins', Arial, sans-serif;
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 50%, var(--accent-color) 100%);
     background-size: 400% 400%;
     animation: animateBackground 15s ease infinite;
@@ -76,6 +74,7 @@ body {
     overflow: hidden;
 }
 
+/* Pseudo-elementos con valores consistentes */
 body::before,
 body::after {
     content: '';
@@ -100,6 +99,7 @@ body::after {
     background: rgba(255, 255, 255, 0.03);
 }
 
+/* Estilo del contenedor */
 .login-container {
     background: rgba(255, 255, 255, 0.95);
     padding: 2.5rem;
@@ -109,18 +109,17 @@ body::after {
         0 0 0 1px rgba(255, 255, 255, 0.1) inset;
     width: 100%;
     max-width: 500px;
-    /* Adjusted for the admin login form */
     animation: fadeInUp 0.8s ease-out forwards;
     border-top: 4px solid var(--lime-color);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 }
 
+/* Estructura del diseño */
 .login-content {
     display: flex;
     flex-direction: row;
     gap: 1.5rem;
-    /* Reduced from 2rem */
 }
 
 .left-column,
@@ -128,25 +127,21 @@ body::after {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    /* Reduced from 1.5rem */
 }
 
 .left-column {
     flex: 3;
     padding-right: 1.5rem;
-    /* Reduced from 2.5rem */
     border-right: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .right-column {
     flex: 2;
-    display: flex;
-    flex-direction: column;
     justify-content: center;
     padding-left: 1rem;
-    /* Reduced from 1.5rem */
 }
 
+/* Estilo del encabezado */
 .login-header {
     text-align: center;
     margin-bottom: 1.5rem;
@@ -167,6 +162,7 @@ body::after {
     border-radius: 3px;
 }
 
+/* Estilo del logo */
 .login-logo {
     width: 120px;
     height: auto;
@@ -182,12 +178,12 @@ body::after {
 .login-header h1 {
     color: var(--primary-color);
     font-size: 1.6rem;
-    /* Reduced from 1.7rem */
     font-weight: 700;
     margin: 0;
     animation: fadeInUp 0.8s ease-out 0.3s both;
 }
 
+/* Secciones de información */
 .company-info,
 .system-info {
     padding: 1rem;
@@ -197,7 +193,7 @@ body::after {
 }
 
 .company-info {
-    background: rgba(200, 212, 230, 0.148);
+    background: rgba(200, 212, 230, 0.15);
 }
 
 .system-info {
@@ -207,7 +203,6 @@ body::after {
 .company-info h2,
 .system-info h3 {
     margin: 0 0 0.6rem 0;
-    /* Reduced from 0.8rem */
     position: relative;
     display: inline-block;
 }
@@ -215,31 +210,27 @@ body::after {
 .company-info h2 {
     color: var(--secondary-color);
     font-size: 1.3rem;
-    /* Reduced from 1.4rem */
 }
 
 .system-info h3 {
     color: var(--guest-color);
     font-size: 1.1rem;
-    /* Reduced from 1.2rem */
 }
 
 .company-info p,
 .system-info p {
     color: var(--text-color);
     font-size: 0.95rem;
-    /* Reduced from 1rem */
     line-height: 1.5;
     margin: 0;
 }
 
+/* Sección de acceso */
 .access-title {
     text-align: center;
     margin-bottom: 1.2rem;
-    /* Reduced from 1.5rem */
     padding: 0.8rem;
-    /* Reduced from 1rem */
-    background: rgb(200 212 230 / 12%);
+    background: rgba(200, 212, 230, 0.12);
     border-radius: 10px;
     animation: fadeInUp 0.8s ease-out 0.5s both;
 }
@@ -247,16 +238,14 @@ body::after {
 .access-title h3 {
     color: var(--primary-color);
     font-size: 1.2rem;
-    /* Reduced from 1.3rem */
     margin: 0 0 0.4rem 0;
-    /* Reduced from 0.5rem */
 }
 
+/* Opciones de inicio de sesión */
 .login-options {
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
-    /* Reduced from 1rem */
     animation: fadeInUp 0.8s ease-out 0.6s both;
 }
 
@@ -265,11 +254,8 @@ body::after {
     align-items: center;
     justify-content: center;
     padding: 1rem;
-    /* Reduced from 1.2rem */
     border-radius: 8px;
-    /* Reduced from 10px */
     font-size: 1rem;
-    /* Reduced from 1.05rem */
     font-weight: 600;
     text-decoration: none;
     cursor: pointer;
@@ -280,7 +266,6 @@ body::after {
     background: linear-gradient(to right, var(--admin-color), #0c3b75);
     color: white;
     margin-bottom: 0.8rem;
-    /* Reduced from 1rem */
 }
 
 .login-button.guest {
@@ -290,12 +275,10 @@ body::after {
 
 .icon {
     margin-right: 8px;
-    /* Reduced from 10px */
     font-size: 1.2rem;
-    /* Reduced from 1.3rem */
 }
 
-/* Estilos para el formulario de login */
+/* Estilos de formulario */
 .login-form {
     display: flex;
     flex-direction: column;
@@ -335,8 +318,6 @@ body::after {
     transition: all 0.3s ease;
     background-color: rgba(255, 255, 255, 0.8);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    position: relative;
-    overflow: hidden;
 }
 
 .form-group input:focus {
@@ -367,6 +348,7 @@ button.login-button:hover {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
+/* Navegación */
 .back-button {
     text-align: center;
     color: var(--text-color);
@@ -390,6 +372,7 @@ button.login-button:hover {
     margin-right: 6px;
 }
 
+/* Mensajes de alerta */
 .alert {
     padding: 0.9rem;
     border-radius: 8px;
@@ -405,7 +388,34 @@ button.login-button:hover {
     box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
 }
 
-/* Media queries for responsive design */
+/* Diseño responsivo */
+@media (min-width: 1200px) {
+    .login-container {
+        max-width: 550px;
+    }
+
+    .login-logo {
+        width: 130px;
+    }
+}
+
+@media (max-width: 992px) {
+    .login-container {
+        max-width: 480px;
+        padding: 2.2rem;
+    }
+
+    body::before {
+        width: 400px;
+        height: 400px;
+    }
+
+    body::after {
+        width: 300px;
+        height: 300px;
+    }
+}
+
 @media (max-width: 768px) {
     .login-content {
         flex-direction: column;
@@ -425,11 +435,257 @@ button.login-button:hover {
 
     .login-container {
         max-width: 90%;
+        margin: 1rem;
+    }
+
+    .login-header h1 {
+        font-size: 1.4rem;
+    }
+
+    .company-info h2 {
+        font-size: 1.2rem;
+    }
+
+    .system-info h3 {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .login-container {
+        padding: 1.8rem;
+        border-radius: 12px;
+    }
+
+    .login-form {
+        max-width: 100%;
+    }
+
+    .form-group input {
+        padding: 0.8rem;
+    }
+
+    .login-logo {
+        width: 110px;
+    }
+
+    button.login-button {
+        padding: 0.9rem;
+    }
+
+    .company-info,
+    .system-info {
+        padding: 0.9rem;
     }
 }
 
 @media (max-width: 480px) {
     .login-container {
         padding: 1.5rem;
+        margin: 0.8rem;
+    }
+
+    .login-content {
+        gap: 1rem;
+    }
+
+    .company-info p,
+    .system-info p {
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+
+    .form-group label {
+        font-size: 0.9rem;
+    }
+
+    .form-group input {
+        font-size: 0.95rem;
+    }
+
+    .alert {
+        padding: 0.8rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 380px) {
+    .login-container {
+        padding: 1.2rem;
+        margin: 0.5rem;
+        border-radius: 10px;
+    }
+
+    .login-header {
+        margin-bottom: 1.2rem;
+        padding-bottom: 1rem;
+    }
+
+    .login-header h1 {
+        font-size: 1.2rem;
+    }
+
+    .company-info h2 {
+        font-size: 1.1rem;
+    }
+
+    .system-info h3 {
+        font-size: 0.95rem;
+    }
+
+    .login-logo {
+        width: 90px;
+    }
+
+    button.login-button {
+        font-size: 0.95rem;
+    }
+
+    .form-group {
+        gap: 0.4rem;
+    }
+}
+
+/* Orientación del dispositivo */
+@media (max-height: 700px) {
+    .login-container {
+        padding: 1.5rem;
+    }
+
+    .company-info,
+    .system-info {
+        padding: 0.7rem;
+        margin: 0.3rem 0;
+    }
+
+    body {
+        align-items: flex-start;
+        padding: 1rem 0;
+    }
+
+    .login-header {
+        margin-bottom: 1rem;
+        padding-bottom: 0.8rem;
+    }
+}
+
+/* Media query específico para W:1272px y H:594px */
+@media (width: 1272px) and (height: 594px),
+(min-width: 1270px) and (max-width: 1280px) and (min-height: 590px) and (max-height: 600px) {
+    /* Ajustes para asegurar que se vea el contenedor completo */
+    body {
+        align-items: flex-start;
+        padding-top: 0.6rem;
+        padding-bottom: 0.6rem;
+    }
+    
+    .login-container {
+        max-width: 480px;
+        padding: 1.5rem;
+        margin: 0.3rem auto;
+    }
+
+    .login-content {
+        gap: 1.2rem;
+    }
+
+    .login-header {
+        margin-bottom: 1rem;
+        padding-bottom: 0.8rem;
+    }
+    
+    .login-logo {
+        width: 100px;
+        margin-bottom: 0.7rem;
+    }
+    
+    .login-header h1 {
+        font-size: 1.4rem;
+    }
+
+    /* Reducir espacios en secciones */
+    .company-info,
+    .system-info {
+        padding: 0.7rem;
+        margin: 0.3rem 0;
+    }
+
+    .company-info h2 {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .system-info h3 {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .company-info p,
+    .system-info p {
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+
+    /* Optimizar formulario */
+    .form-group {
+        gap: 0.5rem;
+        margin-bottom: 0.3rem;
+    }
+    
+    .form-group label {
+        font-size: 0.9rem;
+    }
+    
+    .form-group input {
+        padding: 0.75rem;
+        font-size: 0.95rem;
+    }
+
+    .login-form {
+        gap: 0.8rem;
+        max-width: 420px;
+    }
+
+    button.login-button {
+        margin-top: 0.7rem;
+        padding: 0.8rem;
+        font-size: 0.95rem;
+    }
+    
+    /* Ajustar botones y otros elementos */
+    .login-button {
+        padding: 0.8rem;
+        font-size: 0.95rem;
+    }
+    
+    .access-title {
+        margin-bottom: 1rem;
+        padding: 0.7rem;
+    }
+    
+    .access-title h3 {
+        font-size: 1.1rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .back-button {
+        margin-top: 0.7rem;
+        padding: 0.4rem;
+        font-size: 0.9rem;
+    }
+    
+    /* Reducir espaciado entre columnas */
+    .left-column {
+        padding-right: 1.2rem;
+    }
+    
+    .right-column {
+        padding-left: 0.8rem;
+    }
+    
+    .alert {
+        padding: 0.7rem;
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
     }
 }
