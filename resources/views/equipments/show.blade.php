@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{ asset('css/show.css') }}">
     <link rel="stylesheet" href=" {{ asset('css/edit.css') }} ">
     <link rel="stylesheet" href=" {{ asset('css/sessionTimer.css') }} ">
+    <link rel="stylesheet" href="{{ asset('css/button-animation.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="{{ asset('js/themeToggle.js') }}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css">
@@ -192,17 +193,19 @@
                                         </form>
                                     @endif
 
-                                    <!-- Botones visibles para todos los usuarios (administradores y visitantes) -->
-                                    <a href="{{ route('equipment.pdf', $equipment->id) }}" class="btn-pdf"
-                                        target="_blank">Generar PDF</a>
-                                    <button class="btn-qr"
-                                        onclick="generateQR(
+                                    <!-- Botones visibles para administradores -->
+                                    @if (isAdmin())
+                                        <a href="{{ route('equipment.pdf', $equipment->id) }}" class="btn-pdf"
+                                            target="_blank">Generar PDF</a>
+                                        <button class="btn-qr"
+                                            onclick="generateQR(
                                         '{{ $equipment->id }}', 
                                         '{{ $equipment->equipment_name }}', 
                                         '{{ route('equipment.pdf', $equipment->id) }}'
                                     )">
-                                        QR
-                                    </button>
+                                            QR
+                                        </button>
+                                    @endif
                                 </div>
                             </div>
                         @endforeach

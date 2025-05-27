@@ -35,22 +35,131 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function addShowMoreButton(grid, cards, button) {
         setupShowMoreButtonEvents(button, cards);
-        grid.parentNode.insertBefore(button, grid.nextSibling);
+        // Creamos un contenedor para el botón con todas las propiedades necesarias
+        const buttonContainer = document.createElement('div');
+        buttonContainer.className = 'btn-show-more-container';
+        // No añadimos estilos inline - lo controlamos con CSS
+        buttonContainer.appendChild(button);
+        grid.parentNode.insertBefore(buttonContainer, grid.nextSibling);
+        
+        // Aseguramos que el botón tenga las posiciones correctas desde el inicio
+        button.style.position = 'absolute';
+        button.style.left = '50%';
+        button.style.transform = 'translateX(-50%)';
     }
 
     function createShowMoreButton(remainingCount) {
         const btn = document.createElement('button');
         btn.className = 'btn-show-more';
-        btn.style.display = remainingCount > 0 ? 'flex' : 'none';
+        
+        // Aseguramos que el botón tenga el estilo flex para su interior
+        btn.style.display = 'flex';
+        
+        // Ocultamos el botón solo si no hay elementos adicionales
+        if (remainingCount <= 0) {
+            btn.style.visibility = 'hidden';
+        }
+        
         btn.innerHTML = `<span>Ver más</span><span class="equipment-count">(${remainingCount})</span>`;
         return btn;
     }
 
     function setupShowMoreButtonEvents(button, cards) {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function(e) {
+            // Prevenir múltiples clics rápidos
+            if (this.classList.contains('animating')) {
+                return;
+            }
+            
+            // Marcar que estamos en animación
+            this.classList.add('animating');
+            
+            // Efecto de clic visual
+            this.style.transform = "translateX(-50%) scale(0.95)";
+            setTimeout(() => {
+                this.style.transform = "";
+            }, 100);
+            
+            // Determinamos si está expandido antes de hacer el toggle
             const isExpanded = this.classList.contains('expanded');
-            toggleExtraCards(cards);
-            updateShowMoreButton(this, isExpanded, getVisibleCards(cards).length);
+            
+            // Si estamos colapsando (de "Ver menos" a "Ver más")
+            if (isExpanded) {
+                // Primero actualizamos el botón (comienza la animación hacia arriba)
+                updateShowMoreButton(this, isExpanded, cards.length);
+                
+                // Esperamos a que la animación avance suficiente antes de ocultar las tarjetas
+                // Este tiempo debe ser menor a la animación total para dar sensación de causalidad
+                setTimeout(() => {
+                    toggleExtraCards(cards);
+                    
+                    // Permitir nuevos clics después de la animación completa
+                    setTimeout(() => {
+                        this.classList.remove('animating');
+                    }, 400);
+                }, 300);
+            } else {
+                // Si estamos expandiendo (de "Ver más" a "Ver menos")
+                
+                // Revelamos suavemente las tarjetas adicionales
+                toggleExtraCardsWithAnimation(cards);
+                
+                // Casi simultáneamente animamos el botón hacia abajo
+                setTimeout(() => {
+                    updateShowMoreButton(this, isExpanded, cards.length);
+                }, 50);
+                
+                // Animación de scroll para mostrar elementos nuevos
+                setTimeout(() => {
+                    // Obtenemos el último elemento visible
+                    const visibleCards = Array.from(cards).filter(card => !card.classList.contains('hidden'));
+                    if (visibleCards.length > ITEMS_TO_SHOW) {
+                        // Scroll al primer elemento adicional mostrado
+                        const targetElement = visibleCards[ITEMS_TO_SHOW];
+                        targetElement.scrollIntoView({behavior: 'smooth', block: 'center'});
+                    } else {
+                        // Si no hay muchos elementos, scroll al botón
+                        this.scrollIntoView({behavior: 'smooth', block: 'center'});
+                    }
+                    
+                    // Permitir nuevos clics después de la animación completa
+                    setTimeout(() => {
+                        this.classList.remove('animating');
+                    }, 300);
+                }, 400);
+            }
+        });
+    }
+    
+    // Función para animar la aparición de las tarjetas adicionales
+    function toggleExtraCardsWithAnimation(cards) {
+        cards.forEach((card, index) => {
+            if (index >= ITEMS_TO_SHOW) {
+                // Si la tarjeta está oculta, la mostramos con animación
+                if (card.classList.contains('hidden')) {
+                    card.classList.remove('hidden');
+                    
+                    // Aplicar efectos de aparición
+                    card.style.opacity = "0";
+                    card.style.transform = "translateY(20px)";
+                    
+                    // Animar la entrada con un pequeño retraso escalonado
+                    setTimeout(() => {
+                        card.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+                        card.style.opacity = "1";
+                        card.style.transform = "translateY(0)";
+                        
+                        // Limpiar estilos después de la animación
+                        setTimeout(() => {
+                            card.style.transition = "";
+                        }, 500);
+                    }, (index - ITEMS_TO_SHOW) * 50); // Retraso escalonado
+                } 
+                // Si está visible, solo la ocultamos
+                else {
+                    card.classList.add('hidden');
+                }
+            }
         });
     }
 
@@ -64,14 +173,64 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function updateShowMoreButton(button, isExpanded, totalVisibleCards) {
         const remainingCards = totalVisibleCards - ITEMS_TO_SHOW;
-        if (remainingCards <= 0) {
-            button.style.display = 'none';
+        
+        // Aseguramos que el botón sea visible
+        button.style.display = 'flex';
+        
+        if (!isExpanded) {
+            // Cuando se expande (cambiamos de "Ver más" a "Ver menos")
+
+            // Preparamos la animación del texto con efecto de desvanecimiento
+            const currentContent = button.innerHTML;
+            const newContent = `<span>Ver menos</span>`;
+            
+            // Damos un efecto de "cambio de texto"
+            button.style.transition = "all 0.3s ease";
+            button.style.opacity = "0.8";
+            button.style.transform = "translateX(-50%) scale(0.95)";
+            
+            // Cambiamos el texto mientras el botón está ligeramente "reducido"
+            setTimeout(() => {
+                button.innerHTML = newContent;
+                
+                // Aplicamos la clase expanded para iniciar el movimiento
+                button.classList.add('expanded');
+                
+                // Restauramos la apariencia normal pero manteniendo la clase "expanded"
+                setTimeout(() => {
+                    button.style.opacity = "1";
+                    button.style.transform = "translateX(-50%) scale(1)";
+                }, 150);
+            }, 150);
+            
         } else {
-            button.style.display = 'flex';
-            button.classList.toggle('expanded');
-            button.innerHTML = isExpanded ? 
-                `<span>Ver más</span><span class="equipment-count">(${remainingCards})</span>` :
-                `<span>Ver menos</span>`;
+            // Cuando se colapsa (cambiamos de "Ver menos" a "Ver más")
+            
+            // Efecto de desvanecimiento
+            button.style.transition = "all 0.3s ease";
+            button.style.opacity = "0.8";
+            
+            // Quitamos la clase para iniciar el movimiento hacia arriba
+            button.classList.remove('expanded');
+            
+            // Esperamos a que el botón esté casi en su posición antes de cambiar el texto
+            setTimeout(() => {
+                if (remainingCards <= 0) {
+                    button.style.display = 'none';
+                } else {
+                    // Primero reducimos ligeramente el botón para dar efecto de "cambio"
+                    button.style.transform = "translateX(-50%) scale(0.95)";
+                    
+                    // Cambiamos el texto
+                    button.innerHTML = `<span>Ver más</span><span class="equipment-count">(${remainingCards})</span>`;
+                    
+                    // Restauramos la apariencia normal
+                    setTimeout(() => {
+                        button.style.opacity = "1";
+                        button.style.transform = "translateX(-50%) scale(1)";
+                    }, 150);
+                }
+            }, 350); // Este tiempo debe ser menor que la duración de la transición CSS
         }
     }
 
@@ -216,6 +375,12 @@ document.addEventListener('DOMContentLoaded', function() {
                                 showMoreBtn.innerHTML = `<span>Ver más</span><span class="equipment-count">(${visibleCount - ITEMS_TO_SHOW})</span>`;
                             }
                         } else if (showMoreBtn) {
+                            // Siempre mostrar todos los elementos si son menos que el límite
+                            equipmentCards.forEach(card => {
+                                if (card.style.display !== 'none') {
+                                    card.classList.remove('hidden');
+                                }
+                            });
                             showMoreBtn.style.display = 'none';
                         }
                     }

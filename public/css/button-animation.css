@@ -1,0 +1,125 @@
+/* Estilos para la animación de botones Ver más/Ver menos */
+.btn-show-more-container {
+    position: relative;
+    height: 120px;
+    /* Altura para asegurar espacio suficiente */
+    overflow: visible;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    text-align: center;
+    /* Alineación central */
+    perspective: 1000px;
+    /* Añade profundidad a la animación */
+}
+
+.btn-show-more {
+    position: absolute !important;
+    top: 0;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    /* Centrado horizontal */
+    transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    /* Curva elástica para mayor fluidez */
+    z-index: 10;
+    will-change: top, transform, background-color;
+    /* Optimización para animaciones */
+    backface-visibility: hidden;
+    /* Mejora el rendimiento */
+    -webkit-font-smoothing: subpixel-antialiased;
+    /* Mejora la calidad de texto durante animación */
+}
+
+/* Posición del botón cuando está expandido (abajo) */
+.btn-show-more.expanded {
+    background-color: #dc3545 !important;
+    top: 70px !important;
+    /* Posición inferior */
+    transform: translateX(-50%) !important;
+    /* Mantener centrado horizontal */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15) !important;
+    /* Sombra más pronunciada cuando está expandido */
+}
+
+/* Aseguramos que la transformación se aplique correctamente */
+.btn-show-more:not(.expanded) {
+    top: 0 !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+    /* Sombra normal */
+}
+
+/* Manejamos el efecto hover aquí para no interferir con la animación */
+.btn-show-more:hover {
+    background-color: #1a5a9e;
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.25) !important;
+    transform: translateX(-50%) scale(1.03) !important;
+    /* Pequeña escala al hacer hover */
+}
+
+.btn-show-more.expanded:hover {
+    background-color: #c82333 !important;
+    transform: translateX(-50%) scale(1.03) !important;
+    /* Mantener escala en hover */
+}
+
+/* Animación para el cambio de texto */
+.btn-show-more span {
+    display: inline-block;
+    transition: all 0.4s ease;
+}
+
+.btn-show-more:hover span {
+    transform: translateY(-2px);
+}
+
+/* Efecto de pulsación al hacer clic */
+.btn-show-more:active {
+    transform: translateX(-50%) scale(0.98) !important;
+}
+
+/* Ajustes responsive */
+@media (max-width: 768px) {
+    .btn-show-more-container {
+        height: 120px;
+    }
+
+    .btn-show-more.expanded {
+        top: 70px !important;
+    }
+}
+
+/* Prevenir clics durante animación */
+.btn-show-more.animating {
+    pointer-events: none;
+}
+
+/* Animación para las tarjetas al aparecer */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animación para el botón al cambiar */
+@keyframes pulse {
+    0% {
+        transform: translateX(-50%) scale(1);
+    }
+
+    50% {
+        transform: translateX(-50%) scale(1.05);
+    }
+
+    100% {
+        transform: translateX(-50%) scale(1);
+    }
+}
+
+.btn-show-more.expanded {
+    animation: pulse 1s ease-in-out 1;
+}
