@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Equipo - EMCASERVICIOS</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('imgs/Emcaservicios.png') }}">
-    <link rel="stylesheet" href="{{ asset('css/edit.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/index.css') }}">
-    <script src="{{ asset('js/edit.js') }}" defer></script>
-    <script src="{{ asset('js/themeToggle.js') }}" defer></script>
+    <link rel="stylesheet" href="{{ asset('css/edit.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/index.css') }}?v={{ time() }}">
+    <script src="{{ asset('js/edit.js') }}?v={{ time() }}" defer></script>
+    <script src="{{ asset('js/themeToggle.js') }}?v={{ time() }}" defer></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
@@ -47,6 +47,12 @@
                                 </option>
                             @endforeach
                         </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="direct_responsible">Responsable Directo</label>
+                        <input type="text" id="direct_responsible" name="direct_responsible"
+                            value="{{ $equipment->direct_responsible }}">
                     </div>
 
                     <div class="form-group">
@@ -188,36 +194,10 @@
                             value="{{ $equipment->graphic_card }}">
                     </div>
 
-                    <!-- Campos específicos para computadores -->
-                    <div class="specific-fields computer-fields"
-                        style="display: {{ $equipment->equipment_type == 'computador' ? 'block' : 'none' }}">
-                        <div class="specific-fields-grid">
-                            <div class="form-group">
-                                <label for="processor">Procesador</label>
-                                <input type="text" id="processor" name="processor"
-                                    value="{{ $equipment->processor }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="ram_memory">Memoria RAM</label>
-                                <input type="text" id="ram_memory" name="ram_memory"
-                                    value="{{ $equipment->ram_memory }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="storage">Almacenamiento</label>
-                                <input type="text" id="storage" name="storage"
-                                    value="{{ $equipment->storage }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="operating_system">Sistema Operativo</label>
-                                <input type="text" id="operating_system" name="operating_system"
-                                    value="{{ $equipment->operating_system }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="graphic_card">Tarjeta Gráfica</label>
-                                <input type="text" id="graphic_card" name="graphic_card"
-                                    value="{{ $equipment->graphic_card }}">
-                            </div>
-                        </div>
+                    <div class="form-group full-width">
+                        <label for="equipment_function">Función del Equipo</label>
+                        <textarea id="equipment_function" name="equipment_function" rows="4"
+                            placeholder="Para quess se utiliza, que info maneja...">{{ $equipment->equipment_function }}</textarea>
                     </div>
 
                     <!-- Campos específicos para impresoras -->
@@ -354,8 +334,9 @@
                     </div>
 
                     <div class="form-group full-width">
-                        <label for="description">Descripción del Mantenimiento</label>
-                        <textarea id="description" name="description" rows="3" placeholder="Detalles del mantenimiento realizado">{{ $equipment->description ?? '' }}</textarea>
+                        <label for="maintenance_description">Descripción del Mantenimiento</label>
+                        <textarea id="maintenance_description" name="maintenance_description" rows="3"
+                            placeholder="Detalles del mantenimiento realizado">{{ $equipment->maintenance_description ?? '' }}</textarea>
                     </div>
                 </div>
             </section>
@@ -401,7 +382,7 @@
             <section class="form-section">
                 <h2>Observaciones</h2>
                 <div class="form-group full-width">
-                    <textarea name="observations" id="observations" rows="4" value="{{ $equipment->observations }}"></textarea>
+                    <textarea name="observations" id="observations" rows="4">{{ $equipment->observations }}</textarea>
                 </div>
             </section>
 

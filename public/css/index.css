@@ -204,6 +204,19 @@ body {
     margin-bottom: 15px;
 }
 
+/* Estilos para colocar campos específicos al lado de otros campos */
+.computer-fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 0;
+}
+
+.computer-fields .form-group {
+    flex: 1 1 calc(33.333% - 15px);
+    min-width: 200px;
+}
+
 .form-group {
     margin-bottom: 15px;
 }

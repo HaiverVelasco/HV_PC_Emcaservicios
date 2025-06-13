@@ -211,10 +211,26 @@
             <span>{{ $equipment->area->name }}</span>
         </div>
         <div class="info-row">
+            <span class="label">Responsable Directo:</span>
+            <span>{{ $equipment->direct_responsible ?: 'No especificado' }}</span>
+        </div>
+        <div class="info-row">
+            <span class="label">Tipo de Equipo:</span>
+            <span>{{ $equipment->equipment_type ?: 'No especificado' }}</span>
+        </div>
+        <div class="info-row">
+            <span class="label">Ubicación del Equipo:</span>
+            <span>{{ $equipment->equipment_location ?: 'No especificada' }}</span>
+        </div>
+        <div class="info-row">
             <span class="label">Estado:</span>
             <span class="status status-{{ strtolower($equipment->status) }}">
                 {{ $equipment->status }}
             </span>
+        </div>
+        <div class="info-row">
+            <span class="label">Última Actualización:</span>
+            <span>{{ $equipment->last_update_date ? Carbon\Carbon::parse($equipment->last_update_date)->format('d/m/Y') : 'No registrada' }}</span>
         </div>
     </div>
 
@@ -247,6 +263,10 @@
         <div class="info-row">
             <span class="label">Sistema Operativo:</span>
             <span>{{ $equipment->operating_system }}</span>
+        </div>
+        <div class="info-row">
+            <span class="label">Función del Equipo:</span>
+            <span>{{ $equipment->equipment_function }}</span>
         </div>
     </div>
 
@@ -331,6 +351,10 @@
         <div class="info-row">
             <span class="label">Fallas:</span>
             <span>{{ $equipment->failure ?: 'Sin fallas registradas' }}</span>
+        </div> 
+        <div class="info-row">
+            <span class="label">Descripción del Mantenimiento:</span>
+            <span>{{ isset($latestMaintenance) && $latestMaintenance->description ? $latestMaintenance->description : 'Sin descripción' }}</span>
         </div>
     </div>
 

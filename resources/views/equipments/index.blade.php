@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Equipos-EMCASERVICIOS</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('imgs/Emcaservicios.png') }}">
-    <link rel="stylesheet" href="{{ asset('css/index.css') }}">
-    <script src="{{ asset('js/index.js') }}" defer></script>
-    <script src="{{ asset('js/themeToggle.js') }}" defer></script>
+    <link rel="stylesheet" href="{{ asset('css/index.css') }}?v={{ time() }}">
+    <script src="{{ asset('js/index.js') }}?v={{ time() }}" defer></script>
+    <script src="{{ asset('js/themeToggle.js') }}?v={{ time() }}" defer></script>
 </head>
 
 <body>
@@ -86,6 +86,12 @@
                                 </option>
                             @endforeach
                         </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="direct_responsible">Responsable Directo</label>
+                        <input type="text" id="direct_responsible" name="direct_responsible"
+                            placeholder="Nombre del responsable directo">
                     </div>
 
                     <div class="form-group">
@@ -207,30 +213,10 @@
                         <input type="text" id="graphic_card" name="graphic_card">
                     </div>
 
-                    <!-- Campos específicos para computadores -->
-                    <div class="specific-fields computer-fields" style="display: none;">
-                        <div class="specific-fields-grid">
-                            <div class="form-group">
-                                <label for="processor">Procesador</label>
-                                <input type="text" id="processor" name="processor">
-                            </div>
-                            <div class="form-group">
-                                <label for="ram_memory">Memoria RAM</label>
-                                <input type="text" id="ram_memory" name="ram_memory">
-                            </div>
-                            <div class="form-group">
-                                <label for="storage">Almacenamiento</label>
-                                <input type="text" id="storage" name="storage">
-                            </div>
-                            <div class="form-group">
-                                <label for="operating_system">Sistema Operativo</label>
-                                <input type="text" id="operating_system" name="operating_system">
-                            </div>
-                            <div class="form-group">
-                                <label for="graphic_card">Tarjeta Gráfica</label>
-                                <input type="text" id="graphic_card" name="graphic_card">
-                            </div>
-                        </div>
+                    <div class="form-group full-width">
+                        <label for="equipment_function">Función del Equipo</label>
+                        <textarea id="equipment_function" name="equipment_function" rows="3"
+                            placeholder="Para que se utiliza, que info maneja..."></textarea>
                     </div>
 
                     <!-- Campos específicos para impresoras -->
@@ -250,20 +236,7 @@
 
                     <!-- Campos específicos para equipos de red -->
                     <div class="specific-fields network-fields" style="display: none;">
-                        <div class="specific-fields-grid">
-                            <div class="form-group">
-                                <label for="ports_number">Número de Puertos</label>
-                                <input type="number" id="ports_number" name="ports_number">
-                            </div>
-                            <div class="form-group">
-                                <label for="network_speed">Velocidad de Red</label>
-                                <input type="text" id="network_speed" name="network_speed">
-                            </div>
-                            <div class="form-group">
-                                <label for="network_protocol">Protocolo de Red</label>
-                                <input type="text" id="network_protocol" name="network_protocol">
-                            </div>
-                        </div>
+                        <!-- Estos campos ya se han movido al lado de tarjeta gráfica -->
                     </div>
 
                     <!-- Campo para otros tipos de equipo -->
@@ -280,7 +253,7 @@
             <section class="form-section">
                 <h2>Estado y Mantenimiento</h2>
                 <div class="form-grid">
-                    <div class="form-group">    
+                    <div class="form-group">
                         <label for="status">Estado</label>
                         <select name="status" id="status" required>
                             <option value="">Seleccione un Estado</option>
@@ -337,8 +310,9 @@
                     </div>
 
                     <div class="form-group full-width">
-                        <label for="description">Descripción del Mantenimiento</label>
-                        <textarea id="description" name="description" rows="3" placeholder="Detalles del mantenimiento realizado"></textarea>
+                        <label for="maintenance_description">Descripción del Mantenimiento</label>
+                        <textarea id="maintenance_description" name="description" rows="3"
+                            placeholder="Detalles del mantenimiento realizado"></textarea>
                     </div>
                 </div>
             </section>

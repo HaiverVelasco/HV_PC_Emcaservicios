@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Equipos-EMCASERVICIOS</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('imgs/Emcaservicios.png') }}">
-    <link rel="stylesheet" href="{{ asset('css/show.css') }}">
-    <link rel="stylesheet" href=" {{ asset('css/edit.css') }} ">
-    <link rel="stylesheet" href=" {{ asset('css/sessionTimer.css') }} ">
-    <link rel="stylesheet" href="{{ asset('css/button-animation.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/show.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/edit.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/sessionTimer.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/button-animation.css') }}?v={{ time() }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <script src="{{ asset('js/themeToggle.js') }}"></script>
+    <script src="{{ asset('js/themeToggle.js') }}?v={{ time() }}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -176,7 +176,6 @@
                                     </div>
                                 @endif
 
-                                <!-- Footer con botones para todos los usuarios -->
                                 <div class="equipment-footer">
                                     <!-- Botones solo para administradores -->
                                     @if (isAdmin())
@@ -191,18 +190,18 @@
                                                 Eliminar
                                             </button>
                                         </form>
-                                    @endif
 
-                                    <!-- Botones visibles para administradores -->
-                                    @if (isAdmin())
                                         <a href="{{ route('equipment.pdf', $equipment->id) }}" class="btn-pdf"
-                                            target="_blank">Generar PDF</a>
+                                            target="_blank">Generar
+                                            PDF</a>
+                                        <a href="{{ route('maintenance.index', $equipment->id) }}"
+                                            class="btn-maintenance">Mantenimientos</a>
                                         <button class="btn-qr"
                                             onclick="generateQR(
-                                        '{{ $equipment->id }}', 
-                                        '{{ $equipment->equipment_name }}', 
-                                        '{{ route('equipment.pdf', $equipment->id) }}'
-                                    )">
+                                                                        '{{ $equipment->id }}', 
+                                                                        '{{ $equipment->equipment_name }}', 
+                                                                        '{{ route('equipment.pdf', $equipment->id) }}'
+                                                                    )">
                                             QR
                                         </button>
                                     @endif
@@ -230,7 +229,7 @@
         </div>
     @endif
 
-    <script src="{{ asset('js/show.js') }}"></script>
+    <script src="{{ asset('js/show.js') }}?v={{ time() }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
 
@@ -242,7 +241,7 @@
             const sessionExpiryTime =
                 {{ session('admin_session_start_time', 0) + 120 * 60 * 1000 }}; // 2 horas en milisegundos
         </script>
-        <script src="{{ asset('js/sessionTimer.js') }}"></script>
+        <script src="{{ asset('js/sessionTimer.js') }}?v={{ time() }}"></script>
     @endif
 
     <script>

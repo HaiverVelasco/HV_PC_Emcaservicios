@@ -78,6 +78,8 @@ class EquipmentController extends Controller
                 'observations' => 'nullable|string',
                 'description' => 'nullable|string',
                 'technician' => 'nullable|string|max:255',
+                'equipment_function' =>'nullable|string',
+                'direct_responsible' => 'nullable|string|max:255',
             ]);
 
             // Para debug
@@ -160,8 +162,9 @@ class EquipmentController extends Controller
             return view('equipments.index', compact('areas'));
         }
 
-        // Vista de equipo individual
-        return view('equipments.show', compact('equipment'));
+        // Vista de equipo individual - usar la nueva vista detail.blade.php
+        $equipment->load('images'); // Cargar las imágenes
+        return view('equipments.detail', compact('equipment'));
     }
 
     public function edit(Equipment $equipment)
@@ -207,6 +210,8 @@ class EquipmentController extends Controller
                 'observations' => 'nullable|string',
                 'description' => 'nullable|string',
                 'technician' => 'nullable|string|max:255',
+                'equipment_function' =>'nullable|string',
+                'direct_responsible' => 'nullable|string|max:255',
                 'new_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
             ]);
 
@@ -348,9 +353,15 @@ class EquipmentController extends Controller
 
     public function generatePDF(Equipment $equipment)
     {
-        $equipment->load(['area', 'images']);
+        $equipment->load(['area', 'images', 'maintenances' => function($query) {
+            $query->latest('date'); // Ordenar por fecha, más reciente primero
+        }]);
         
-        $pdf = PDF::loadView('equipments.pdf', compact('equipment'));
+        // Obtener el mantenimiento más reciente
+        $latestMaintenance = $equipment->maintenances->first();
+        
+        
+        $pdf = PDF::loadView('equipments.pdf', compact('equipment', 'latestMaintenance'));
         // Usar orientación horizontal si hay muchas imágenes
         if ($equipment->images->count() > 2) {
             $pdf->setPaper('a4', 'landscape');

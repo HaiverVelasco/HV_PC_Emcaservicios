@@ -576,17 +576,12 @@ body {
     border-radius: 8px;
     margin: 20px;
     width: calc(90%);
-    /* Ajuste del ancho considerando los márgenes */
     position: relative;
-    /* Para posicionamiento */
     left: 47%;
-    /* Centrado horizontal */
     transform: translateX(-50%);
-    /* Centrado horizontal */
 }
 
 .empty-area-message {
-    /* border: 2px solid var(--border-color); */
     background-color: var(--section-bg);
 }
 
@@ -615,7 +610,7 @@ body {
     background-color: var(--card-bg);
     border-radius: 8px;
     margin: 20px;
-    width: 100%;
+    width: 96%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -806,6 +801,28 @@ body {
     font-size: 14px;
 }
 
+/* Estilos para el botón de mantenimiento */
+.btn-maintenance {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: #1a9434;
+    color: white;
+    border: none;
+    text-decoration: none;
+}
+
+.btn-maintenance:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(26, 148, 52, 0.3);
+}
+
 /* Estilos para el botón PDF */
 .btn-pdf {
     display: inline-flex;
@@ -839,7 +856,6 @@ body {
 .btn-download-all-qr {
     position: fixed;
     bottom: 90px;
-    /* Posicionado encima del botón flotante existente */
     right: 30px;
     display: flex;
     align-items: center;

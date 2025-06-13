@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('equipment_id')->constrained()->onDelete('cascade');
             $table->date('date')->nullable();
-            $table->text('description')->nullable();
+            $table->longText('description')->nullable();
             $table->string('technician')->nullable();
             $table->string('depreciation')->nullable();
             $table->string('bad_operation')->nullable();

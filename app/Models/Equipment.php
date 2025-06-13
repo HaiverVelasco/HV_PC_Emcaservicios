@@ -36,6 +36,8 @@ class Equipment extends Model
         'status',
         'observations',
         'equipment_type',
+        'equipment_function',
+        'direct_responsible',
     ];
 
     protected static function boot()

@@ -32,7 +32,8 @@ return new class extends Migration
             $table->string('installation')->nullable();
             $table->string('warranty')->nullable();
             $table->date('operation_start_date')->nullable();
-            
+            $table->longText('equipment_function')->nullable();
+            $table->string('direct_responsible')->nullable();
             // Informacion Tecnia
             $table->string('technical_brand_model')->nullable();
             $table->string('processor')->nullable();
