@@ -74,45 +74,6 @@ El sistema se basa en las siguientes entidades principales:
 - Extensiones PHP: BCMath, Ctype, Fileinfo, JSON, Mbstring, OpenSSL, PDO, Tokenizer, XML
 - Servidor web (Apache o Nginx)
 
-## Instalación
-
-1. Clonar el repositorio:
-   ```
-   git clone [url-del-repositorio]
-   ```
-
-2. Instalar dependencias:
-   ```
-   composer install
-   ```
-
-3. Crear archivo de entorno:
-   ```
-   cp .env.example .env
-   ```
-
-4. Configurar la base de datos en el archivo `.env`
-
-5. Generar clave de aplicación:
-   ```
-   php artisan key:generate
-   ```
-
-6. Ejecutar migraciones:
-   ```
-   php artisan migrate
-   ```
-
-7. Ejecutar seeders (opcional):
-   ```
-   php artisan db:seed
-   ```
-
-8. Crear enlace simbólico para el almacenamiento:
-   ```
-   php artisan storage:link
-   ```
-
 ## Uso
 
 1. Iniciar sesión con las credenciales de administrador
