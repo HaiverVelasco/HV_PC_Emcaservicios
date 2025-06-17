@@ -20,19 +20,24 @@ class EquipmentController extends Controller
     {
         // Aplicar middleware de admin a las acciones que requieren privilegios de administrador
         $this->middleware('admin')->only([
-            'create', 'store', 'edit', 'update', 'destroy', 'deleteImage'
+            'create',
+            'store',
+            'edit',
+            'update',
+            'destroy',
+            'deleteImage'
         ]);
-        
+
         // Registrar información del middleware para depuración
         Log::info('EquipmentController middleware establecido');
     }
 
     public function index()
     {
-        $areas = Area::with(['equipment' => function($query) {
+        $areas = Area::with(['equipment' => function ($query) {
             $query->orderBy('inventory_code');
         }])->get();
-        
+
         return view('equipments.show', compact('areas'));
     }
 
@@ -78,8 +83,9 @@ class EquipmentController extends Controller
                 'observations' => 'nullable|string',
                 'description' => 'nullable|string',
                 'technician' => 'nullable|string|max:255',
-                'equipment_function' =>'nullable|string',
-                'direct_responsible' => 'nullable|string|max:255',
+                'equipment_function' => 'nullable|string',
+                'direct_responsible' => 'string|max:255',
+                'indirect_responsible' => 'string|max:255',
             ]);
 
             // Para debug
@@ -128,10 +134,10 @@ class EquipmentController extends Controller
                 foreach ($request->file('images') as $image) {
                     // Generar un nombre único para la imagen
                     $filename = uniqid() . '_' . time() . '.' . $image->getClientOriginalExtension();
-                    
+
                     // Mover la imagen a la carpeta pública
                     $image->move(public_path('uploads/equipment_images'), $filename);
-                    
+
                     // Guardar la referencia en la base de datos con la ruta relativa
                     $equipment->images()->create([
                         'url' => 'uploads/equipment_images/' . $filename,
@@ -210,8 +216,9 @@ class EquipmentController extends Controller
                 'observations' => 'nullable|string',
                 'description' => 'nullable|string',
                 'technician' => 'nullable|string|max:255',
-                'equipment_function' =>'nullable|string',
-                'direct_responsible' => 'nullable|string|max:255',
+                'equipment_function' => 'nullable|string',
+                'direct_responsible' => 'string|max:255',
+                'indirect_responsible' => 'string|max:255',
                 'new_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
             ]);
 
@@ -220,42 +227,42 @@ class EquipmentController extends Controller
 
             // Extraer los datos de mantenimiento que tienen valores
             $maintenanceData = [];
-            
+
             // Solo incluir en el array los campos que tienen un valor
             if ($request->filled('maintenance_type')) {
                 $maintenanceData['type'] = $request->maintenance_type;
             }
-            
+
             if ($request->filled('depreciation')) {
                 $maintenanceData['depreciation'] = $request->depreciation;
             }
-            
+
             if ($request->filled('bad_operation')) {
                 $maintenanceData['bad_operation'] = $request->bad_operation;
             }
-            
+
             if ($request->filled('bad_installation')) {
                 $maintenanceData['bad_installation'] = $request->bad_installation;
             }
-            
+
             if ($request->filled('accessories')) {
                 $maintenanceData['accessories'] = $request->accessories;
             }
-            
+
             if ($request->filled('failure')) {
                 $maintenanceData['failure'] = $request->failure;
             }
-            
+
             if ($request->filled('description')) {
                 $maintenanceData['description'] = $request->description;
             } elseif ($request->filled('observations')) {
                 $maintenanceData['description'] = $request->observations;
             }
-            
+
             if ($request->filled('technician')) {
                 $maintenanceData['technician'] = $request->technician;
             }
-            
+
             // Siempre actualizar la fecha al modificar un registro
             $maintenanceData['date'] = now();
 
@@ -268,7 +275,7 @@ class EquipmentController extends Controller
 
             // Buscar si ya existe un registro de mantenimiento para este equipo
             $maintenance = $equipment->maintenances()->first();
-            
+
             // Si hay datos de mantenimiento para actualizar o crear
             if (count($maintenanceData) > 1) { // > 1 porque siempre tenemos la fecha
                 if ($maintenance) {
@@ -289,10 +296,10 @@ class EquipmentController extends Controller
                 foreach ($request->file('new_images') as $image) {
                     // Generar un nombre único para la imagen
                     $filename = uniqid() . '_' . time() . '.' . $image->getClientOriginalExtension();
-                    
+
                     // Mover la imagen a la carpeta pública
                     $image->move(public_path('uploads/equipment_images'), $filename);
-                    
+
                     // Guardar la referencia en la base de datos con la ruta relativa
                     $equipment->images()->create([
                         'url' => 'uploads/equipment_images/' . $filename,
@@ -307,7 +314,7 @@ class EquipmentController extends Controller
             // Guardar mensajes en la sesión
             session()->flash('success', '¡Equipo ' . $equipment->inventory_code . ' actualizado exitosamente!');
             session()->flash('info', 'Equipo asignado al área: ' . $area->name);
-            
+
             // Usar una redirección directa con URL completa
             return redirect()->to(url('/equipments'));
         } catch (\Exception $e) {
@@ -322,7 +329,7 @@ class EquipmentController extends Controller
     {
         try {
             $inventoryCode = $equipment->inventory_code;
-            
+
             // Eliminar las imágenes físicas del directorio público
             foreach ($equipment->images as $image) {
                 $imagePath = public_path($image->url);
@@ -330,18 +337,18 @@ class EquipmentController extends Controller
                     unlink($imagePath);
                 }
             }
-            
+
             // Eliminar registros de mantenimiento asociados al equipo
             $maintenancesDeleted = $equipment->maintenances()->delete();
             Log::info("Mantenimientos eliminados para el equipo {$inventoryCode}", [
                 'equipment_id' => $equipment->id,
                 'maintenance_count' => $maintenancesDeleted
             ]);
-            
+
             // La eliminación de los registros en la tabla images se manejará 
             // automáticamente por la relación definida en el modelo Equipment
             $equipment->delete();
-            
+
             return redirect()->route('equipment.index')
                 ->with('success', "Equipo {$inventoryCode} eliminado exitosamente");
         } catch (\Exception $e) {
@@ -353,20 +360,20 @@ class EquipmentController extends Controller
 
     public function generatePDF(Equipment $equipment)
     {
-        $equipment->load(['area', 'images', 'maintenances' => function($query) {
+        $equipment->load(['area', 'images', 'maintenances' => function ($query) {
             $query->latest('date'); // Ordenar por fecha, más reciente primero
         }]);
-        
+
         // Obtener el mantenimiento más reciente
         $latestMaintenance = $equipment->maintenances->first();
-        
-        
+
+
         $pdf = PDF::loadView('equipments.pdf', compact('equipment', 'latestMaintenance'));
         // Usar orientación horizontal si hay muchas imágenes
         if ($equipment->images->count() > 2) {
             $pdf->setPaper('a4', 'landscape');
         }
-        
+
         return $pdf->download('equipo-' . $equipment->inventory_code . '.pdf');
     }
 
@@ -378,10 +385,10 @@ class EquipmentController extends Controller
             if (file_exists($imagePath)) {
                 unlink($imagePath);
             }
-            
+
             // Eliminar el registro de la base de datos
             $image->delete();
-            
+
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()]);

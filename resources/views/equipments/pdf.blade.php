@@ -211,6 +211,10 @@
             <span>{{ $equipment->area->name }}</span>
         </div>
         <div class="info-row">
+            <span class="label">Responsable Indirecto:</span>
+            <span>{{ $equipment->indirect_responsible ?: 'No especificado' }}</span>
+        </div>
+        <div class="info-row">
             <span class="label">Responsable Directo:</span>
             <span>{{ $equipment->direct_responsible ?: 'No especificado' }}</span>
         </div>

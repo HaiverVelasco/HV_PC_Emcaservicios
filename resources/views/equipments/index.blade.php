@@ -95,6 +95,12 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="indirect_responsible">Responsable Indirecto</label>
+                        <input type="text" id="indirect_responsible" name="indirect_responsible"
+                            placeholder="Nombre del responsable indirecto">
+                    </div>
+
+                    <div class="form-group">
                         <label for="company_name">Empresa</label>
                         <input type="text" id="company_name" name="company_name" value="EMCASERVICIOS">
                     </div>

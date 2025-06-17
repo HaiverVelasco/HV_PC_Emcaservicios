@@ -33,7 +33,9 @@ return new class extends Migration
             $table->string('warranty')->nullable();
             $table->date('operation_start_date')->nullable();
             $table->longText('equipment_function')->nullable();
-            $table->string('direct_responsible')->nullable();
+            $table->string('direct_responsible');
+            $table ->string('indirect_responsible');
+            
             // Informacion Tecnia
             $table->string('technical_brand_model')->nullable();
             $table->string('processor')->nullable();
@@ -41,7 +43,7 @@ return new class extends Migration
             $table->string('graphic_card')->nullable();
             $table->string('ram_memory')->nullable();
             $table->string('storage')->nullable();
-            
+
             // Tipo de Equipo
             $table->enum('equipment_type', [
                 'computador',
@@ -51,15 +53,15 @@ return new class extends Migration
                 'telefonia',
                 'otro'
             ])->nullable();
-            
+
             // Estado del Equipo
             $table->enum('status', [
-                'Bueno', 
-                'Regular', 
-                'Malo', 
+                'Bueno',
+                'Regular',
+                'Malo',
                 'Deshabilitado'
-                ])->nullable();
-            
+            ])->nullable();
+
             $table->text('observations')->nullable();
             $table->timestamps();
         });

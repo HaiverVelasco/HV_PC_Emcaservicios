@@ -50,6 +50,12 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="indirect_responsible">Responsable Indirecto</label>
+                        <input type="text" id="indirect_responsible" name="indirect_responsible"
+                            value="{{ $equipment->indirect_responsible }}">
+                    </div>
+
+                    <div class="form-group">
                         <label for="direct_responsible">Responsable Directo</label>
                         <input type="text" id="direct_responsible" name="direct_responsible"
                             value="{{ $equipment->direct_responsible }}">
