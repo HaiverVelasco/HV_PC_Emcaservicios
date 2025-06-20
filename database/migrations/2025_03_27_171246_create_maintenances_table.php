@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('maintenances', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('equipment_id')->constrained()->onDelete('cascade');
+            $table->foreignId('equipment_id')
+                ->constrained()
+                ->onDelete('cascade');
             $table->date('date')->nullable();
             $table->longText('description')->nullable();
             $table->string('technician')->nullable();
@@ -21,16 +23,17 @@ return new class extends Migration
             $table->string('bad_operation')->nullable();
             $table->string('bad_installation')->nullable();
             $table->string('accessories')->nullable();
-            $table->enum('failure', ['Unknown', 'No Failures'])->nullable();
-            
-            // Tipo de  Mantenimiento
+            $table->enum('failure', [
+                'Unknown',
+                'No Failures'
+            ])->nullable();
+            // Tipo de Mantenimiento
             $table->enum('type', [
                 'Preventive',
-                'Corrective', 
-                'Installation', 
+                'Corrective',
+                'Installation',
                 'Disassembly'
             ])->nullable();
-
             $table->timestamps();
         });
     }

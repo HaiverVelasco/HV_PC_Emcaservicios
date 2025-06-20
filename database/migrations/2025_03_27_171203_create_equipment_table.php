@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('equipment', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('area_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('area_id')
+                ->nullable()
+                ->constrained()
+                ->onDelete('set null');
 
-            // Informacion General
+            // Información General
             $table->string('company_name')->nullable();
             $table->string('city')->nullable();
             $table->string('inventory_code')->nullable();
@@ -34,9 +37,9 @@ return new class extends Migration
             $table->date('operation_start_date')->nullable();
             $table->longText('equipment_function')->nullable();
             $table->string('direct_responsible');
-            $table ->string('indirect_responsible');
-            
-            // Informacion Tecnia
+            $table->string('indirect_responsible');
+
+            // Información Técnica
             $table->string('technical_brand_model')->nullable();
             $table->string('processor')->nullable();
             $table->string('operating_system')->nullable();

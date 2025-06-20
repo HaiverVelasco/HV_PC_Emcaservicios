@@ -10,6 +10,18 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class MaintenanceController extends Controller
 {
+    protected $typeTranslations = [
+        'Preventivo'      => 'Preventive',
+        'Correctivo'      => 'Corrective',
+        'Instalación'     => 'Installation',
+        'Desinstalación'  => 'Disassembly'
+    ];
+
+    protected $failureTranslations = [
+        'Desconocido' => 'Unknown',
+        'Sin Fallas'  => 'No Failures'
+    ];
+
     public function __construct()
     {
         // Aplicar middleware de admin a las acciones que requieren privilegios
@@ -18,10 +30,10 @@ class MaintenanceController extends Controller
 
     public function index($equipment_id)
     {
-        $equipment = Equipment::with(['maintenances' => function($query) {
+        $equipment = Equipment::with(['maintenances' => function ($query) {
             $query->orderBy('date', 'desc');
         }])->findOrFail($equipment_id);
-        
+
         return view('maintenances.index', compact('equipment'));
     }
 
@@ -29,57 +41,44 @@ class MaintenanceController extends Controller
     {
         $equipment = Equipment::findOrFail($equipment_id);
         return view('maintenances.create', compact('equipment'));
-    }    public function store(Request $request)
+    }
+
+    public function store(Request $request)
     {
         $validated = $request->validate([
-            'equipment_id' => 'required|exists:equipment,id',
-            'date' => 'required|date',
-            'type' => 'required|in:Preventivo,Correctivo,Instalación,Desinstalación',
-            'description' => 'required|string',
-            'technician' => 'required|string|max:255',
-            'failure' => 'nullable|string',
-            'depreciation' => 'nullable|string|max:255',
-            'bad_operation' => 'nullable|string|max:255',
-            'bad_installation' => 'nullable|string|max:255',
-            'accessories' => 'nullable|string|max:255',
+            'equipment_id'      => 'required|exists:equipment,id',
+            'date'              => 'required|date',
+            'type'              => 'required|in:Preventivo,Correctivo,Instalación,Desinstalación',
+            'description'       => 'required|string',
+            'technician'        => 'required|string|max:255',
+            'failure'           => 'nullable|string',
+            'depreciation'      => 'nullable|string|max:255',
+            'bad_operation'     => 'nullable|string|max:255',
+            'bad_installation'  => 'nullable|string|max:255',
+            'accessories'       => 'nullable|string|max:255',
         ]);
 
-        // Traduccion de mantenimiento de español a inglés para la base de datos
-        $typeTranslations = [
-            'Preventivo' => 'Preventive',
-            'Correctivo' => 'Corrective',
-            'Instalación' => 'Installation',
-            'Desinstalación' => 'Disassembly'
-        ];
+        $validated['type'] = $this->typeTranslations[$validated['type']] ?? $validated['type'];
 
-        // Traducción del estado de falla de español a inglés para la base de datos
-        $failureTranslations = [
-            'Desconocido' => 'Unknown',
-            'Sin Fallas' => 'No Failures'
-        ];
-
-        $validated['type'] = $typeTranslations[$validated['type']] ?? $validated['type'];
-
-        // Verificar y traducir la falla si existe
-        if (isset($validated['failure']) && array_key_exists($validated['failure'], $failureTranslations)) {
-            $validated['failure'] = $failureTranslations[$validated['failure']];
+        if (isset($validated['failure']) && array_key_exists($validated['failure'], $this->failureTranslations)) {
+            $validated['failure'] = $this->failureTranslations[$validated['failure']];
         }
-        
+
         try {
             $maintenance = Maintenance::create($validated);
-            
+
             // Actualiza también el estado del equipo con la información de este mantenimiento
             $equipment = Equipment::find($request->equipment_id);
             $equipment->last_update_date = now();
             $equipment->save();
 
             return redirect()->route('maintenance.index', $equipment->id)
-                            ->with('success', 'Mantenimiento registrado correctamente');
+                ->with('success', 'Mantenimiento registrado correctamente');
         } catch (\Exception $e) {
             Log::error('Error al crear mantenimiento: ' . $e->getMessage());
             return redirect()->back()
-                            ->with('error', 'Error al registrar el mantenimiento: ' . $e->getMessage())
-                            ->withInput();
+                ->with('error', 'Error al registrar el mantenimiento: ' . $e->getMessage())
+                ->withInput();
         }
     }
 
@@ -91,78 +90,65 @@ class MaintenanceController extends Controller
     public function edit(Maintenance $maintenance)
     {
         return view('maintenances.edit', compact('maintenance'));
-    }    public function update(Request $request, Maintenance $maintenance)
+    }
+
+    public function update(Request $request, Maintenance $maintenance)
     {
         $validated = $request->validate([
-            'date' => 'required|date',
-            'type' => 'required|in:Preventivo,Correctivo,Instalación,Desinstalación',
-            'description' => 'required|string',
-            'technician' => 'required|string|max:255',
-            'failure' => 'nullable|string',
-            'depreciation' => 'nullable|string|max:255',
-            'bad_operation' => 'nullable|string|max:255',
-            'bad_installation' => 'nullable|string|max:255',
-            'accessories' => 'nullable|string|max:255',
+            'date'              => 'required|date',
+            'type'              => 'required|in:Preventivo,Correctivo,Instalación,Desinstalación',
+            'description'       => 'required|string',
+            'technician'        => 'required|string|max:255',
+            'failure'           => 'nullable|string',
+            'depreciation'      => 'nullable|string|max:255',
+            'bad_operation'     => 'nullable|string|max:255',
+            'bad_installation'  => 'nullable|string|max:255',
+            'accessories'       => 'nullable|string|max:255',
         ]);
-        
-        // Traduccion de mantenimiento de español a inglés para la base de datos
-        $typeTranslations = [
-            'Preventivo' => 'Preventive',
-            'Correctivo' => 'Corrective',
-            'Instalación' => 'Installation',
-            'Desinstalación' => 'Disassembly'
-        ];
 
-        // Traducción del estado de falla de español a inglés para la base de datos
-        $failureTranslations = [
-            'Desconocido' => 'Unknown',
-            'Sin Fallas' => 'No Failures'
-        ];
+        $validated['type'] = $this->typeTranslations[$validated['type']] ?? $validated['type'];
 
-        $validated['type'] = $typeTranslations[$validated['type']] ?? $validated['type'];
-
-        // Verificar y traducir la falla si existe
-        if (isset($validated['failure']) && array_key_exists($validated['failure'], $failureTranslations)) {
-            $validated['failure'] = $failureTranslations[$validated['failure']];
+        if (isset($validated['failure']) && array_key_exists($validated['failure'], $this->failureTranslations)) {
+            $validated['failure'] = $this->failureTranslations[$validated['failure']];
         }
 
         try {
             $maintenance->update($validated);
-            
+
             // Actualiza la fecha de última actualización del equipo
             $equipment = Equipment::find($maintenance->equipment_id);
             $equipment->last_update_date = now();
             $equipment->save();
-            
+
             return redirect()->route('maintenance.index', $maintenance->equipment_id)
-                            ->with('success', 'Mantenimiento actualizado correctamente');
+                ->with('success', 'Mantenimiento actualizado correctamente');
         } catch (\Exception $e) {
             Log::error('Error al actualizar mantenimiento: ' . $e->getMessage());
             return redirect()->back()
-                            ->with('error', 'Error al actualizar el mantenimiento: ' . $e->getMessage())
-                            ->withInput();
+                ->with('error', 'Error al actualizar el mantenimiento: ' . $e->getMessage())
+                ->withInput();
         }
     }
 
     public function destroy(Maintenance $maintenance)
     {
         $equipment_id = $maintenance->equipment_id;
-        
+
         try {
             $maintenance->delete();
             return redirect()->route('maintenance.index', $equipment_id)
-                            ->with('success', 'Mantenimiento eliminado correctamente');
+                ->with('success', 'Mantenimiento eliminado correctamente');
         } catch (\Exception $e) {
             Log::error('Error al eliminar mantenimiento: ' . $e->getMessage());
             return redirect()->back()
-                            ->with('error', 'Error al eliminar el mantenimiento');
+                ->with('error', 'Error al eliminar el mantenimiento');
         }
     }
 
     public function generatePDF(Maintenance $maintenance)
     {
         $equipment = Equipment::findOrFail($maintenance->equipment_id);
-        
+
         $pdf = PDF::loadView('maintenances.pdf', compact('maintenance', 'equipment'));
         return $pdf->stream('mantenimiento-' . $maintenance->id . '.pdf');
     }

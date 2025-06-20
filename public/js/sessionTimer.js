@@ -2,26 +2,22 @@
  * Archivo JS para gestionar las alertas de tiempo de sesión
  */
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Verificamos si el usuario está autenticado como administrador
-    if (typeof sessionExpiryTime === 'undefined') {
-        // Si la variable no está definida, no hacer nada
-        return;
-    }
+document.addEventListener('DOMContentLoaded', () => {
+    // Verificar si el usuario está autenticado como administrador
+    if (typeof sessionExpiryTime === 'undefined') return;
 
-    // Calculamos tiempos importantes
-    const sessionDuration = 120 * 60 * 1000; // 2 horas en milisegundos
-    const halfSessionTime = sessionDuration / 2; // 1 hora
-    const warningTime = 10 * 60 * 1000; // 10 minutos
+    // Constantes de tiempo
+    const SESSION_DURATION = 2 * 60 * 60 * 1000; // 2 horas en ms
+    const HALF_SESSION = SESSION_DURATION / 2;
+    const WARNING_TIME = 10 * 60 * 1000; // 10 minutos en ms
 
-    // Estado para controlar qué notificaciones ya se han mostrado
+    // Estado de alertas
     let initialAlertShown = false;
     let halfTimeAlertShown = false;
     let warningAlertShown = false;
 
-    // Función para mostrar una alerta estilizada
+    // Mostrar alerta estilizada
     function showCustomAlert(message, type = 'info') {
-        // Crear el contenedor de la alerta si no existe
         let alertContainer = document.querySelector('.session-alert-container');
         if (!alertContainer) {
             alertContainer = document.createElement('div');
@@ -29,7 +25,6 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.appendChild(alertContainer);
         }
 
-        // Crear la alerta
         const alert = document.createElement('div');
         alert.className = `session-alert session-alert-${type}`;
         alert.innerHTML = `
@@ -39,80 +34,60 @@ document.addEventListener('DOMContentLoaded', function() {
                 <button class="session-alert-close">&times;</button>
             </div>
         `;
-
-        // Agregar al contenedor
         alertContainer.appendChild(alert);
 
-        // Configurar el botón de cierre
-        const closeButton = alert.querySelector('.session-alert-close');
-        closeButton.addEventListener('click', function() {
+        alert.querySelector('.session-alert-close').onclick = () => {
             alert.classList.add('session-alert-hiding');
-            setTimeout(() => {
-                alert.remove();
-            }, 300);
-        });
+            setTimeout(() => alert.remove(), 300);
+        };
 
-        // Auto-cerrar después de 6 segundos
         setTimeout(() => {
             if (alert.parentElement) {
                 alert.classList.add('session-alert-hiding');
-                setTimeout(() => {
-                    alert.remove();
-                }, 300);
+                setTimeout(() => alert.remove(), 300);
             }
         }, 6000);
     }
 
-    // Función para formatear el tiempo restante en horas y minutos
-    function formatTimeRemaining(milliseconds) {
-        const minutes = Math.floor(milliseconds / (60 * 1000));
+    // Formatear tiempo restante
+    function formatTimeRemaining(ms) {
+        const minutes = Math.floor(ms / 60000);
         const hours = Math.floor(minutes / 60);
         const remainingMinutes = minutes % 60;
-        
         if (hours > 0) {
             return `${hours} hora${hours > 1 ? 's' : ''} y ${remainingMinutes} minuto${remainingMinutes !== 1 ? 's' : ''}`;
-        } else {
-            return `${minutes} minuto${minutes !== 1 ? 's' : ''}`;
         }
+        return `${minutes} minuto${minutes !== 1 ? 's' : ''}`;
     }
 
-    // Función que se ejecutará periódicamente
+    // Verificar tiempo de sesión periódicamente
     function checkSessionTime() {
-        // Calculamos el tiempo restante
-        const currentTime = new Date().getTime();
-        const timeElapsed = currentTime - sessionStartTime;
-        const timeRemaining = sessionDuration - timeElapsed;
+        const now = Date.now();
+        const timeElapsed = now - sessionStartTime;
+        const timeRemaining = SESSION_DURATION - timeElapsed;
 
-        // Alerta inicial (solo se muestra una vez al inicio)
-        if (!initialAlertShown && timeElapsed < 10000) { // Mostrar en los primeros 10 segundos
+        if (!initialAlertShown && timeElapsed < 10000) {
             initialAlertShown = true;
-            showCustomAlert(`Sesión iniciada correctamente. Tienes 2 horas de acceso como administrador.`, 'info');
+            showCustomAlert('Sesión iniciada correctamente. Tienes 2 horas de acceso como administrador.', 'info');
         }
 
-        // Alerta a mitad del tiempo
-        if (!halfTimeAlertShown && timeElapsed >= halfSessionTime && timeElapsed < halfSessionTime + 60000) {
+        if (!halfTimeAlertShown && timeElapsed >= HALF_SESSION && timeElapsed < HALF_SESSION + 60000) {
             halfTimeAlertShown = true;
-            const remaining = formatTimeRemaining(timeRemaining);
-            showCustomAlert(`Has usado la mitad de tu tiempo de sesión. Te quedan ${remaining}.`, 'info');
+            showCustomAlert(`Has usado la mitad de tu tiempo de sesión. Te quedan ${formatTimeRemaining(timeRemaining)}.`, 'info');
         }
 
-        // Alerta de advertencia cuando quedan 10 minutos
-        if (!warningAlertShown && timeRemaining <= warningTime && timeRemaining > warningTime - 60000) {
+        if (!warningAlertShown && timeRemaining <= WARNING_TIME && timeRemaining > WARNING_TIME - 60000) {
             warningAlertShown = true;
-            const remaining = formatTimeRemaining(timeRemaining);
-            showCustomAlert(`¡Atención! Tu sesión expirará pronto. Te quedan ${remaining}.`, 'warning');
+            showCustomAlert(`¡Atención! Tu sesión expirará pronto. Te quedan ${formatTimeRemaining(timeRemaining)}.`, 'warning');
         }
 
-        // Si el tiempo ha expirado, redireccionar automáticamente
         if (timeRemaining <= 0) {
             window.location.href = '/';
             return;
         }
 
-        // Planificar la siguiente verificación
-        setTimeout(checkSessionTime, 5000); // Verificar cada 5 segundos
+        setTimeout(checkSessionTime, 5000);
     }
 
-    // Iniciar la verificación del tiempo
     checkSessionTime();
 });
