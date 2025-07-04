@@ -128,43 +128,6 @@
                             required>{{ old('description') }}</textarea>
                     </div>
 
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="failure">Falla encontrada:</label>
-                            <select id="failure" name="failure" class="form-control">
-                                <option value="">Seleccione estado de falla</option>
-                                <option value="Desconocido" {{ old('failure') == 'Desconocido' ? 'selected' : '' }}>
-                                    Desconocido</option>
-                                <option value="Sin Fallas" {{ old('failure') == 'Sin Fallas' ? 'selected' : '' }}>Sin Fallas
-                                </option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="depreciation">Desgaste encontrado:</label>
-                            <input type="text" id="depreciation" name="depreciation" class="form-control"
-                                value="{{ old('depreciation') }}">
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="bad_operation">Mala operación:</label>
-                            <input type="text" id="bad_operation" name="bad_operation" class="form-control"
-                                value="{{ old('bad_operation') }}">
-                        </div>
-                        <div class="form-group">
-                            <label for="bad_installation">Mala instalación:</label>
-                            <input type="text" id="bad_installation" name="bad_installation" class="form-control"
-                                value="{{ old('bad_installation') }}">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="accessories">Accesorios:</label>
-                        <input type="text" id="accessories" name="accessories" class="form-control"
-                            value="{{ old('accessories') }}">
-                    </div>
-
                     <div class="form-group">
                         <button type="submit" class="btn-maintenance btn-add-maintenance">
                             <i class="fas fa-save"></i> Registrar Mantenimiento
@@ -195,8 +158,8 @@
                                     <p><strong><i class="fas fa-user-cog"></i> Técnico:</strong> {{ $maintenance->technician }}
                                     </p>
                                     @if ($maintenance->failure)
-                                        <p><strong><i class="fas fa-exclamation-triangle"></i> Falla:</strong>
-                                            {{ $maintenance->failure }}</p>
+                                        <p><strong><i class="fas fa-exclamation-triangle"></i> Fecha de Mantenimiento:</strong>
+                                            {{ $maintenance->date }}</p>
                                     @endif
                                     @if ($maintenance->depreciation)
                                         <p><strong><i class="fas fa-chart-line"></i> Desgaste:</strong>

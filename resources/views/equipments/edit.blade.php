@@ -50,15 +50,15 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="indirect_responsible">Responsable Indirecto</label>
-                        <input type="text" id="indirect_responsible" name="indirect_responsible"
-                            value="{{ $equipment->indirect_responsible }}">
-                    </div>
-
-                    <div class="form-group">
                         <label for="direct_responsible">Responsable Directo</label>
                         <input type="text" id="direct_responsible" name="direct_responsible"
                             value="{{ $equipment->direct_responsible }}">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="indirect_responsible">Responsable Indirecto</label>
+                        <input type="text" id="indirect_responsible" name="indirect_responsible"
+                            value="{{ $equipment->indirect_responsible }}">
                     </div>
 
                     <div class="form-group">
@@ -96,20 +96,9 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="operation_start_date">Fecha Inicio Operación</label>
-                        <input type="date" id="operation_start_date" name="operation_start_date"
-                            value="{{ $equipment->operation_start_date }}">
-                    </div>
-
-                    <div class="form-group">
                         <label for="value">Valor del Equipo</label>
                         <input type="number" id="value" name="value" step="0.01"
                             value="{{ $equipment->value }}">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="warranty">Garantía</label>
-                        <input type="text" id="warranty" name="warranty" value="{{ $equipment->warranty }}">
                     </div>
 
                     <div class="form-group">
@@ -167,12 +156,6 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="technical_brand_model">Marca/Modelo Técnico</label>
-                        <input type="text" id="technical_brand_model" name="technical_brand_model"
-                            value="{{ $equipment->technical_brand_model }}">
-                    </div>
-
-                    <div class="form-group">
                         <label for="processor">Procesador</label>
                         <input type="text" id="processor" name="processor" value="{{ $equipment->processor }}">
                     </div>
@@ -194,16 +177,9 @@
                         <input type="text" id="storage" name="storage" value="{{ $equipment->storage }}">
                     </div>
 
-                    <div class="form-group">
-                        <label for="graphic_card">Tarjeta Gráfica</label>
-                        <input type="text" id="graphic_card" name="graphic_card"
-                            value="{{ $equipment->graphic_card }}">
-                    </div>
-
                     <div class="form-group full-width">
                         <label for="equipment_function">Función del Equipo</label>
-                        <textarea id="equipment_function" name="equipment_function" rows="4"
-                            placeholder="Para quess se utiliza, que info maneja...">{{ $equipment->equipment_function }}</textarea>
+                        <textarea id="equipment_function" name="equipment_function" rows="4" placeholder="Para quess se utiliza, que info maneja..."> {{ $equipment->equipment_function }}</textarea>
                     </div>
 
                     <!-- Campos específicos para impresoras -->
@@ -301,48 +277,13 @@
                     <div class="form-group">
                         <label for="technician">Técnico</label>
                         <input type="text" id="technician" name="technician" placeholder="Nombre del técnico"
-                            value="{{ $equipment->technician ?? '' }}">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="depreciation">Depreciación</label>
-                        <input type="text" id="depreciation" name="depreciation"
-                            value="{{ $equipment->depreciation }}">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="bad_operation">Mala Operación</label>
-                        <input type="text" id="bad_operation" name="bad_operation"
-                            value="{{ $equipment->bad_operation }}">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="bad_installation">Mala Instalación</label>
-                        <input type="text" id="bad_installation" name="bad_installation"
-                            value="{{ $equipment->bad_installation }}">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="accessories">Accesorios</label>
-                        <input type="text" id="accessories" name="accessories"
-                            value="{{ $equipment->accessories }}">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="failure">Estado de Fallas</label>
-                        <select name="failure" id="failure">
-                            <option value="">Seleccione estado</option>
-                            <option value="Unknown" {{ $equipment->failure == 'Unknown' ? 'selected' : '' }}>
-                                Desconocido</option>
-                            <option value="No Failures" {{ $equipment->failure == 'No Failures' ? 'selected' : '' }}>
-                                Sin Fallas</option>
-                        </select>
+                            value="{{ $maintenance->technician ?? '' }}">
                     </div>
 
                     <div class="form-group full-width">
                         <label for="maintenance_description">Descripción del Mantenimiento</label>
                         <textarea id="maintenance_description" name="maintenance_description" rows="3"
-                            placeholder="Detalles del mantenimiento realizado">{{ $equipment->maintenance_description ?? '' }}</textarea>
+                            placeholder="Detalles del mantenimiento realizado..."> {{ $maintenance->description ?? '' }}</textarea>
                     </div>
                 </div>
             </section>
@@ -388,7 +329,8 @@
             <section class="form-section">
                 <h2>Observaciones</h2>
                 <div class="form-group full-width">
-                    <textarea name="observations" id="observations" rows="4">{{ $equipment->observations }}</textarea>
+                    <textarea name="observations" id="observations" rows="4" 
+                    placeholder="Observaciones adicionales..." >{{($equipment->observations) }}</textarea>
                 </div>
             </section>
 

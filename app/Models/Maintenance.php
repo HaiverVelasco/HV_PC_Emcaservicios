@@ -13,11 +13,6 @@ class Maintenance extends Model
         'description',
         'date',
         'technician',
-        'depreciation',
-        'bad_operation',
-        'bad_installation',
-        'accessories',
-        'failure'
     ];
 
     public function equipment()

@@ -19,7 +19,12 @@ class EquipmentController extends Controller
     public function __construct()
     {
         $this->middleware('admin')->only([
-            'create', 'store', 'edit', 'update', 'destroy', 'deleteImage'
+            'create',
+            'store',
+            'edit',
+            'update',
+            'destroy',
+            'deleteImage'
         ]);
         Log::info('EquipmentController middleware establecido');
     }
@@ -86,7 +91,7 @@ class EquipmentController extends Controller
                 'type'            => $request->maintenance_type,
                 'depreciation'    => $request->depreciation,
                 'bad_operation'   => $request->bad_operation,
-                'bad_installation'=> $request->bad_installation,
+                'bad_installation' => $request->bad_installation,
                 'accessories'     => $request->accessories,
                 'failure'         => $request->failure,
                 'date'            => now(),
@@ -96,15 +101,23 @@ class EquipmentController extends Controller
 
             $equipmentData = collect($validatedData)
                 ->except([
-                    'maintenance_type', 'depreciation', 'bad_operation', 'bad_installation',
-                    'accessories', 'failure', 'description', 'technician'
+                    'maintenance_type',
+                    'depreciation',
+                    'bad_operation',
+                    'bad_installation',
+                    'accessories',
+                    'failure',
+                    'description',
+                    'technician'
                 ])->toArray();
 
             $equipment = Equipment::create($equipmentData);
 
             $hasMaintenanceData = collect($maintenanceData)
                 ->except('date')
-                ->filter(function ($value) { return !empty($value); })
+                ->filter(function ($value) {
+                    return !empty($value);
+                })
                 ->isNotEmpty();
 
             if ($hasMaintenanceData) {
@@ -117,9 +130,9 @@ class EquipmentController extends Controller
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $image) {
                     $filename = uniqid() . '_' . time() . '.' . $image->getClientOriginalExtension();
-                    $image->move(public_path('uploads/equipment_images'), $filename);
+                    $image->move(public_path('storage'), $filename);
                     $equipment->images()->create([
-                        'url'         => 'uploads/equipment_images/' . $filename,
+                        'url'         => 'storage/' . $filename,
                         'description' => 'Imagen de ' . $equipment->equipment_name
                     ]);
                 }
@@ -152,7 +165,8 @@ class EquipmentController extends Controller
     {
         $equipment->load('images');
         $areas = Area::all();
-        return view('equipments.edit', compact('equipment', 'areas'));
+        $maintenance = Maintenance::where('equipment_id', $equipment->id)->latest()->first();
+        return view('equipments.edit', compact('equipment', 'areas', 'maintenance'));
     }
 
     public function update(Request $request, Equipment $equipment)
@@ -200,16 +214,18 @@ class EquipmentController extends Controller
             Log::info('Tipo de equipo actualizado:', ['equipment_type' => $request->equipment_type]);
 
             $maintenanceData = [];
-            foreach ([
-                'maintenance_type' => 'type',
-                'depreciation'     => 'depreciation',
-                'bad_operation'    => 'bad_operation',
-                'bad_installation' => 'bad_installation',
-                'accessories'      => 'accessories',
-                'failure'          => 'failure',
-                'description'      => 'description',
-                'technician'       => 'technician'
-            ] as $field => $key) {
+            foreach (
+                [
+                    'maintenance_type' => 'type',
+                    'depreciation'     => 'depreciation',
+                    'bad_operation'    => 'bad_operation',
+                    'bad_installation' => 'bad_installation',
+                    'accessories'      => 'accessories',
+                    'failure'          => 'failure',
+                    'description'      => 'description',
+                    'technician'       => 'technician'
+                ] as $field => $key
+            ) {
                 if ($request->filled($field)) {
                     $maintenanceData[$key] = $request->$field;
                 }
@@ -221,8 +237,14 @@ class EquipmentController extends Controller
 
             $equipmentData = collect($validatedData)
                 ->except([
-                    'maintenance_type', 'depreciation', 'bad_operation', 'bad_installation',
-                    'accessories', 'failure', 'description', 'technician'
+                    'maintenance_type',
+                    'depreciation',
+                    'bad_operation',
+                    'bad_installation',
+                    'accessories',
+                    'failure',
+                    'description',
+                    'technician'
                 ])->toArray();
 
             $equipment->update($equipmentData);
@@ -244,9 +266,9 @@ class EquipmentController extends Controller
             if ($request->hasFile('new_images')) {
                 foreach ($request->file('new_images') as $image) {
                     $filename = uniqid() . '_' . time() . '.' . $image->getClientOriginalExtension();
-                    $image->move(public_path('uploads/equipment_images'), $filename);
+                    $image->move(public_path('storage'), $filename);
                     $equipment->images()->create([
-                        'url'         => 'uploads/equipment_images/' . $filename,
+                        'url'         => 'storage/' . $filename,
                         'description' => 'Imagen de ' . $equipment->equipment_name
                     ]);
                 }
@@ -281,7 +303,7 @@ class EquipmentController extends Controller
             $maintenancesDeleted = $equipment->maintenances()->delete();
             Log::info("Mantenimientos eliminados para el equipo {$inventoryCode}", [
                 'equipment_id'     => $equipment->id,
-                'maintenance_count'=> $maintenancesDeleted
+                'maintenance_count' => $maintenancesDeleted
             ]);
 
             $equipment->delete();
@@ -310,7 +332,7 @@ class EquipmentController extends Controller
         if ($equipment->images->count() > 2) {
             $pdf->setPaper('a4', 'landscape');
         }
-        return $pdf->download('equipo-' . $equipment->inventory_code . '.pdf');
+        return $pdf->stream('equipo-' . $equipment->inventory_code . '.pdf');
     }
 
     public function deleteImage(Image $image)

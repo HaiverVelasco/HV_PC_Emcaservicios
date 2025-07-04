@@ -384,16 +384,12 @@
                 <div class="section-content">
                     <table class="field-table">
                         <tr>
-                            <td class="label-cell">Mal Funcionamiento:</td>
-                            <td class="value-cell">{{ $equipment->bad_operation ?: 'No registrado' }}</td>
-                            <td class="label-cell">Mala Instalación:</td>
-                            <td class="value-cell">{{ $equipment->bad_installation ?: 'No registrada' }}</td>
-                        </tr>
-                        <tr>
-                            <td class="label-cell">Fallas Detectadas:</td>
-                            <td class="value-cell">{{ $equipment->failure ?: 'Sin fallas registradas' }}</td>
-                            <td class="label-cell">Accesorios:</td>
-                            <td class="value-cell">{{ $equipment->accessories ?: 'No especificados' }}</td>
+                            <td class="label-cell">Técnico:</td>
+                            <td class="value-cell">{{ $latestMaintenance->technician ?: 'No registrado' }}</td>
+                            <td class="label-cell">Tipo de Mantenimiento:</td>
+                            <td class="value-cell">{{ $latestMaintenance->type ?: 'No registrado' }}</td>
+                            <td class="label-cell">Fecha de Mantenimiento:</td>
+                            <td class="value-cell">{{ $latestMaintenance->date ?: 'Sin fallas registradas' }}</td>
                         </tr>
                     </table>
                 </div>

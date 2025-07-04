@@ -163,59 +163,6 @@
             </table>
         </div>
 
-        <div class="info-section">
-            <h2>DIAGNÓSTICO</h2>
-            <table>
-                @if ($maintenance->failure)
-                    <tr>
-                        <th>Falla Encontrada</th>
-                        <td>{{ $maintenance->failure }}</td>
-                    </tr>
-                @endif
-
-                @if ($maintenance->depreciation)
-                    <tr>
-                        <th>Desgaste</th>
-                        <td>{{ $maintenance->depreciation }}</td>
-                    </tr>
-                @endif
-
-                @if ($maintenance->bad_operation)
-                    <tr>
-                        <th>Mala Operación</th>
-                        <td>{{ $maintenance->bad_operation }}</td>
-                    </tr>
-                @endif
-
-                @if ($maintenance->bad_installation)
-                    <tr>
-                        <th>Mala Instalación</th>
-                        <td>{{ $maintenance->bad_installation }}</td>
-                    </tr>
-                @endif
-
-                @if ($maintenance->accessories)
-                    <tr>
-                        <th>Accesorios</th>
-                        <td>{{ $maintenance->accessories }}</td>
-                    </tr>
-                @endif
-            </table>
-        </div>
-
-        <div class="signature-section">
-            <div class="signature-box">
-                <div class="signature-line">
-                    Técnico Responsable
-                </div>
-            </div>
-            <div class="signature-box">
-                <div class="signature-line">
-                    Responsable del Equipo
-                </div>
-            </div>
-        </div>
-
         <div style="text-align: center; margin-top: 30px; font-size: 10px;">
             <p>Este documento fue generado el {{ date('d/m/Y H:i:s') }}</p>
             <p>Emcaservicios S.A. E.S.P - Todos los derechos reservados</p>

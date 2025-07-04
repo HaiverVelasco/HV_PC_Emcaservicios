@@ -51,11 +51,6 @@ class MaintenanceController extends Controller
             'type'              => 'required|in:Preventivo,Correctivo,Instalación,Desinstalación',
             'description'       => 'required|string',
             'technician'        => 'required|string|max:255',
-            'failure'           => 'nullable|string',
-            'depreciation'      => 'nullable|string|max:255',
-            'bad_operation'     => 'nullable|string|max:255',
-            'bad_installation'  => 'nullable|string|max:255',
-            'accessories'       => 'nullable|string|max:255',
         ]);
 
         $validated['type'] = $this->typeTranslations[$validated['type']] ?? $validated['type'];
@@ -66,13 +61,8 @@ class MaintenanceController extends Controller
 
         try {
             $maintenance = Maintenance::create($validated);
-
-            // Actualiza también el estado del equipo con la información de este mantenimiento
-            $equipment = Equipment::find($request->equipment_id);
-            $equipment->last_update_date = now();
-            $equipment->save();
-
-            return redirect()->route('maintenance.index', $equipment->id)
+            // Si necesitas actualizar algún otro campo del equipo, hazlo aquí (sin usar last_update_date)
+            return redirect()->route('maintenance.index', $request->equipment_id)
                 ->with('success', 'Mantenimiento registrado correctamente');
         } catch (\Exception $e) {
             Log::error('Error al crear mantenimiento: ' . $e->getMessage());
@@ -99,11 +89,6 @@ class MaintenanceController extends Controller
             'type'              => 'required|in:Preventivo,Correctivo,Instalación,Desinstalación',
             'description'       => 'required|string',
             'technician'        => 'required|string|max:255',
-            'failure'           => 'nullable|string',
-            'depreciation'      => 'nullable|string|max:255',
-            'bad_operation'     => 'nullable|string|max:255',
-            'bad_installation'  => 'nullable|string|max:255',
-            'accessories'       => 'nullable|string|max:255',
         ]);
 
         $validated['type'] = $this->typeTranslations[$validated['type']] ?? $validated['type'];
@@ -114,12 +99,7 @@ class MaintenanceController extends Controller
 
         try {
             $maintenance->update($validated);
-
-            // Actualiza la fecha de última actualización del equipo
-            $equipment = Equipment::find($maintenance->equipment_id);
-            $equipment->last_update_date = now();
-            $equipment->save();
-
+            // Si necesitas actualizar algún otro campo del equipo, hazlo aquí (sin usar last_update_date)
             return redirect()->route('maintenance.index', $maintenance->equipment_id)
                 ->with('success', 'Mantenimiento actualizado correctamente');
         } catch (\Exception $e) {
