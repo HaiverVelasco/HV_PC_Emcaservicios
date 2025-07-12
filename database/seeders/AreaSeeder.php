@@ -11,7 +11,7 @@ class AreaSeeder extends Seeder
     {
         $areas = [
             [
-                'name' => 'Gerencia',
+                'name' => 'Area de Gerencia',
                 'description' => 'Área de dirección y gestión estratégica',
                 'status' => true,
                 'color' => '#276fb7',
@@ -19,7 +19,7 @@ class AreaSeeder extends Seeder
                 'updated_at' => now()
             ],
             [
-                'name' => 'Control Interno',
+                'name' => 'Area de Control Interno',
                 'description' => 'Área de control y auditoría interna',
                 'status' => true,
                 'color' => '#276fb7',
@@ -27,7 +27,7 @@ class AreaSeeder extends Seeder
                 'updated_at' => now()
             ],
             [
-                'name' => 'Administrativa',
+                'name' => 'Area Administrativa',
                 'description' => 'Área de gestión administrativa',
                 'status' => true,
                 'color' => '#276fb7',
@@ -61,6 +61,14 @@ class AreaSeeder extends Seeder
             [
                 'name' => 'Área de Planeación',
                 'description' => 'Área de planificación y proyectos',
+                'status' => true,
+                'color' => '#276fb7',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'Área de Aseguramiento',
+                'description' => 'Área de aseguramiento y gestión de la calidad',
                 'status' => true,
                 'color' => '#276fb7',
                 'created_at' => now(),
