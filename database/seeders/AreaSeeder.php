@@ -44,7 +44,7 @@ class AreaSeeder extends Seeder
             ],
             [
                 'name' => 'Área Financiera',
-                'description' => 'Área de gestión financiera y contable',
+                'description' => 'Área de gestión financiera',
                 'status' => true,
                 'color' => '#276fb7',
                 'created_at' => now(),
@@ -69,6 +69,22 @@ class AreaSeeder extends Seeder
             [
                 'name' => 'Área de Aseguramiento',
                 'description' => 'Área de aseguramiento y gestión de la calidad',
+                'status' => true,
+                'color' => '#276fb7',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'Área de Subgerencia Administrativa',
+                'description' => 'Área de subgerencia y apoyo administrativo',
+                'status' => true,
+                'color' => '#276fb7',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'Área de Contabilidad',
+                'description' => 'Área de contabilidad',
                 'status' => true,
                 'color' => '#276fb7',
                 'created_at' => now(),
