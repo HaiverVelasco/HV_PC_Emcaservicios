@@ -185,7 +185,14 @@ body {
     align-items: center;
 }
 
-/* Botón para descargar QRs por área */
+/* Contenedor para los botones de descarga */
+.download-buttons {
+    display: flex;
+    gap: 28px;
+    align-items: center;
+}
+
+/* Botón para descargar QRs y PDFs por área */
 .btn-download-area-qr {
     display: inline-flex;
     align-items: center;
@@ -199,19 +206,19 @@ body {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    margin-left: auto;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.btn-download-area-qr:hover {
-    background-color: rgba(255, 255, 255, 0.3);
-    transform: translateY(-2px);
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+    white-space: nowrap;
+    margin-left: 8px;
 }
 
 .btn-download-area-qr::before {
     content: '📱';
     margin-right: 8px;
+}
+
+.btn-download-area-qr:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.8);
+    transform: translateY(-1px);
 }
 
 .btn-download-area-qr:active {
@@ -238,7 +245,8 @@ body {
     padding: 20px;
     transition: var(--equipment-transition);
     min-height: 100px;
-    /* Asegura una altura mínima */
+    height: auto;
+    overflow: visible;
 }
 
 @media (max-width: 768px) {
@@ -251,7 +259,7 @@ body {
     background: var(--card-bg);
     border-radius: 10px;
     box-shadow: var(--card-shadow);
-    overflow: hidden;
+    overflow: visible;
     transition: var(--equipment-transition);
     border: 1px solid var(--border-color);
     border-left: 4px solid var(--primary-color);
@@ -260,6 +268,8 @@ body {
     flex-direction: column;
     position: relative;
     transform-origin: center;
+    height: auto;
+    min-height: fit-content;
 }
 
 [data-theme="dark"] .equipment-card {
@@ -1131,6 +1141,9 @@ body {
     padding-top: 10px;
     border-top: 1px solid var(--border-color);
     transition: all 0.3s ease;
+    width: 100%;
+    height: auto;
+    overflow: visible;
 }
 
 .images-gallery.active {
@@ -1231,31 +1244,58 @@ body {
 /* Estilos para el buscador */
 .search-container {
     padding: 20px;
-    background-color: var(--section-bg);
-    margin-bottom: 20px;
+    background: linear-gradient(135deg, var(--section-bg) 0%, rgba(39, 111, 183, 0.05) 100%);
+    margin-bottom: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .search-wrapper {
-    max-width: 600px;
+    max-width: 1200px;
     margin: 0 auto;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+    .search-wrapper {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+.search-input-container {
+    flex: 1;
+    min-width: 300px;
     position: relative;
 }
 
 .search-input {
     width: 100%;
-    padding: 12px 45px 12px 20px;
+    padding: 14px 50px 14px 20px;
     border: 2px solid var(--border-color);
     border-radius: 25px;
-    font-size: 16px;
+    font-size: 15px;
     background-color: var(--card-bg);
     color: var(--text-color);
     transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.search-input::placeholder {
+    color: var(--text-color);
+    opacity: 0.6;
 }
 
 .search-input:focus {
     outline: none;
     border-color: var(--secondary-color);
-    box-shadow: 0 0 0 3px rgba(39, 111, 183, 0.2);
+    box-shadow: 0 0 0 4px rgba(39, 111, 183, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
 }
 
 .search-icon {
@@ -1263,9 +1303,28 @@ body {
     right: 15px;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 20px;
     color: var(--text-color);
-    opacity: 0.5;
+    opacity: 0.6;
+    font-size: 18px;
+    pointer-events: none;
+}
+
+.navigation-controls {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+    .search-input-container {
+        min-width: auto;
+    }
+    
+    .navigation-controls {
+        width: 100%;
+        justify-content: center;
+    }
 }
 
 [data-theme="dark"] .search-input {
@@ -1277,6 +1336,28 @@ body {
     border-color: var(--secondary-color);
 }
 
+[data-theme="dark"] .search-container {
+    background: linear-gradient(135deg, var(--section-bg) 0%, rgba(39, 111, 183, 0.08) 100%);
+}
+
+[data-theme="dark"] .search-results {
+    background-color: var(--card-bg);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .search-result-item {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .search-result-item:hover {
+    background: linear-gradient(90deg, rgba(39, 111, 183, 0.15) 0%, transparent 100%);
+}
+
+[data-theme="dark"] .recent-searches-header {
+    background: linear-gradient(135deg, var(--section-bg) 0%, rgba(39, 111, 183, 0.08) 100%);
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
 /* Estilos para los resultados de búsqueda */
 .search-results {
     position: absolute;
@@ -1284,8 +1365,8 @@ body {
     left: 0;
     right: 0;
     background-color: var(--card-bg);
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     margin-top: 8px;
     max-height: 400px;
     overflow-y: auto;
@@ -1294,29 +1375,34 @@ body {
 }
 
 .search-result-item {
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--border-color);
+    padding: 14px 18px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
     position: relative;
 }
 
 .search-result-item:last-child {
     border-bottom: none;
+    border-radius: 0 0 12px 12px;
+}
+
+.search-result-item:first-child {
+    border-radius: 12px 12px 0 0;
 }
 
 .search-result-item:hover {
-    background-color: rgba(39, 111, 183, 0.1);
-    transform: translateX(5px);
+    background: linear-gradient(90deg, rgba(39, 111, 183, 0.08) 0%, transparent 100%);
+    transform: translateX(8px);
 }
 
 .search-result-item.selected {
-    background-color: rgba(39, 111, 183, 0.1);
-    transform: translateX(5px);
-    border-left: 3px solid var(--secondary-color);
+    background: linear-gradient(90deg, rgba(39, 111, 183, 0.12) 0%, transparent 100%);
+    transform: translateX(8px);
+    border-left: 4px solid var(--secondary-color);
 }
 
 .result-title {
@@ -1359,38 +1445,42 @@ mark {
 }
 
 .recent-searches-header {
-    padding: 12px 16px;
-    font-weight: bold;
+    padding: 14px 18px;
+    font-weight: 600;
     color: var(--text-color);
-    border-bottom: 1px solid var(--border-color);
-    background-color: var(--section-bg);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    background: linear-gradient(135deg, var(--section-bg) 0%, rgba(39, 111, 183, 0.05) 100%);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-radius: 12px 12px 0 0;
+    font-size: 13px;
 }
 
 .clear-history {
     background: none;
     border: none;
     cursor: pointer;
-    padding: 8px;
-    border-radius: 8px;
+    padding: 8px 12px;
+    border-radius: 20px;
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 14px;
+    font-size: 12px;
     color: var(--text-color);
     opacity: 0.7;
+    font-weight: 500;
 }
 
 .clear-history::before {
     content: '🗑️';
+    font-size: 14px;
 }
 
 .clear-history:hover {
     opacity: 1;
-    background-color: rgba(244, 67, 54, 0.1);
+    background: linear-gradient(135deg, rgba(244, 67, 54, 0.1) 0%, rgba(244, 67, 54, 0.05) 100%);
     color: #F44336;
     transform: scale(1.05);
 }
@@ -1470,7 +1560,6 @@ mark {
     text-align: center;
     color: var(--text-color);
     font-style: italic;
-    opacity: 0.7;
 }
 
 /* Estilos mejorados para el buscador */

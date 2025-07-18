@@ -4,13 +4,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Equipo {{ $equipment->inventory_code }}</title>
+    <title>Equipos {{ ucfirst($equipmentType) }}s - {{ $areaName }}</title>
     <style>
-
         @page {
             size: letter portrait;
             margin: 1cm;
         }
+
         :root {
             --primary-color: #003366;
             --secondary-color: #276fb7;
@@ -92,6 +92,7 @@
             margin: 0 0 4px 0;
             letter-spacing: 1px;
             line-height: 1.2;
+            color: var(--primary-color);
         }
 
         /* Texto adicional */
@@ -101,16 +102,27 @@
             line-height: 1.1;
         }
 
-        /* Sección del código */
-        .code-section {
-            padding: 10px 4px;
-            background-color: var(--primary-color);
-            color: white;
-            font-weight: bold;
-            font-size: 11px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* Información de resumen */
+        .summary-info {
+            margin-bottom: 10px;
+            padding: 8px;
+            background-color: var(--bg-section);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+
+        .summary-info p {
+            margin: 4px 0;
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .page-break {
+            page-break-after: always;
+            clear: both;
+            display: block;
+            height: 0;
         }
 
         /* Main Content */
@@ -128,6 +140,7 @@
             border-radius: 6px;
             background: var(--bg-section);
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+            overflow: hidden;
         }
 
         .section-header {
@@ -148,15 +161,19 @@
         /* Table Styling */
         .field-table {
             width: 100%;
+            table-layout: fixed;
             border-collapse: collapse;
             background: white;
         }
 
         .field-table td {
             border: 1px solid #ddd;
-            padding: 8px 10px;
+            padding: 6px 8px;
             vertical-align: middle;
             font-size: 8.5px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            max-width: 100%;
         }
 
         .field-table .label-cell {
@@ -174,25 +191,7 @@
             word-break: break-word;
         }
 
-        .field-table .full-width {
-            width: 100%;
-        }
-
-        /* Two column layout for general info */
-        .two-col-table {
-            display: flex;
-            gap: 2px;
-        }
-
-        .two-col-table .col-table {
-            flex: 1;
-        }
-
-        .two-col-table .field-table {
-            border-radius: 0 0 4px 4px;
-        }
-
-        /* Status */
+        /* Status badges */
         .status {
             padding: 3px 10px;
             border-radius: 12px;
@@ -204,27 +203,73 @@
             min-width: 80px;
         }
 
+        .status-activo,
         .status-bueno {
-            background: #4CAF50;
+            background-color: #4CAF50;
             color: white;
         }
 
+        .status-inactivo,
+        .status-malo {
+            background-color: #F44336;
+            color: white;
+        }
+
+        .status-mantenimiento,
         .status-regular {
-            background: #FFC107;
+            background-color: #FFC107;
             color: black;
         }
 
-        .status-malo {
-            background: #F44336;
-            color: white;
-        }
-
+        .status-baja,
         .status-deshabilitado {
-            background: #9E9E9E;
+            background-color: #9E9E9E;
             color: white;
         }
 
-                .equipment-images {
+        /* Observations */
+        .observations-cell {
+            background: var(--bg-light);
+            padding: 10px;
+            font-size: 8.5px;
+            color: #444;
+            min-height: 60px;
+            vertical-align: top;
+            border: 1px solid #ddd;
+        }
+
+        /* Equipment Card */
+        .equipment-card {
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .equipment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px 6px 0 0;
+        }
+
+        .equipment-name {
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .inventory-code {
+            font-size: 10px;
+            font-weight: bold;
+            color: white;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .equipment-images {
             display: flex;
             flex-wrap: wrap;
             margin-top: 15px;
@@ -243,18 +288,6 @@
             margin-bottom: 10px;
         }
 
-        /* Observations */
-        .observations-cell {
-            background: var(--bg-light);
-            padding: 10px;
-            font-size: 8.5px;
-            color: #444;
-            min-height: 60px;
-            vertical-align: top;
-            border: 1px solid #ddd;
-        }
-
-        /* Footer */
         .footer {
             text-align: center;
             margin-top: 20px;
@@ -289,28 +322,33 @@
 
 <body>
     <div class="container">
-        <!-- Header -->
         <div class="header">
             <div class="logo-section">
-                <img src="{{ public_path('imgs/Emcaservicios.png') }}" alt="Logo" class="logo">
+                <img src="{{ public_path('imgs/Emcaservicios.png') }}" alt="Logo Empresa" class="logo">
             </div>
             <div class="title-section">
-                <h1>HOJA DE VIDA DEL EQUIPO</h1>
+                <h1>REPORTE DE EQUIPOS - {{ strtoupper($areaName) }}</h1>
+                <p>Filtro: {{ ucfirst($equipmentType) }}s ({{ $totalEquipments }} equipos encontrados)</p>
                 <p>EMPRESA CAUCANA DE SERVICIOS PÚBLICOS S.A. E.S.P.</p>
-                <p>Carrera 4 N° 22N-02 / Edificio de Infraestructura, primer piso</p>
-                <p>Popayán - Cauca - Colombia</p>
-            </div>
-            <div class="code-section">
-                {{ 'No. Serial: ' . $equipment->inventory_code }}
+                <p>Carrera 4 N° 22N-02 / Edificio de Infraestructura, primer piso - Popayán - Cauca - Colombia</p>
+                <p>Fecha de generación: {{ $generatedDate }}</p>
             </div>
         </div>
 
         <div class="main-content">
-            <!-- Información General -->
-            <div class="section">
-                <div class="section-header">INFORMACIÓN GENERAL</div>
-                <div class="section-content">
-                    <div class="two-col-table">
+            @foreach($equipments as $equipment)
+                <div class="equipment-card">
+                    <div class="equipment-header">
+                        <div class="equipment-name">{{ $equipment->equipment_name }}</div>
+                        <div class="inventory-code">Cód: {{ $equipment->inventory_code }}</div>
+                        <span class="status status-{{ str_replace(' ', '-', strtolower($equipment->status)) }}">
+                            {{ $equipment->status }}
+                        </span>
+                    </div>
+
+                    <!-- Información General -->
+                    <div class="section">
+                        <div class="section-header">INFORMACIÓN GENERAL</div>
                         <div class="col-table">
                             <table class="field-table">
                                 <tr>
@@ -369,71 +407,77 @@
                             </table>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- Especificaciones Técnicas -->
-            <div class="section">
-                <div class="section-header">ESPECIFICACIONES TÉCNICAS</div>
-                <div class="section-content">
-                    <table class="field-table">
-                        <tr>
-                            <td class="label-cell">Marca:</td>
-                            <td class="value-cell">{{ $equipment->brand }}</td>
-                            <td class="label-cell">Modelo:</td>
-                            <td class="value-cell">{{ $equipment->model }}</td>
-                        </tr>
-                        <tr>
-                            <td class="label-cell">Procesador:</td>
-                            <td class="value-cell">{{ $equipment->processor }}</td>
-                        </tr>
-                        <tr>
-                            <td class="label-cell">Memoria RAM:</td>
-                            <td class="value-cell">{{ $equipment->ram_memory }}</td>
-                            <td class="label-cell">Almacenamiento:</td>
-                            <td class="value-cell">{{ $equipment->storage }}</td>
-                        </tr>
-                        <tr>
-                            <td class="label-cell">Sistema Operativo:</td>
-                            <td class="value-cell" colspan="3">{{ $equipment->operating_system }}</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
+                    <!-- Especificaciones Técnicas -->
+                    <div class="section">
+                        <div class="section-header">ESPECIFICACIONES TÉCNICAS</div>
+                        <div class="section-content">
+                            <table class="field-table">
+                                <tr>
+                                    <td class="label-cell">Marca:</td>
+                                    <td class="value-cell">{{ $equipment->brand }}</td>
+                                    <td class="label-cell">Modelo:</td>
+                                    <td class="value-cell">{{ $equipment->model }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="label-cell">N° Serie:</td>
+                                    <td class="value-cell">{{ $equipment->serial_number }}</td>
+                                    <td class="label-cell">Procesador:</td>
+                                    <td class="value-cell">{{ $equipment->processor }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="label-cell">Memoria RAM:</td>
+                                    <td class="value-cell">{{ $equipment->ram_memory }}</td>
+                                    <td class="label-cell">Almacenamiento:</td>
+                                    <td class="value-cell">{{ $equipment->storage }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="label-cell">Sistema Operativo:</td>
+                                    <td class="value-cell" colspan="3">{{ $equipment->operating_system }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
 
-            <!-- Estado del Equipo y Observaciones -->
-            <div class="section">
-                <div class="section-header">ESTADO DEL EQUIPO Y DIAGNÓSTICO</div>
-                <div class="section-content">
-                    <table class="field-table">
-                        <tr>
-                            <td class="label-cell">Técnico:</td>
-                            <td class="value-cell">{{ $latestMaintenance->technician ?: 'No registrado' }}</td>
-                            <td class="label-cell">Tipo de Mantenimiento:</td>
-                            <td class="value-cell">{{ $latestMaintenance->type ?: 'No registrado' }}</td>
-                            <td class="label-cell">Fecha de Mantenimiento:</td>
-                            <td class="value-cell">{{ $latestMaintenance->date ?: 'Sin fallas registradas' }}</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
+                    <!-- Estado del Equipo y Observaciones -->
+                    <div class="section">
+                        <div class="section-header">ESTADO DEL EQUIPO Y DIAGNÓSTICO</div>
+                        <div class="section-content">
+                            <table class="field-table">
+                                <tr>
+                                    <td class="label-cell">Técnico:</td>
+                                    <td class="value-cell">
+                                        {{ optional($equipment->maintenances->first())->technician ?: 'No registrado' }}
+                                    </td>
+                                    <td class="label-cell">Tipo de Mantenimiento:</td>
+                                    <td class="value-cell">
+                                        {{ optional($equipment->maintenances->first())->type ?: 'No registrado' }}
+                                    </td>
+                                    <td class="label-cell">Fecha de Mantenimiento:</td>
+                                    <td class="value-cell">
+                                        {{ optional($equipment->maintenances->first())->date ?: 'Sin fallas registradas' }}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
 
-            <!-- Observaciones -->
-            <div class="section">
-                <div class="section-header">OBSERVACIONES GENERALES</div>
-                <div class="section-content">
-                    <table class="field-table">
-                        <tr>
-                            <td class="observations-cell">
-                                {{ $equipment->observations ?: 'Sin observaciones registradas hasta la fecha.' }}
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
+                    <!-- Observaciones -->
+                    <div class="section">
+                        <div class="section-header">OBSERVACIONES GENERALES</div>
+                        <div class="section-content">
+                            <table class="field-table">
+                                <tr>
+                                    <td class="observations-cell">
+                                        {{ $equipment->observations ?: 'Sin observaciones registradas hasta la fecha.' }}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
 
-            <!-- Imagen del Equipo -->
                     @if($equipment->images && $equipment->images->count() > 0)
+                        <!-- Imágenes -->
                         <div class="section">
                             <div class="section-header">IMÁGENES</div>
                             <div class="section-content" style="padding: 15px; text-align: center;">
@@ -445,11 +489,17 @@
                             </div>
                         </div>
                     @endif
+                </div>
+
+                @if(!$loop->last)
+                    <div class="page-break"></div>
+                @endif
+            @endforeach
         </div>
 
         <div class="footer">
-            <p>Documento generado el {{ date('d/m/Y H:i:s') }} | EMCASERVICIOS S.A. E.S.P. - Todos los derechos
-                reservados</p>
+            <p>EMPRESA CAUCANA DE SERVICIOS PÚBLICOS S.A. E.S.P. - Todos los derechos reservados</p>
+            <p>Documento generado el {{ $generatedDate }}</p>
         </div>
     </div>
 </body>

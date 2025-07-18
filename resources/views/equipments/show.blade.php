@@ -59,11 +59,15 @@
 
     <div class="search-container">
         <div class="search-wrapper">
-            <input type="text" id="searchEquipment" placeholder="Buscar por código, nombre, serie..."
-                class="search-input">
-            <div class="search-icon">🔍</div>
-            <div class="search-results" style="display: none;">
-                <!-- Los resultados se insertarán aquí dinámicamente -->
+            <div class="search-input-container">
+                <input type="text" id="searchEquipment" placeholder="🔍 Buscar por código, nombre, serie"
+                    class="search-input">
+                <div class="search-results" style="display: none;">
+                    <!-- Los resultados se insertarán aquí dinámicamente -->
+                </div>
+            </div>
+            <div class="navigation-controls">
+                <!-- El botón de navegación rápida se insertará aquí dinámicamente -->
             </div>
         </div>
     </div>
@@ -74,10 +78,16 @@
                 <h2 class="area-title" style="background-color: {{ $area->color }}">
                     {{ $area->name }}
                     @if (isAdmin() && $area->equipment->count() > 0)
-                        <button class="btn-download-area-qr"
-                            onclick="downloadAreaQRs('{{ $area->id }}', '{{ $area->name }}')">
-                            Descargar QRs
-                        </button>
+                        <div class="download-buttons">
+                            <button class="btn-download-area-qr"
+                                onclick="downloadAreaQRs('{{ $area->id }}', '{{ $area->name }}')">
+                                Descargar QRs
+                            </button>
+                            <button class="btn-download-area-qr"
+                                onclick="downloadAreaPDFs('{{ $area->id }}', '{{ $area->name }}')">
+                                Descargar PDFs
+                            </button>
+                        </div>
                     @endif
                 </h2>
 
@@ -99,8 +109,7 @@
                         </button>
                         <button class="filter-btn" data-type="ups">
                             UPS
-                            <span
-                                class="filter-count">{{ $area->equipment->where('equipment_type', 'ups')->count() }}</span>
+                            <span class="filter-count">{{ $area->equipment->where('equipment_type', 'ups')->count() }}</span>
                         </button>
                         <button class="filter-btn" data-type="scanner">
                             Escáneres
@@ -114,8 +123,7 @@
                         </button>
                         <button class="filter-btn" data-type="otro">
                             Otros
-                            <span
-                                class="filter-count">{{ $area->equipment->where('equipment_type', 'otro')->count() }}</span>
+                            <span class="filter-count">{{ $area->equipment->where('equipment_type', 'otro')->count() }}</span>
                         </button>
                     </div>
 
@@ -131,8 +139,7 @@
                             <div class="equipment-card" data-type="{{ $equipment->equipment_type }}">
                                 <div class="equipment-header">
                                     <span class="inventory-code">{{ $equipment->inventory_code }}</span>
-                                    <span
-                                        class="status-badge status-{{ str_replace(' ', '-', strtolower($equipment->status)) }}">
+                                    <span class="status-badge status-{{ str_replace(' ', '-', strtolower($equipment->status)) }}">
                                         {{ $equipment->status }}
                                     </span>
                                 </div>
@@ -140,36 +147,28 @@
                                     <h3>{{ $equipment->equipment_name }}</h3>
                                     <p><strong>Marca:</strong> {{ $equipment->brand }}</p>
                                     <p><strong>Modelo:</strong> {{ $equipment->model }}</p>
-                                    <p><strong>Serie:</strong> {{ $equipment->serial_number }}</p>
-                                    <p><strong>Procesador:</strong> {{ $equipment->processor }}</p>
-                                    <p><strong>RAM:</strong> {{ $equipment->ram_memory }}</p>
-                                    <p><strong>Almacenamiento:</strong> {{ $equipment->storage }}</p>
+                                    <p><strong>Responsable Indirecto:</strong> {{ $equipment->indirect_responsible }}</p>
                                 </div>
                                 @if ($equipment->images->count() > 0)
                                     <div class="equipment-images">
                                         <div class="images-preview">
                                             @foreach ($equipment->images->take(1) as $image)
-                                                <a href="{{ asset($image->url) }}"
-                                                    data-lightbox="equipment-{{ $equipment->id }}"
+                                                <a href="{{ asset($image->url) }}" data-lightbox="equipment-{{ $equipment->id }}"
                                                     data-title="{{ $equipment->equipment_name }}">
-                                                    <img src="{{ asset($image->url) }}" alt="Imagen del equipo"
-                                                        class="equipment-thumbnail">
+                                                    <img src="{{ asset($image->url) }}" alt="Imagen del equipo" class="equipment-thumbnail">
                                                 </a>
                                             @endforeach
                                             @if ($equipment->images->count() > 1)
-                                                <button class="more-images"
-                                                    data-total="{{ $equipment->images->count() - 1 }}">
+                                                <button class="more-images" data-total="{{ $equipment->images->count() - 1 }}">
                                                     +{{ $equipment->images->count() - 1 }}
                                                 </button>
                                             @endif
                                         </div>
                                         <div class="images-gallery" style="display: none;">
                                             @foreach ($equipment->images as $image)
-                                                <a href="{{ asset($image->url) }}"
-                                                    data-lightbox="equipment-{{ $equipment->id }}"
+                                                <a href="{{ asset($image->url) }}" data-lightbox="equipment-{{ $equipment->id }}"
                                                     data-title="{{ $equipment->equipment_name }} - {{ Carbon\Carbon::parse($image->created_at)->format('d/m/Y H:i') }}">
-                                                    <img src="{{ asset($image->url) }}" alt="Imagen del equipo"
-                                                        class="equipment-thumbnail">
+                                                    <img src="{{ asset($image->url) }}" alt="Imagen del equipo" class="equipment-thumbnail">
                                                 </a>
                                             @endforeach
                                         </div>
@@ -179,10 +178,9 @@
                                 <div class="equipment-footer">
                                     <!-- Botones solo para administradores -->
                                     @if (isAdmin())
-                                        <a href="{{ route('equipment.edit', $equipment->id) }}"
-                                            class="btn-edit">Editar</a>
-                                        <form action="{{ route('equipment.destroy', $equipment->id) }}"
-                                            method="POST" class="delete-form">
+                                        <a href="{{ route('equipment.edit', $equipment->id) }}" class="btn-edit">Editar</a>
+                                        <form action="{{ route('equipment.destroy', $equipment->id) }}" method="POST"
+                                            class="delete-form">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn-delete"
@@ -191,17 +189,15 @@
                                             </button>
                                         </form>
 
-                                        <a href="{{ route('equipment.pdf', $equipment->id) }}" class="btn-pdf"
-                                            target="_blank">Generar
+                                        <a href="{{ route('equipment.pdf', $equipment->id) }}" class="btn-pdf" target="_blank">Generar
                                             PDF</a>
                                         <a href="{{ route('maintenance.index', $equipment->id) }}"
                                             class="btn-maintenance">Mantenimientos</a>
-                                        <button class="btn-qr"
-                                            onclick="generateQR(
-                                                                        '{{ $equipment->id }}', 
-                                                                        '{{ $equipment->equipment_name }}', 
-                                                                        '{{ route('equipment.pdf', $equipment->id) }}'
-                                                                    )">
+                                        <button class="btn-qr" onclick="generateQR(
+                                                                                                        '{{ $equipment->id }}', 
+                                                                                                        '{{ $equipment->equipment_name }}', 
+                                                                                                        '{{ route('equipment.pdf', $equipment->id) }}'
+                                                                                                    )">
                                             QR
                                         </button>
                                     @endif
@@ -229,6 +225,7 @@
         </div>
     @endif
 
+    <script src="{{ asset('js/area-navigation.js') }}"></script>
     <script src="{{ asset('js/show.js') }}?v={{ time() }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
@@ -239,7 +236,7 @@
             // Variables para el control de tiempo de sesión
             const sessionStartTime = {{ session('admin_session_start_time', 0) }};
             const sessionExpiryTime =
-                {{ session('admin_session_start_time', 0) + 120 * 60 * 1000 }}; // 2 horas en milisegundos
+                        {{ session('admin_session_start_time', 0) + 120 * 60 * 1000 }}; // 2 horas en milisegundos
         </script>
         <script src="{{ asset('js/sessionTimer.js') }}?v={{ time() }}"></script>
     @endif
@@ -252,9 +249,9 @@
         });
 
         // Asegurarnos de que el DOM esté cargado
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Función para generar QR
-            window.generateQR = function(id, name, pdfUrl) {
+            window.generateQR = function (id, name, pdfUrl) {
                 const modal = document.getElementById('qrModal');
                 const qrContainer = document.getElementById('qrcode');
                 const qrTitle = document.getElementById('qrTitle');

@@ -348,4 +348,42 @@ class EquipmentController extends Controller
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
     }
+
+    public function generateAreaPDFs(Request $request, $areaId)
+    {
+try {
+        $area = Area::findOrFail($areaId);
+
+        $query = $area->equipment();
+        if ($request->type && $request->type !== 'all') {
+            $query->where('equipment_type', $request->type);
+        }
+        $equipments = $query->with(['maintenances' => function ($query) {
+            $query->latest('date');
+        }, 'images', 'area'])->get();
+
+        $generatedDate = now()->format('d/m/Y H:i:s');
+        $pdf = PDF::loadView('equipments.bulk-pdf', [
+            'equipments' => $equipments,
+            'areaName' => $area->name,
+            'equipmentType' => $request->type ?? 'all',
+            'totalEquipments' => $equipments->count(),
+            'generatedDate' => $generatedDate
+        ]);
+
+        // Configurar el papel en landscape si hay muchas imágenes o equipos
+        $totalImages = $equipments->sum(function($equipment) {
+            return $equipment->images->count();
+        });
+        
+        if ($totalImages > 0 || $equipments->count() > 2) {
+            $pdf->setPaper('a4', 'landscape');
+        }
+
+        return $pdf->stream('Equipos_' . $area->name . '_' . $request->type . '.pdf');
+    } catch (\Exception $e) {
+        Log::error('Error al generar PDF de área: ' . $e->getMessage());
+        return response()->json(['error' => 'Error al generar el PDF: ' . $e->getMessage()], 500);
+    }
+}
 }

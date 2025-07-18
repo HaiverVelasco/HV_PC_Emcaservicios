@@ -54,7 +54,7 @@
                         <input type="text" id="direct_responsible" name="direct_responsible"
                             value="{{ $equipment->direct_responsible }}">
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="indirect_responsible">Responsable Indirecto</label>
                         <input type="text" id="indirect_responsible" name="indirect_responsible"
@@ -73,7 +73,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="inventory_code">Código de Inventario</label>
+                        <label for="inventory_code">Numero de serial</label>
                         <input type="text" id="inventory_code" name="inventory_code"
                             value="{{ $equipment->inventory_code }}" required>
                     </div>
@@ -147,12 +147,6 @@
                     <div class="form-group">
                         <label for="model">Modelo</label>
                         <input type="text" id="model" name="model" value="{{ $equipment->model }}">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="serial_number">Número de Serie</label>
-                        <input type="text" id="serial_number" name="serial_number"
-                            value="{{ $equipment->serial_number }}">
                     </div>
 
                     <div class="form-group">

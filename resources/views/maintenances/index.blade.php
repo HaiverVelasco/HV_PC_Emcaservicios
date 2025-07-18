@@ -18,6 +18,52 @@
     <!-- Scripts -->
     <script src="{{ asset('js/themeToggle.js') }}?v={{ time() }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <style>
+        .description-container {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            position: relative;
+        }
+        
+        .description-container strong {
+            margin-right: 5px;
+            flex: 0 0 auto;
+        }
+        
+        .description-text {
+            flex: 1 1 auto;
+            min-width: 0;
+            word-wrap: break-word;
+            display: inline;
+        }
+        
+        .description-toggle {
+            display: inline-flex;
+            align-items: center;
+            margin-left: 5px;
+            cursor: pointer;
+            color: #007bff;
+            transition: all 0.2s ease;
+            vertical-align: middle;
+            position: relative;
+            top: 1px;
+        }
+
+        .description-toggle:hover {
+            color: #0056b3;
+        }
+
+        .description-toggle.expanded {
+            transform: rotate(180deg);
+        }
+
+        .maintenance-details p {
+            margin-bottom: 8px;
+            word-wrap: break-word;
+        }
+    </style>
 </head>
 
 <body class="maintenance-page">
@@ -157,6 +203,15 @@
                                 <div class="maintenance-details">
                                     <p><strong><i class="fas fa-user-cog"></i> Técnico:</strong> {{ $maintenance->technician }}
                                     </p>
+                                    <p class="description-container">
+                                        <strong><i class="fa fa-clipboard-list"></i> Descripción:</strong>
+                                        <span class="description-text">{{ Str::limit($maintenance->description, 100, '...') }}</span>
+                                        @if(strlen($maintenance->description) > 100)
+                                            <span class="description-toggle" data-full="{{ $maintenance->description }}" onclick="toggleDescription(this)">
+                                                <i class="fas fa-plus-circle"></i>
+                                            </span>
+                                        @endif
+                                    </p>
                                     @if ($maintenance->failure)
                                         <p><strong><i class="fas fa-exclamation-triangle"></i> Fecha de Mantenimiento:</strong>
                                             {{ $maintenance->date }}</p>
@@ -240,6 +295,25 @@
                 document.querySelectorAll('.alert').forEach(handleAlertClose);
             }, 5000);
         });
+
+        // Función para expandir/contraer la descripción completa
+        function toggleDescription(element) {
+            const parentP = element.parentNode;
+            const textSpan = parentP.querySelector('.description-text');
+            const fullText = element.getAttribute('data-full');
+
+            if (element.classList.contains('expanded')) {
+                // Contraer el texto
+                textSpan.textContent = fullText.substring(0, 100) + '...';
+                element.innerHTML = '<i class="fas fa-plus-circle"></i>';
+                element.classList.remove('expanded');
+            } else {
+                // Expandir el texto
+                textSpan.textContent = fullText;
+                element.innerHTML = '<i class="fas fa-minus-circle"></i>';
+                element.classList.add('expanded');
+            }
+        }
     </script>
 </body>
 

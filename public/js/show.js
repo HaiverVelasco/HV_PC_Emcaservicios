@@ -684,6 +684,20 @@ window.downloadAreaQRs = function (areaId, areaName) {
     });
 };
 
+// --- PDF DESCARGA POR ÁREA ---
+window.downloadAreaPDFs = function (areaId, areaName) {
+    const modal = document.getElementById('bulkQRModal');
+    modal.style.display = 'block';
+    const statusElement = document.getElementById('bulkQRStatus');
+    statusElement.textContent = `Preparando PDFs para ${areaName}...`;
+
+    const activeFilter = document.querySelector('.filter-btn.active');
+    const filterType = activeFilter ? activeFilter.getAttribute('data-type') : 'all';
+
+    // En lugar de hacer una llamada AJAX normal
+    window.open(`/equipment/area/${areaId}/pdfs?type=${filterType}`, '_blank');
+};
+
 // --- COLOR DE ÁREA ---
 function getAreaColor(areaId) {
     const areaTitle = document.querySelector(`[onclick*="downloadAreaQRs('${areaId}'"]`);

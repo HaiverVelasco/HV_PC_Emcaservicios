@@ -111,7 +111,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="inventory_code">Código de Inventario</label>
+                        <label for="inventory_code">Numero de Serial                                            </label>
                         <input type="text" id="inventory_code" name="inventory_code" required>
                     </div>
 
@@ -172,12 +172,7 @@
                     <div class="form-group">
                         <label for="model">Modelo</label>
                         <input type="text" id="model" name="model" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="serial_number">Número de Serie</label>
-                        <input type="text" id="serial_number" name="serial_number" required>
-                    </div>
+                    </div> 
 
                     <div class="form-group">
                         <label for="processor">Procesador</label>

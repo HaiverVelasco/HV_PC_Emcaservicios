@@ -35,5 +35,6 @@ Route::middleware(['admin'])->group(function () {
         Route::put('/{equipment}', [EquipmentController::class, 'update'])->name('equipment.update');
         Route::delete('/{equipment}', [EquipmentController::class, 'destroy'])->name('equipment.destroy');
         Route::delete('/image/{image}', [EquipmentController::class, 'deleteImage'])->name('equipment.image.delete');
+        Route::get('/area/{area}/pdfs', [EquipmentController::class, 'generateAreaPDFs'])->name('equipment.area.pdfs');
     });
 });
