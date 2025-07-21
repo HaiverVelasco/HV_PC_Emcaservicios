@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="{{ asset('css/edit.css') }}?v={{ time() }}">
     <link rel="stylesheet" href="{{ asset('css/maintenance-unified.css') }}?v={{ time() }}">
     <link rel="stylesheet" href="{{ asset('css/sessionTimer.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/custom-scrollbar.css') }}?v={{ time() }}">
 
     <!-- Scripts -->
     <script src="{{ asset('js/themeToggle.js') }}?v={{ time() }}"></script>
@@ -26,19 +27,19 @@
             align-items: flex-start;
             position: relative;
         }
-        
+
         .description-container strong {
             margin-right: 5px;
             flex: 0 0 auto;
         }
-        
+
         .description-text {
             flex: 1 1 auto;
             min-width: 0;
             word-wrap: break-word;
             display: inline;
         }
-        
+
         .description-toggle {
             display: inline-flex;
             align-items: center;
@@ -205,9 +206,11 @@
                                     </p>
                                     <p class="description-container">
                                         <strong><i class="fa fa-clipboard-list"></i> Descripción:</strong>
-                                        <span class="description-text">{{ Str::limit($maintenance->description, 100, '...') }}</span>
+                                        <span
+                                            class="description-text">{{ Str::limit($maintenance->description, 100, '...') }}</span>
                                         @if(strlen($maintenance->description) > 100)
-                                            <span class="description-toggle" data-full="{{ $maintenance->description }}" onclick="toggleDescription(this)">
+                                            <span class="description-toggle" data-full="{{ $maintenance->description }}"
+                                                onclick="toggleDescription(this)">
                                                 <i class="fas fa-plus-circle"></i>
                                             </span>
                                         @endif

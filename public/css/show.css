@@ -242,7 +242,7 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
-    padding: 20px;
+    padding: 6px;
     transition: var(--equipment-transition);
     min-height: 100px;
     height: auto;
@@ -618,7 +618,7 @@ body {
     padding: 40px 20px;
     background-color: var(--card-bg);
     border-radius: 8px;
-    margin: 20px;
+    margin: -4px;
     width: 96%;
     display: flex;
     flex-direction: column;
@@ -1540,7 +1540,8 @@ mark {
     background-color: rgba(39, 111, 183, 0.2);
 }
 
-/* Estilo para el scrollbar de los resultados */
+/* Estilo para el scrollbar de los resultados - DEPRECADO: Ahora se maneja en custom-scrollbar.css */
+/*
 .search-results::-webkit-scrollbar {
     width: 8px;
 }
@@ -1553,6 +1554,7 @@ mark {
     background-color: var(--border-color);
     border-radius: 4px;
 }
+*/
 
 /* Mensaje de no resultados */
 .no-results-message {

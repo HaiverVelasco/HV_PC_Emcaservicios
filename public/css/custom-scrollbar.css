@@ -1,0 +1,340 @@
+/* ====================================
+   ESTILOS MEJORADOS PARA SCROLLBARS
+   ==================================== */
+
+/* Variables CSS para facilitar personalización */
+:root {
+    --scrollbar-width: 8px;
+    --scrollbar-track-bg: #f1f3f4;
+    --scrollbar-thumb-bg: #276fb7;
+    --scrollbar-thumb-hover-bg: #1e5a9e;
+    --scrollbar-thumb-active-bg: #164680;
+    --scrollbar-border-radius: 8px;
+    --scrollbar-transition: all 0.3s ease;
+}
+
+/* Tema oscuro */
+[data-theme="dark"] {
+    --scrollbar-track-bg: #2d3748;
+    --scrollbar-thumb-bg: #4a5568;
+    --scrollbar-thumb-hover-bg: #718096;
+    --scrollbar-thumb-active-bg: #a0aec0;
+}
+
+/* ====================================
+   SCROLLBARS GLOBALES MODERNOS
+   ==================================== */
+
+/* Para navegadores Webkit (Chrome, Safari, Edge) */
+*::-webkit-scrollbar {
+    width: var(--scrollbar-width);
+    height: var(--scrollbar-width);
+}
+
+*::-webkit-scrollbar-track {
+    background: var(--scrollbar-track-bg);
+    border-radius: var(--scrollbar-border-radius);
+    margin: 2px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb-bg);
+    border-radius: var(--scrollbar-border-radius);
+    border: 1px solid transparent;
+    background-clip: content-box;
+    transition: var(--scrollbar-transition);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover-bg);
+    background-clip: content-box;
+    transform: scale(1.1);
+}
+
+*::-webkit-scrollbar-thumb:active {
+    background: var(--scrollbar-thumb-active-bg);
+    background-clip: content-box;
+}
+
+*::-webkit-scrollbar-corner {
+    background: var(--scrollbar-track-bg);
+}
+
+/* Para Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb-bg) var(--scrollbar-track-bg);
+}
+
+/* ====================================
+   SCROLLBARS ESPECÍFICOS PARA BOTONES
+   ==================================== */
+
+/* Contenedores de botones con scroll horizontal */
+.button-container,
+.btn-group,
+.action-buttons,
+.download-buttons {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 8px;
+}
+
+.button-container::-webkit-scrollbar,
+.btn-group::-webkit-scrollbar,
+.action-buttons::-webkit-scrollbar,
+.download-buttons::-webkit-scrollbar {
+    height: 6px;
+}
+
+.button-container::-webkit-scrollbar-track,
+.btn-group::-webkit-scrollbar-track,
+.action-buttons::-webkit-scrollbar-track,
+.download-buttons::-webkit-scrollbar-track {
+    background: rgba(39, 111, 183, 0.1);
+    border-radius: 3px;
+    margin: 0 4px;
+}
+
+.button-container::-webkit-scrollbar-thumb,
+.btn-group::-webkit-scrollbar-thumb,
+.action-buttons::-webkit-scrollbar-thumb,
+.download-buttons::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb-bg);
+    border-radius: 3px;
+    transition: all 0.2s ease;
+}
+
+.button-container::-webkit-scrollbar-thumb:hover,
+.btn-group::-webkit-scrollbar-thumb:hover,
+.action-buttons::-webkit-scrollbar-thumb:hover,
+.download-buttons::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover-bg);
+    transform: scaleY(1.3);
+}
+
+/* ====================================
+   SCROLLBARS PARA MODALES Y CARDS
+   ==================================== */
+
+.modal-body,
+.card-body,
+.table-responsive,
+.equipment-list,
+.maintenance-list {
+    overflow-y: auto;
+    max-height: 400px;
+}
+
+.modal-body::-webkit-scrollbar,
+.card-body::-webkit-scrollbar,
+.table-responsive::-webkit-scrollbar,
+.equipment-list::-webkit-scrollbar,
+.maintenance-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal-body::-webkit-scrollbar-track,
+.card-body::-webkit-scrollbar-track,
+.table-responsive::-webkit-scrollbar-track,
+.equipment-list::-webkit-scrollbar-track,
+.maintenance-list::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 3px;
+}
+
+.modal-body::-webkit-scrollbar-thumb,
+.card-body::-webkit-scrollbar-thumb,
+.table-responsive::-webkit-scrollbar-thumb,
+.equipment-list::-webkit-scrollbar-thumb,
+.maintenance-list::-webkit-scrollbar-thumb {
+    background: rgba(39, 111, 183, 0.6);
+    border-radius: 3px;
+    transition: all 0.2s ease;
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover,
+.card-body::-webkit-scrollbar-thumb:hover,
+.table-responsive::-webkit-scrollbar-thumb:hover,
+.equipment-list::-webkit-scrollbar-thumb:hover,
+.maintenance-list::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-bg);
+}
+
+/* ====================================
+   SCROLLBARS PARA DROPDOWNS Y SELECTS
+   ==================================== */
+
+.dropdown-menu,
+.select-options,
+.search-results {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.dropdown-menu::-webkit-scrollbar,
+.select-options::-webkit-scrollbar,
+.search-results::-webkit-scrollbar {
+    width: 4px;
+}
+
+.dropdown-menu::-webkit-scrollbar-track,
+.select-options::-webkit-scrollbar-track,
+.search-results::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb,
+.select-options::-webkit-scrollbar-thumb,
+.search-results::-webkit-scrollbar-thumb {
+    background: rgba(39, 111, 183, 0.4);
+    border-radius: 2px;
+    transition: background 0.2s ease;
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb:hover,
+.select-options::-webkit-scrollbar-thumb:hover,
+.search-results::-webkit-scrollbar-thumb:hover {
+    background: rgba(39, 111, 183, 0.7);
+}
+
+/* ====================================
+   SCROLLBARS PARA ELEMENTOS ESPECÍFICOS
+   ==================================== */
+
+/* Scrollbar para la lista de equipos */
+.equipment-card-container {
+    overflow-y: auto;
+    max-height: 500px;
+    padding-right: 4px;
+}
+
+.equipment-card-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.equipment-card-container::-webkit-scrollbar-track {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-radius: 4px;
+    margin: 4px 0;
+}
+
+.equipment-card-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, var(--scrollbar-thumb-bg) 0%, var(--scrollbar-thumb-hover-bg) 100%);
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.equipment-card-container::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, var(--scrollbar-thumb-hover-bg) 0%, var(--scrollbar-thumb-active-bg) 100%);
+    transform: scale(1.05);
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* ====================================
+   ANIMACIONES Y EFECTOS ESPECIALES
+   ==================================== */
+
+/* Efecto de aparición suave para scrollbars */
+@keyframes scrollbarFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Aplicar animación al hover en contenedores */
+.equipment-card-container:hover::-webkit-scrollbar-thumb,
+.modal-body:hover::-webkit-scrollbar-thumb,
+.table-responsive:hover::-webkit-scrollbar-thumb {
+    animation: scrollbarFadeIn 0.3s ease;
+}
+
+/* ====================================
+   RESPONSIVE DESIGN
+   ==================================== */
+
+/* Para tablets */
+@media (max-width: 768px) {
+    :root {
+        --scrollbar-width: 6px;
+    }
+    
+    .button-container::-webkit-scrollbar,
+    .btn-group::-webkit-scrollbar,
+    .action-buttons::-webkit-scrollbar {
+        height: 4px;
+    }
+}
+
+/* Para móviles */
+@media (max-width: 480px) {
+    :root {
+        --scrollbar-width: 4px;
+    }
+    
+    /* Ocultar scrollbars en móviles para mejor UX táctil */
+    .dropdown-menu::-webkit-scrollbar,
+    .select-options::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+/* ====================================
+   ACCESIBILIDAD
+   ==================================== */
+
+/* Mayor contraste para usuarios con problemas de visión */
+@media (prefers-contrast: high) {
+    :root {
+        --scrollbar-track-bg: #000000;
+        --scrollbar-thumb-bg: #ffffff;
+        --scrollbar-thumb-hover-bg: #cccccc;
+    }
+}
+
+/* Respeto por la preferencia de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+    *::-webkit-scrollbar-thumb {
+        transition: none;
+    }
+    
+    .equipment-card-container:hover::-webkit-scrollbar-thumb,
+    .modal-body:hover::-webkit-scrollbar-thumb,
+    .table-responsive:hover::-webkit-scrollbar-thumb {
+        animation: none;
+    }
+}
+
+/* ====================================
+   UTILIDADES ADICIONALES
+   ==================================== */
+
+/* Clase para ocultar scrollbar manteniendo funcionalidad */
+.hide-scrollbar {
+    -ms-overflow-style: none;  /* IE y Edge */
+    scrollbar-width: none;     /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;             /* Chrome, Safari y Opera */
+}
+
+/* Clase para scrollbar extra delgado */
+.thin-scrollbar::-webkit-scrollbar {
+    width: 2px;
+    height: 2px;
+}
+
+/* Clase para scrollbar extra grueso */
+.thick-scrollbar::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}

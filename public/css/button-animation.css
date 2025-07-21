@@ -12,6 +12,16 @@
     /* Añade profundidad a la animación */
 }
 
+/* Mejoras para contenedores con scroll */
+.btn-container-scrollable {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 10px 0;
+    margin: 5px 0;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+}
+
 .btn-show-more {
     position: absolute !important;
     top: 0;
@@ -122,4 +132,130 @@
 
 .btn-show-more.expanded {
     animation: pulse 1s ease-in-out 1;
+}
+
+/* ====================================
+   ESTILOS MEJORADOS PARA BOTONES CON SCROLL
+   ==================================== */
+
+/* Contenedor de botones con scroll horizontal mejorado */
+.btn-action-container {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 15px 5px;
+    margin: 10px 0;
+    background: linear-gradient(135deg, rgba(39, 111, 183, 0.05) 0%, rgba(39, 111, 183, 0.02) 100%);
+    border-radius: 12px;
+    border: 1px solid rgba(39, 111, 183, 0.1);
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Botones mejorados dentro del contenedor */
+.btn-action-container .btn {
+    flex-shrink: 0;
+    min-width: 120px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.btn-action-container .btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn-action-container .btn:hover::before {
+    left: 100%;
+}
+
+.btn-action-container .btn:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(39, 111, 183, 0.25);
+}
+
+/* Indicadores de scroll para el contenedor de botones */
+.btn-action-container::before,
+.btn-action-container::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background: rgba(39, 111, 183, 0.7);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.btn-action-container::before {
+    left: 5px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 24 24'%3E%3Cpath d='M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z'/%3E%3C/svg%3E");
+    background-size: 16px 16px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.btn-action-container::after {
+    right: 5px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 24 24'%3E%3Cpath d='M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z'/%3E%3C/svg%3E");
+    background-size: 16px 16px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.btn-action-container.can-scroll-left::before {
+    opacity: 1;
+}
+
+.btn-action-container.can-scroll-right::after {
+    opacity: 1;
+}
+
+/* Grupos de botones específicos */
+.edit-delete-buttons,
+.download-action-buttons,
+.form-action-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: 8px 0;
+}
+
+/* Responsive para botones */
+@media (max-width: 768px) {
+    .btn-action-container {
+        padding: 10px 3px;
+        gap: 8px;
+    }
+    
+    .btn-action-container .btn {
+        min-width: 100px;
+        font-size: 0.9rem;
+        padding: 8px 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .btn-action-container {
+        gap: 6px;
+        padding: 8px 2px;
+    }
+    
+    .btn-action-container .btn {
+        min-width: 80px;
+        font-size: 0.85rem;
+        padding: 6px 10px;
+    }
 }

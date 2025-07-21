@@ -10,10 +10,12 @@
     <link rel="stylesheet" href="{{ asset('css/edit.css') }}?v={{ time() }}">
     <link rel="stylesheet" href="{{ asset('css/sessionTimer.css') }}?v={{ time() }}">
     <link rel="stylesheet" href="{{ asset('css/button-animation.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/custom-scrollbar.css') }}?v={{ time() }}">
     <link rel="stylesheet" href="{{ asset('css/maintenance-unified.css') }}?v={{ time() }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="{{ asset('js/themeToggle.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('js/enhanced-scrollbar.js') }}?v={{ time() }}"></script>
 </head>
 
 <body>
@@ -124,7 +126,7 @@
             // Variables para el control de tiempo de sesión
             const sessionStartTime = {{ session('admin_session_start_time', 0) }};
             const sessionExpiryTime =
-                    {{ session('admin_session_start_time', 0) + 120 * 60 * 1000 }}; // 2 horas en milisegundos
+                        {{ session('admin_session_start_time', 0) + 120 * 60 * 1000 }}; // 2 horas en milisegundos
         </script>
         <script src="{{ asset('js/sessionTimer.js') }}?v={{ time() }}"></script>
     @endif
