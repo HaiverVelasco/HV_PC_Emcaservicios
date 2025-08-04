@@ -1258,7 +1258,7 @@ body {
     flex-direction: row;
     align-items: center;
     gap: 20px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 
 @media (max-width: 768px) {
@@ -1272,6 +1272,12 @@ body {
     flex: 1;
     min-width: 300px;
     position: relative;
+}
+
+.search-form {
+    width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 .search-input {
@@ -1539,22 +1545,6 @@ mark {
 [data-theme="dark"] .search-result-item.selected {
     background-color: rgba(39, 111, 183, 0.2);
 }
-
-/* Estilo para el scrollbar de los resultados - DEPRECADO: Ahora se maneja en custom-scrollbar.css */
-/*
-.search-results::-webkit-scrollbar {
-    width: 8px;
-}
-
-.search-results::-webkit-scrollbar-track {
-    background: var(--section-bg);
-}
-
-.search-results::-webkit-scrollbar-thumb {
-    background-color: var(--border-color);
-    border-radius: 4px;
-}
-*/
 
 /* Mensaje de no resultados */
 .no-results-message {

@@ -61,13 +61,15 @@
 
     <div class="search-container">
         <div class="search-wrapper">
-            <div class="search-input-container">
-                <input type="text" id="searchEquipment" placeholder="🔍 Buscar por código, nombre, serie"
-                    class="search-input">
-                <div class="search-results" style="display: none;">
-                    <!-- Los resultados se insertarán aquí dinámicamente -->
+            <form class="search-form" onsubmit="return false;">
+                <div class="search-input-container">
+                    <input type="text" id="searchEquipment" placeholder="🔍 Buscar por código, nombre, serie"
+                        class="search-input">
+                    <div class="search-results" style="display: none;">
+                        <!-- Los resultados se insertarán aquí dinámicamente -->
+                    </div>
                 </div>
-            </div>
+            </form>
             <div class="navigation-controls">
                 <!-- El botón de navegación rápida se insertará aquí dinámicamente -->
             </div>
@@ -181,7 +183,7 @@
                                     <!-- Botones solo para administradores -->
                                     @if (isAdmin())
                                         <a href="{{ route('equipment.edit', $equipment->id) }}" class="btn-edit">Editar</a>
-                                        <form action="{{ route('equipment.destroy', $equipment->id) }}" method="POST"
+                                        <form action="{{ route('equipment.destroy', $equipment->id) }}" mzethod="POST"
                                             class="delete-form">
                                             @csrf
                                             @method('DELETE')
@@ -195,13 +197,23 @@
                                             PDF</a>
                                         <a href="{{ route('maintenance.index', $equipment->id) }}"
                                             class="btn-maintenance">Mantenimientos</a>
+
                                         <button class="btn-qr" onclick="generateQR(
                                                                                                                         '{{ $equipment->id }}', 
                                                                                                                         '{{ $equipment->equipment_name }}', 
                                                                                                                         '{{ route('equipment.pdf', $equipment->id) }}'
-                                                                                                                    )">
+                                                                                                                        )">
                                             QR
                                         </button>
+                                        <a href="{{ route('observations.index', ['equipment' => $equipment->id]) }}"
+                                            class="btn-observations">
+                                            📋 Observaciones
+                                            @if($equipment->observations && $equipment->observations->count() > 0)
+                                                <span class="obs-count">({{ $equipment->observations->count() }})</span>
+                                            @else
+                                                <span class="obs-count">(0)</span>
+                                            @endif
+                                        </a>
                                     @endif
                                 </div>
                             </div>
@@ -237,8 +249,7 @@
         <script>
             // Variables para el control de tiempo de sesión
             const sessionStartTime = {{ session('admin_session_start_time', 0) }};
-            const sessionExpiryTime =
-                            {{ session('admin_session_start_time', 0) + 120 * 60 * 1000 }}; // 2 horas en milisegundos
+            const sessionExpiryTime = {{ session('admin_session_start_time', 0) + 120 * 60 * 1000 }}; // 2 horas en milisegundos
         </script>
         <script src="{{ asset('js/sessionTimer.js') }}?v={{ time() }}"></script>
     @endif

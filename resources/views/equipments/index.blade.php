@@ -7,6 +7,7 @@
     <title>Equipos-EMCASERVICIOS</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('imgs/Emcaservicios.png') }}">
     <link rel="stylesheet" href="{{ asset('css/index.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/specific-fields.css') }}?v={{ time() }}">
     <script src="{{ asset('js/index.js') }}?v={{ time() }}" defer></script>
     <script src="{{ asset('js/themeToggle.js') }}?v={{ time() }}" defer></script>
 </head>
@@ -111,21 +112,6 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="inventory_code">Numero de Serial                                            </label>
-                        <input type="text" id="inventory_code" name="inventory_code" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="manufacturer">Fabricante</label>
-                        <input type="text" id="manufacturer" name="manufacturer">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="reference">Referencia</label>
-                        <input type="text" id="reference" name="reference">
-                    </div>
-
-                    <div class="form-group">
                         <label for="acquisition_date">Fecha de Adquisición</label>
                         <input type="date" id="acquisition_date" name="acquisition_date">
                     </div>
@@ -159,9 +145,39 @@
                         </select>
                     </div>
 
+                    {{-- Campos específicos para computador --}}
+                    <div class="specific-fields computador-fields">
+
+                        <div class="form-group">
+                            <label for="processor">Procesador</label>
+                            <input type="text" id="processor" name="processor">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="operating_system">Sistema Operativo</label>
+                            <input type="text" id="operating_system" name="operating_system">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ram_memory">Memoria RAM</label>
+                            <input type="text" id="ram_memory" name="ram_memory">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="storage">Almacenamiento</label>
+                            <input type="text" id="storage" name="storage">
+                        </div>
+                    </div>
+
+                    {{-- Campos Generales --}}
                     <div class="form-group">
-                        <label for="equipment_name">Nombre del Equipo</label>
+                        <label for="equipment_name">Nombre del Equipo</label>                       
                         <input type="text" id="equipment_name" name="equipment_name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inventory_code">Numero de Serial</label>
+                        <input type="text" id="inventory_code" name="inventory_code" required>
                     </div>
 
                     <div class="form-group">
@@ -172,27 +188,14 @@
                     <div class="form-group">
                         <label for="model">Modelo</label>
                         <input type="text" id="model" name="model" required>
-                    </div> 
-
-                    <div class="form-group">
-                        <label for="processor">Procesador</label>
-                        <input type="text" id="processor" name="processor">
                     </div>
 
                     <div class="form-group">
-                        <label for="operating_system">Sistema Operativo</label>
-                        <input type="text" id="operating_system" name="operating_system">
+                        <label for="reference">Referencia</label>
+                        <input type="text" id="reference" name="reference">
                     </div>
 
-                    <div class="form-group">
-                        <label for="ram_memory">Memoria RAM</label>
-                        <input type="text" id="ram_memory" name="ram_memory">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="storage">Almacenamiento</label>
-                        <input type="text" id="storage" name="storage">
-                    </div>
+                </div>
 
                     <div class="form-group full-width">
                         <label for="equipment_function">Función del Equipo</label>
@@ -200,33 +203,6 @@
                             placeholder="Para que se utiliza, que info maneja..."></textarea>
                     </div>
 
-                    <!-- Campos específicos para impresoras -->
-                    <div class="specific-fields printer-fields" style="display: none;">
-                        <div class="specific-fields-grid">
-                            <div class="form-group">
-                                <label for="printing_technology">Tecnología de Impresión</label>
-                                <select name="printing_technology" id="printing_technology">
-                                    <option value="laser">Láser</option>
-                                    <option value="inkjet">Inyección de Tinta</option>
-                                    <option value="matrix">Matriz de Puntos</option>
-                                    <option value="thermal">Térmica</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Campos específicos para equipos de red -->
-                    <div class="specific-fields network-fields" style="display: none;">
-                        <!-- Estos campos ya se han movido al lado de tarjeta gráfica -->
-                    </div>
-
-                    <!-- Campo para otros tipos de equipo -->
-                    <div class="specific-fields other-fields" style="display: none;">
-                        <div class="form-group">
-                            <label for="technical_specifications">Especificaciones Técnicas</label>
-                            <textarea id="technical_specifications" name="technical_specifications" rows="4"></textarea>
-                        </div>
-                    </div>
                 </div>
             </section>
 
@@ -291,8 +267,8 @@
             <section class="form-section">
                 <h2>Observaciones</h2>
                 <div class="form-group full-width">
-                    <textarea name="observations" id="observations" rows="4" 
-                    placeholder="Ejemplo: Observaciones adicionales..." ></textarea>
+                    <textarea name="observations" id="observations" rows="4"
+                        placeholder="Ejemplo: Observaciones adicionales..."></textarea>
                 </div>
             </section>
 

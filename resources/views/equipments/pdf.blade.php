@@ -357,12 +357,6 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="label-cell">Última Act.:</td>
-                                    <td class="value-cell">
-                                        {{ $equipment->last_update_date ? Carbon\Carbon::parse($equipment->last_update_date)->format('d/m/Y') : 'No registrada' }}
-                                    </td>
-                                </tr>
-                                <tr>
                                     <td class="label-cell">Fabricante:</td>
                                     <td class="value-cell">{{ $equipment->manufacturer ?: 'No especificado' }}</td>
                                 </tr>

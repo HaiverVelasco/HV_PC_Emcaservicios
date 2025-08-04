@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Historial de Mantenimiento - EMCASERVICIOS</title>
+    <title>Observaciones - {{ $equipment->equipment_name }} - EMCASERVICIOS</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('imgs/Emcaservicios.png') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
@@ -60,9 +60,77 @@
             transform: rotate(180deg);
         }
 
-        .maintenance-details p {
+        .observation-details p {
             margin-bottom: 8px;
             word-wrap: break-word;
+        }
+
+        .observation-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid var(--primary-color);
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        .observation-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .observation-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .observation-date {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .observation-author {
+            font-size: 0.85rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            background-color: var(--accent-color-light);
+            color: var(--accent-color);
+        }
+
+        .observation-content {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-color);
+            margin: 0;
+            word-wrap: break-word;
+        }
+
+        .empty-observation {
+            text-align: center;
+            padding: 40px 20px;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            margin-top: 20px;
+        }
+
+        .empty-observation i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--text-muted);
+        }
+
+        .observation-count {
+            margin: 10px 0 20px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
         }
     </style>
 </head>
@@ -93,7 +161,7 @@
     <!-- Encabezado -->
     <header class="sheet-header">
         <div class="header-content">
-            <h1 class="text-center">HISTORIAL DE MANTENIMIENTO</h1>
+            <h1 class="text-center">OBSERVACIONES DEL EQUIPO</h1>
         </div>
         <div class="company-info">
             <a href="https://www.pdacauca.gov.co/#">
@@ -109,8 +177,9 @@
 
     <div class="maintenance-container">
         <div class="maintenance-header">
-            <h2>Historial de Mantenimiento</h2>
-            <a href="{{ route('equipment.show', $equipment->id) }}" class="btn-back">
+            <h2>Observaciones del Equipo</h2>
+            <a href="{{ route('equipment.show', ['equipment' => $equipment->id]) }}#equipment-{{ $equipment->id }}"
+                class="btn-back">
                 <i class="fas fa-arrow-left"></i> Volver al equipo
             </a>
         </div>
@@ -132,121 +201,74 @@
             </div>
         </div>
 
-        <!-- Formulario de mantenimiento (solo admin) -->
+        <!-- Formulario para agregar observación (solo para administradores) -->
         @if (isAdmin())
             <div class="maintenance-form-container">
-                <h3 class="maintenance-form-title">Registrar nuevo mantenimiento</h3>
-                <form action="{{ route('maintenance.store') }}" method="POST">
+                <h3 class="maintenance-form-title">Registrar nueva observación</h3>
+                <form action="{{ route('observations.store') }}" method="POST">
                     @csrf
                     <input type="hidden" name="equipment_id" value="{{ $equipment->id }}">
 
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="date">Fecha del mantenimiento:</label>
-                            <input type="date" id="date" name="date" class="form-control" required
-                                value="{{ old('date', date('Y-m-d')) }}">
-                        </div>
-                        <div class="form-group">
-                            <label for="type">Tipo de mantenimiento:</label>
-                            <select id="type" name="type" class="form-control" required>
-                                <option value="">Seleccione un tipo</option>
-                                <option value="Preventivo" {{ old('type') == 'Preventivo' ? 'selected' : '' }}>Preventivo
-                                </option>
-                                <option value="Correctivo" {{ old('type') == 'Correctivo' ? 'selected' : '' }}>Correctivo
-                                </option>
-                                <option value="Instalación" {{ old('type') == 'Instalación' ? 'selected' : '' }}>Instalación
-                                </option>
-                                <option value="Desinstalación" {{ old('type') == 'Desinstalación' ? 'selected' : '' }}>
-                                    Desinstalación</option>
-                            </select>
-                        </div>
-                    </div>
-
                     <div class="form-group">
-                        <label for="technician">Técnico responsable:</label>
-                        <input type="text" id="technician" name="technician" class="form-control" required
-                            value="{{ old('technician') }}">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="description">Descripción del mantenimiento:</label>
-                        <textarea id="description" name="description" class="form-control" rows="4"
-                            required>{{ old('description') }}</textarea>
+                        <textarea id="observation" name="observation" class="form-control" rows="4"
+                            required>{{ old('observation') }}</textarea>
                     </div>
 
                     <div class="form-group">
                         <button type="submit" class="btn-maintenance btn-add-maintenance">
-                            <i class="fas fa-save"></i> Registrar Mantenimiento
+                            <i class="fas fa-save"></i> Guardar Observación
                         </button>
                     </div>
                 </form>
             </div>
         @endif
 
-        <!-- Historial de mantenimientos -->
+        <!-- Lista de observaciones -->
         <div class="maintenance-history">
-            <h3 class="maintenance-history-title">Historial de mantenimientos</h3>
-            <div class="maintenance-count">
-                <span>Total: {{ $equipment->maintenances->count() }} mantenimientos</span>
+            <h3 class="maintenance-history-title">Historial de observaciones</h3>
+            <div class="observation-count">
+                <span>Total: {{ $observations->count() }} observaciones</span>
             </div>
 
-            @if ($equipment->maintenances->count() > 0)
+            @if ($observations->count() > 0)
                 <div class="maintenance-grid">
                     <div class="maintenance-grid-scroll">
-                        @foreach ($equipment->maintenances as $maintenance)
-                            <div class="maintenance-card">
-                                <div class="maintenance-card-header">
-                                    <span class="maintenance-type type-{{ $maintenance->type }}">{{ $maintenance->type }}</span>
-                                    <span><i class="far fa-calendar-alt"></i>
-                                        {{ date('d/m/Y', strtotime($maintenance->date)) }}</span>
+                        @foreach ($observations as $observation)
+                            <div class="observation-card">
+                                <div class="observation-card-header">
+                                    <span class="observation-date"><i class="far fa-calendar-alt"></i>
+                                        {{ \Carbon\Carbon::parse($observation->created_at)->format('d/m/Y - H:i') }}
+                                    </span>
+                                    <span class="observation-author">
+                                        <i class="fas fa-user"></i>
+                                        {{ $observation->user_name ?? 'Admin' }}
+                                    </span>
                                 </div>
-                                <div class="maintenance-details">
-                                    <p><strong><i class="fas fa-user-cog"></i> Técnico:</strong> {{ $maintenance->technician }}
-                                    </p>
+                                <div class="observation-details">
                                     <p class="description-container">
-                                        <strong><i class="fa fa-clipboard-list"></i> Descripción:</strong>
-                                        <span
-                                            class="description-text">{{ Str::limit($maintenance->description, 100, '...') }}</span>
-                                        @if(strlen($maintenance->description) > 100)
-                                            <span class="description-toggle" data-full="{{ $maintenance->description }}"
+                                        <span class="description-text">{{ $observation->observation }}</span>
+                                        @if(strlen($observation->observation) > 100)
+                                            <span class="description-toggle" data-full="{{ $observation->observation }}"
                                                 onclick="toggleDescription(this)">
                                                 <i class="fas fa-plus-circle"></i>
                                             </span>
                                         @endif
                                     </p>
-                                    @if ($maintenance->failure)
-                                        <p><strong><i class="fas fa-exclamation-triangle"></i> Fecha de Mantenimiento:</strong>
-                                            {{ $maintenance->date }}</p>
-                                    @endif
-                                    @if ($maintenance->depreciation)
-                                        <p><strong><i class="fas fa-chart-line"></i> Desgaste:</strong>
-                                            {{ $maintenance->depreciation }}</p>
-                                    @endif
-                                    @if ($maintenance->bad_operation)
-                                        <p><strong><i class="fas fa-user-times"></i> Mala operación:</strong>
-                                            {{ $maintenance->bad_operation }}</p>
-                                    @endif
-                                    @if ($maintenance->bad_installation)
-                                        <p><strong><i class="fas fa-tools"></i> Mala instalación:</strong>
-                                            {{ $maintenance->bad_installation }}</p>
-                                    @endif
-                                    @if ($maintenance->accessories)
-                                        <p><strong><i class="fas fa-puzzle-piece"></i> Accesorios:</strong>
-                                            {{ $maintenance->accessories }}</p>
-                                    @endif
                                 </div>
+                                <!-- Acciones para todas las observaciones -->
                                 <div class="maintenance-actions">
-                                    <a href="{{ route('maintenance.pdf', $maintenance->id) }}"
+                                    <a href="{{ route('observations.pdf', $observation->id) }}"
                                         class="btn-maintenance btn-pdf-maintenance" target="_blank">
                                         <i class="fas fa-file-pdf"></i> PDF
                                     </a>
+
                                     @if (isAdmin())
-                                        <form action="{{ route('maintenance.destroy', $maintenance->id) }}" method="POST"
+                                        <form action="{{ route('observations.destroy', $observation->id) }}" method="POST"
                                             style="display: inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn-maintenance btn-delete-maintenance"
-                                                onclick="return confirm('¿Está seguro que desea eliminar este registro de mantenimiento?');">
+                                                onclick="return confirm('¿Está seguro que desea eliminar esta observación?');">
                                                 <i class="fas fa-trash-alt"></i> Eliminar
                                             </button>
                                         </form>
@@ -256,9 +278,16 @@
                         @endforeach
                     </div>
                 </div>
+
+                <!-- Paginación -->
+                @if ($observations->hasPages())
+                    <div class="pagination-wrapper">
+                        {{ $observations->links() }}
+                    </div>
+                @endif
             @else
-                <div class="empty-maintenance">
-                    <p><i class="fas fa-info-circle"></i> No hay registros de mantenimiento para este equipo.</p>
+                <div class="empty-observation">
+                    <p><i class="fas fa-info-circle"></i> No hay observaciones registradas para este equipo.</p>
                 </div>
             @endif
         </div>
@@ -275,6 +304,7 @@
         </script>
         <script src="{{ asset('js/sessionTimer.js') }}?v={{ time() }}"></script>
     @endif
+
     <script>
         // Script para manejar las alertas
         document.addEventListener('DOMContentLoaded', function () {

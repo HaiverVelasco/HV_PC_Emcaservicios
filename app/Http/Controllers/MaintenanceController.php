@@ -77,38 +77,7 @@ class MaintenanceController extends Controller
         return view('maintenances.show', compact('maintenance'));
     }
 
-    public function edit(Maintenance $maintenance)
-    {
-        return view('maintenances.edit', compact('maintenance'));
-    }
 
-    public function update(Request $request, Maintenance $maintenance)
-    {
-        $validated = $request->validate([
-            'date'              => 'required|date',
-            'type'              => 'required|in:Preventivo,Correctivo,Instalación,Desinstalación',
-            'description'       => 'required|string',
-            'technician'        => 'required|string|max:255',
-        ]);
-
-        $validated['type'] = $this->typeTranslations[$validated['type']] ?? $validated['type'];
-
-        if (isset($validated['failure']) && array_key_exists($validated['failure'], $this->failureTranslations)) {
-            $validated['failure'] = $this->failureTranslations[$validated['failure']];
-        }
-
-        try {
-            $maintenance->update($validated);
-            // Si necesitas actualizar algún otro campo del equipo, hazlo aquí (sin usar last_update_date)
-            return redirect()->route('maintenance.index', $maintenance->equipment_id)
-                ->with('success', 'Mantenimiento actualizado correctamente');
-        } catch (\Exception $e) {
-            Log::error('Error al actualizar mantenimiento: ' . $e->getMessage());
-            return redirect()->back()
-                ->with('error', 'Error al actualizar el mantenimiento: ' . $e->getMessage())
-                ->withInput();
-        }
-    }
 
     public function destroy(Maintenance $maintenance)
     {

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Registro de Mantenimiento</title>
+    <title>Registro de Mantenimiento-{{ $equipment->inventory_code }}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -43,13 +43,14 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 10px 0;
+            margin: 15px 0;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
         }
 
         table,
         th,
         td {
-            border: 1px solid #999;
+            border: 1px solid #eee;
         }
 
         th,
@@ -57,10 +58,18 @@
             padding: 10px;
             text-align: left;
             font-size: 12px;
+            vertical-align: middle;
         }
 
         th {
-            background-color: #f0f0f0;
+            background-color: #fcfcfc;
+            font-weight: bold;
+            color: #555;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background-color: #fdfdfd;
         }
 
         .signature-section {
@@ -83,22 +92,33 @@
         .maintenance-type {
             font-weight: bold;
             text-transform: uppercase;
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
         }
 
         .preventivo {
-            color: green;
+            background-color: #e6f7e6;
+            color: #1e7e34;
+            border: 1px solid #c3e6cb;
         }
 
         .correctivo {
-            color: red;
+            background-color: #f8d7da;
+            color: #a71d2a;
+            border: 1px solid #f5c6cb;
         }
 
         .instalacion {
-            color: blue;
+            background-color: #cce5ff;
+            color: #004085;
+            border: 1px solid #b8daff;
         }
 
         .desinstalacion {
-            color: gray;
+            background-color: #e2e3e5;
+            color: #383d41;
+            border: 1px solid #d6d8db;
         }
     </style>
 </head>
@@ -115,7 +135,7 @@
             <h2>INFORMACIÓN DEL EQUIPO</h2>
             <table>
                 <tr>
-                    <th>Código de Inventario</th>
+                    <th>Serial</th>
                     <td>{{ $equipment->inventory_code }}</td>
                     <th>Nombre del Equipo</th>
                     <td>{{ $equipment->equipment_name }}</td>
@@ -127,12 +147,8 @@
                     <td>{{ $equipment->model }}</td>
                 </tr>
                 <tr>
-                    <th>Serial</th>
-                    <td>{{ $equipment->serial_number }}</td>
                     <th>Ubicación</th>
                     <td>{{ $equipment->equipment_location }}</td>
-                </tr>
-                <tr>
                     <th>Responsable</th>
                     <td colspan="3">{{ $equipment->direct_responsible }}</td>
                 </tr>

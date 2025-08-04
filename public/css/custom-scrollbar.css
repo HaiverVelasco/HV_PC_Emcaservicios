@@ -67,7 +67,7 @@
 }
 
 /* ====================================
-   SCROLLBARS ESPECÍFICOS PARA BOTONES
+    SCROLLBARS ESPECÍFICOS PARA BOTONES
    ==================================== */
 
 /* Contenedores de botones con scroll horizontal */
@@ -115,7 +115,7 @@
 }
 
 /* ====================================
-   SCROLLBARS PARA MODALES Y CARDS
+    SCROLLBARS PARA MODALES Y CARDS
    ==================================== */
 
 .modal-body,
@@ -163,7 +163,7 @@
 }
 
 /* ====================================
-   SCROLLBARS PARA DROPDOWNS Y SELECTS
+    SCROLLBARS PARA DROPDOWNS Y SELECTS
    ==================================== */
 
 .dropdown-menu,
@@ -200,7 +200,7 @@
 }
 
 /* ====================================
-   SCROLLBARS PARA ELEMENTOS ESPECÍFICOS
+    SCROLLBARS PARA ELEMENTOS ESPECÍFICOS
    ==================================== */
 
 /* Scrollbar para la lista de equipos */
@@ -235,7 +235,7 @@
 }
 
 /* ====================================
-   ANIMACIONES Y EFECTOS ESPECIALES
+    ANIMACIONES Y EFECTOS ESPECIALES
    ==================================== */
 
 /* Efecto de aparición suave para scrollbars */
@@ -249,7 +249,7 @@
         transform: scale(1);
     }
 }
-
+  
 /* Aplicar animación al hover en contenedores */
 .equipment-card-container:hover::-webkit-scrollbar-thumb,
 .modal-body:hover::-webkit-scrollbar-thumb,
@@ -258,12 +258,12 @@
 }
 
 /* ====================================
-   RESPONSIVE DESIGN
+    RESPONSIVE DESIGN
    ==================================== */
 
 /* Para tablets */
 @media (max-width: 768px) {
-    :root {
+    :root {  
         --scrollbar-width: 6px;
     }
     
@@ -288,7 +288,7 @@
 }
 
 /* ====================================
-   ACCESIBILIDAD
+    ACCESIBILIDAD
    ==================================== */
 
 /* Mayor contraste para usuarios con problemas de visión */
@@ -314,7 +314,7 @@
 }
 
 /* ====================================
-   UTILIDADES ADICIONALES
+    UTILIDADES ADICIONALES
    ==================================== */
 
 /* Clase para ocultar scrollbar manteniendo funcionalidad */

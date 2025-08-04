@@ -1,5 +1,5 @@
 // ===============================
-// Alert Management
+// Gestión de Alertas
 // ===============================
 document.addEventListener('DOMContentLoaded', function() {
     function closeAlert(element) {
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ===============================
-// Image Management
+// Gestión de Imágenes
 // ===============================
 window.deleteImage = function(imageId, button) {
     if (confirm('¿Está seguro que desea eliminar esta imagen?')) {
@@ -105,28 +105,22 @@ window.removeNewImage = function(index, button) {
 }
 
 // ===============================
-// Equipment Fields Management
+// Gestión de Campos de Equipo
 // ===============================
 function toggleSpecificFields() {
     const equipmentType = document.getElementById('equipment_type').value;
     const allSpecificFields = document.querySelectorAll('.specific-fields');
     
+    // Ocultar todos los campos específicos primero
     allSpecificFields.forEach(field => {
         field.style.display = 'none';
     });
-
-    switch(equipmentType) {
-        case 'computador':
-            document.querySelector('.computer-fields').style.display = 'block';
-            break;
-        case 'impresora':
-            document.querySelector('.printer-fields').style.display = 'block';
-            break;
-        case 'ups':
-        case 'scanner':
-        case 'telefonia':
-        case 'otro':
-            document.querySelector('.other-fields').style.display = 'block';
-            break;
+    
+    // Mostrar los campos específicos según el tipo de equipo seleccionado
+    if (equipmentType) {
+        const specificFields = document.querySelector(`.${equipmentType}-fields`);
+        if (specificFields) {
+            specificFields.style.display = 'contents';
+        }
     }
 }

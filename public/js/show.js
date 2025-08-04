@@ -277,6 +277,21 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!searchInput || !searchResults) return;
         let recentSearches = JSON.parse(localStorage.getItem('recentSearches') || '[]');
         let selectedIndex = -1;
+        
+        // Agregar evento al enviar el formulario de búsqueda
+        const searchForm = searchInput.closest('form') || searchInput.parentElement;
+        if (searchForm) {
+            searchForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const searchTerm = searchInput.value.trim();
+                if (searchTerm) {
+                    const items = searchResults.querySelectorAll('.search-result-item');
+                    if (items.length > 0) {
+                        items[0].click(); // Clic en el primer resultado
+                    }
+                }
+            });
+        }
 
         function calculateRelevanceScore(text, searchTerm) {
             const t = text.toLowerCase(), s = searchTerm.toLowerCase();
@@ -358,7 +373,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     break;
                 case 'Enter':
                     e.preventDefault();
-                    if (selectedIndex >= 0 && items[selectedIndex]) items[selectedIndex].click();
+                    if (selectedIndex >= 0 && items[selectedIndex]) {
+                        items[selectedIndex].click();
+                    } else if (items.length > 0) {
+                        // Si no hay selección pero hay resultados, selecciona el primero
+                        items[0].click();
+                    }
                     return;
                 case 'Escape':
                     searchResults.style.display = 'none';
@@ -427,7 +447,8 @@ document.addEventListener('DOMContentLoaded', function () {
                             areaColor: areaColor,
                             details: `${card.querySelector('.equipment-body p:nth-child(1)')?.textContent} - ${card.querySelector('.equipment-body p:nth-child(3)')?.textContent}`,
                             cardId: card.id,
-                            relevanceScore
+                            relevanceScore,
+                            card: card
                         });
                     }
                 });
@@ -459,9 +480,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         if (targetCard) {
                             searchResults.style.display = 'none';
                             searchInput.value = '';
-                            targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                            targetCard.classList.add('highlight');
-                            setTimeout(() => targetCard.classList.remove('highlight'), 2000);
+                            navigateToCard(targetCard);
                         }
                     });
                 });
@@ -469,6 +488,49 @@ document.addEventListener('DOMContentLoaded', function () {
                 searchResults.innerHTML = '<div class="no-results-message">No se encontraron resultados</div>';
             }
         }, 300));
+
+        // Función para navegar a una tarjeta de equipo
+        function navigateToCard(card) {
+            // Revelar equipos ocultos si es necesario
+            const section = card.closest('.area-section');
+            const showMoreBtn = section.querySelector('.btn-show-more');
+            
+            // Si la tarjeta está oculta y hay un botón para mostrar más, hacemos clic en él
+            if (card.classList.contains('hidden') && showMoreBtn) {
+                showMoreBtn.click();
+            }
+            
+            // Si el equipo pertenece a un tipo filtrado, resetear el filtro
+            if (card.style.display === 'none') {
+                section.querySelectorAll('.filter-btn').forEach(btn => {
+                    if (btn.dataset.type === 'all') {
+                        btn.click();
+                    }
+                });
+            }
+            
+            // Aplicar un borde temporal para resaltar mejor la tarjeta
+            const originalBorder = card.style.border;
+            const originalBoxShadow = card.style.boxShadow;
+            const originalZIndex = card.style.zIndex;
+            
+            // Aplicar resaltado mejorado (más sutil)
+            card.style.border = '2px solid #FF9800';
+            card.style.boxShadow = '0 0 15px rgba(255, 152, 0, 0.5)';
+            card.style.zIndex = '10';
+            card.classList.add('highlight');
+            
+            // Hacer scroll para mostrar la tarjeta
+            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            // Eliminar el resaltado después de un tiempo
+            setTimeout(() => {
+                card.classList.remove('highlight');
+                card.style.border = originalBorder;
+                card.style.boxShadow = originalBoxShadow;
+                card.style.zIndex = originalZIndex;
+            }, 2000);
+        }
     }
 
     // --- SCROLL Y ANIMACIÓN DE EQUIPO ---
@@ -476,17 +538,66 @@ document.addEventListener('DOMContentLoaded', function () {
         const card = document.getElementById(cardId);
         if (!card) return;
         card.id = cardId;
-        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        // Guardar estilos originales
+        const originalBorder = card.style.border;
+        const originalBoxShadow = card.style.boxShadow;
+        const originalZIndex = card.style.zIndex;
+        
+        // Aplicar resaltado mejorado (más sutil)
+        card.style.border = '2px solid #FF9800';
+        card.style.boxShadow = '0 0 15px rgba(255, 152, 0, 0.5)';
+        card.style.zIndex = '10';
         card.style.animation = 'highlight 2s';
-        setTimeout(() => card.style.animation = '', 2000);
+        
+        // Scroll hacia la tarjeta
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        // Restaurar estilos después de un tiempo
+        setTimeout(() => {
+            card.style.animation = '';
+            card.style.border = originalBorder;
+            card.style.boxShadow = originalBoxShadow;
+            card.style.zIndex = originalZIndex;
+        }, 2000);
     };
 
     // --- ESTILOS DE ANIMACIÓN ---
     const style = document.createElement('style');
     style.textContent = `
         @keyframes highlight {
-            0%, 100% { transform: scale(1); box-shadow: var(--card-shadow); }
-            50% { transform: scale(1.02); box-shadow: 0 0 20px rgba(39, 111, 183, 0.3); }
+            0% { transform: scale(1); }
+            20% { transform: scale(1.01); box-shadow: 0 0 15px rgba(255, 152, 0, 0.6); }
+            40% { transform: scale(1.005); box-shadow: 0 0 10px rgba(255, 152, 0, 0.4); }
+            60% { transform: scale(1.01); box-shadow: 0 0 15px rgba(255, 152, 0, 0.6); }
+            80% { transform: scale(1.005); box-shadow: 0 0 10px rgba(255, 152, 0, 0.4); }
+            100% { transform: scale(1); box-shadow: var(--card-shadow); }
+        }
+        
+        .highlight {
+            position: relative;
+            border: 2px solid #FF9800 !important;
+            transform: scale(1.01);
+            transition: all 0.3s ease;
+        }
+        
+        .highlight::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            border: 1px dashed #FF9800;
+            border-radius: 6px;
+            animation: pulse 1.5s infinite;
+            pointer-events: none;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.4; }
+            50% { opacity: 0.8; }
+            100% { opacity: 0.4; }
         }
     `;
     document.head.appendChild(style);

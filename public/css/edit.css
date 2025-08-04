@@ -618,3 +618,135 @@ textarea {
 .mt-3 {
     margin-top: 1rem;
 }
+
+/* Estilos para los botones de observaciones */
+.btn-observations,
+.btn-add-observation {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 12px;
+    margin: 4px;
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.btn-observations {
+    background: linear-gradient(135deg, #6c757d, #5a6268);
+    color: white;
+}
+
+.btn-observations:hover {
+    background: linear-gradient(135deg, #5a6268, #4e555b);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
+    color: white;
+    text-decoration: none;
+}
+
+.btn-add-observation {
+    background: linear-gradient(135deg, #28a745, #218838);
+    color: white;
+}
+
+.btn-add-observation:hover {
+    background: linear-gradient(135deg, #218838, #1e7e34);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+    color: white;
+    text-decoration: none;
+}
+
+.obs-count {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 600;
+    margin-left: 4px;
+}
+
+/* Responsive para botones de observaciones */
+@media (max-width: 768px) {
+    .btn-observations,
+    .btn-add-observation {
+        font-size: 11px;
+        padding: 6px 10px;
+        margin: 2px;
+    }
+    
+    .obs-count {
+        font-size: 9px;
+        padding: 1px 4px;
+    }
+}
+
+/* Estilos para el botón de observaciones */
+.btn-observations {
+    background: linear-gradient(135deg, #17a2b8, #138496);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+    transition: var(--btn-transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin: 2px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-observations:hover {
+    background: linear-gradient(135deg, #138496, #117a8b);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    text-decoration: none;
+    color: white;
+}
+
+.btn-observations:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.obs-count {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 2px 6px;
+    font-size: 10px;
+    font-weight: 600;
+    margin-left: 3px;
+}
+
+/* Modo oscuro para el botón de observaciones */
+[data-theme="dark"] .btn-observations {
+    background: linear-gradient(135deg, #1ca3d6, #1491b8);
+}
+
+[data-theme="dark"] .btn-observations:hover {
+    background: linear-gradient(135deg, #1491b8, #127aa0);
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+    .btn-observations {
+        padding: 6px 10px;
+        font-size: 11px;
+        gap: 3px;
+    }
+    
+    .obs-count {
+        padding: 1px 4px;
+        font-size: 9px;
+    }
+}

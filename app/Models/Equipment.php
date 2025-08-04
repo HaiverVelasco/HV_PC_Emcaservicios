@@ -41,9 +41,9 @@ class Equipment extends Model
     protected static function boot()
     {
         parent::boot();
-        
+
         // Antes de eliminar el equipo, eliminar todas las imágenes asociadas
-        static::deleting(function($equipment) {
+        static::deleting(function ($equipment) {
             foreach ($equipment->images as $image) {
                 Storage::disk('public')->delete($image->url);
             }
@@ -59,6 +59,22 @@ class Equipment extends Model
     public function maintenances()
     {
         return $this->hasMany(Maintenance::class);
+    }
+
+    /**
+     * Get all observations for this equipment.
+     */
+    public function observations()
+    {
+        return $this->hasMany(Observation::class);
+    }
+
+    /**
+     * Get the latest observation for this equipment.
+     */
+    public function latestObservation()
+    {
+        return $this->hasOne(Observation::class)->latest();
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Models\Area;
 use App\Models\Equipment;
 use App\Models\Image;
 use App\Models\Maintenance;
+use App\Models\Observation;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
@@ -32,7 +33,8 @@ class EquipmentController extends Controller
     public function index()
     {
         $areas = Area::with(['equipment' => function ($query) {
-            $query->orderBy('inventory_code');
+            $query->with('observations')
+                ->orderBy('inventory_code');
         }])->get();
 
         return view('equipments.show', compact('areas'));
@@ -77,7 +79,6 @@ class EquipmentController extends Controller
                 'bad_installation'      => 'nullable|string|max:255',
                 'accessories'           => 'nullable|string|max:255',
                 'failure'               => 'nullable|in:Unknown,No Failures',
-                'observations'          => 'nullable|string',
                 'description'           => 'nullable|string',
                 'technician'            => 'nullable|string|max:255',
                 'equipment_function'    => 'nullable|string',
@@ -108,10 +109,21 @@ class EquipmentController extends Controller
                     'accessories',
                     'failure',
                     'description',
-                    'technician'
+                    'technician',
+                    'observations'
                 ])->toArray();
 
             $equipment = Equipment::create($equipmentData);
+
+            // Create observation if provided
+            if ($request->filled('observations')) {
+                Observation::create([
+                    'equipment_id' => $equipment->id,
+                    'observation' => $request->observations,
+                    'user_name' => $request->technician ?? 'Sistema'
+                ]);
+                Log::info('Observación inicial creada para el equipo:', ['equipment_id' => $equipment->id]);
+            }
 
             $hasMaintenanceData = collect($maintenanceData)
                 ->except('date')
@@ -163,10 +175,13 @@ class EquipmentController extends Controller
 
     public function edit(Equipment $equipment)
     {
-        $equipment->load('images');
+        $equipment->load(['images', 'observations' => function ($query) {
+            $query->latest();
+        }]);
         $areas = Area::all();
         $maintenance = Maintenance::where('equipment_id', $equipment->id)->latest()->first();
-        return view('equipments.edit', compact('equipment', 'areas', 'maintenance'));
+        $latestObservation = $equipment->observations()->latest()->first();
+        return view('equipments.edit', compact('equipment', 'areas', 'maintenance', 'latestObservation'));
     }
 
     public function update(Request $request, Equipment $equipment)
@@ -230,9 +245,7 @@ class EquipmentController extends Controller
                     $maintenanceData[$key] = $request->$field;
                 }
             }
-            if (!isset($maintenanceData['description']) && $request->filled('observations')) {
-                $maintenanceData['description'] = $request->observations;
-            }
+            // Eliminamos la línea que usaba observations como valor predeterminado para description
             $maintenanceData['date'] = now();
 
             $equipmentData = collect($validatedData)
@@ -244,10 +257,27 @@ class EquipmentController extends Controller
                     'accessories',
                     'failure',
                     'description',
-                    'technician'
+                    'technician',
+                    'observations'
                 ])->toArray();
 
             $equipment->update($equipmentData);
+
+            // Create new observation if provided and different from existing
+            if ($request->filled('observations')) {
+                $newObservation = $request->observations;
+                $latestObservation = $equipment->observations()->latest()->first();
+
+                // Only create new observation if it's different from the latest one and not empty
+                if (trim($newObservation) !== '' && (!$latestObservation || $latestObservation->observation !== $newObservation)) {
+                    Observation::create([
+                        'equipment_id' => $equipment->id,
+                        'observation' => $newObservation,
+                        'user_name' => $request->technician ?? 'Sistema'
+                    ]);
+                    Log::info('Nueva observación creada durante actualización:', ['equipment_id' => $equipment->id]);
+                }
+            }
 
             $maintenance = $equipment->maintenances()->first();
 
@@ -351,39 +381,39 @@ class EquipmentController extends Controller
 
     public function generateAreaPDFs(Request $request, $areaId)
     {
-try {
-        $area = Area::findOrFail($areaId);
+        try {
+            $area = Area::findOrFail($areaId);
 
-        $query = $area->equipment();
-        if ($request->type && $request->type !== 'all') {
-            $query->where('equipment_type', $request->type);
+            $query = $area->equipment();
+            if ($request->type && $request->type !== 'all') {
+                $query->where('equipment_type', $request->type);
+            }
+            $equipments = $query->with(['maintenances' => function ($query) {
+                $query->latest('date');
+            }, 'images', 'area'])->get();
+
+            $generatedDate = now()->format('d/m/Y H:i:s');
+            $pdf = PDF::loadView('equipments.bulk-pdf', [
+                'equipments' => $equipments,
+                'areaName' => $area->name,
+                'equipmentType' => $request->type ?? 'all',
+                'totalEquipments' => $equipments->count(),
+                'generatedDate' => $generatedDate
+            ]);
+
+            // Configurar el papel en landscape si hay muchas imágenes o equipos
+            $totalImages = $equipments->sum(function ($equipment) {
+                return $equipment->images->count();
+            });
+
+            if ($totalImages > 0 || $equipments->count() > 2) {
+                $pdf->setPaper('a4', 'landscape');
+            }
+
+            return $pdf->stream('Equipos_' . $area->name . '_' . $request->type . '.pdf');
+        } catch (\Exception $e) {
+            Log::error('Error al generar PDF de área: ' . $e->getMessage());
+            return response()->json(['error' => 'Error al generar el PDF: ' . $e->getMessage()], 500);
         }
-        $equipments = $query->with(['maintenances' => function ($query) {
-            $query->latest('date');
-        }, 'images', 'area'])->get();
-
-        $generatedDate = now()->format('d/m/Y H:i:s');
-        $pdf = PDF::loadView('equipments.bulk-pdf', [
-            'equipments' => $equipments,
-            'areaName' => $area->name,
-            'equipmentType' => $request->type ?? 'all',
-            'totalEquipments' => $equipments->count(),
-            'generatedDate' => $generatedDate
-        ]);
-
-        // Configurar el papel en landscape si hay muchas imágenes o equipos
-        $totalImages = $equipments->sum(function($equipment) {
-            return $equipment->images->count();
-        });
-        
-        if ($totalImages > 0 || $equipments->count() > 2) {
-            $pdf->setPaper('a4', 'landscape');
-        }
-
-        return $pdf->stream('Equipos_' . $area->name . '_' . $request->type . '.pdf');
-    } catch (\Exception $e) {
-        Log::error('Error al generar PDF de área: ' . $e->getMessage());
-        return response()->json(['error' => 'Error al generar el PDF: ' . $e->getMessage()], 500);
     }
-}
 }

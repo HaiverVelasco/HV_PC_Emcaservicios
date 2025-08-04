@@ -97,15 +97,14 @@ function toggleSpecificFields() {
     const equipmentType = document.getElementById('equipment_type').value;
     const allSpecificFields = document.querySelectorAll('.specific-fields');
     
+    // Ocultar todos los campos específicos primero
     allSpecificFields.forEach(field => field.style.display = 'none');
-
-    const fieldsMap = {
-        'computador': '.computer-fields',
-        'impresora': '.printer-fields'
-    };
-
-    const selector = fieldsMap[equipmentType];
-    if (selector) {
-        document.querySelector(selector).style.display = 'block';
+    
+    // Mostrar los campos específicos según el tipo de equipo seleccionado
+    if (equipmentType) {
+        const specificFields = document.querySelector(`.${equipmentType}-fields`);
+        if (specificFields) {
+            specificFields.style.display = 'contents';
+        }
     }
 }

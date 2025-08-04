@@ -1,0 +1,59 @@
+/* Variables globales mejoradas */
+:root {
+    --primary-color: #003366;
+    --secondary-color: #276fb7;
+    --text-color: #333;
+    --border-color: #e0e0e0;
+    --form-bg: #ffffff;
+    --section-bg: #f8f9fa;
+    --header-gradient: linear-gradient(135deg, #003366 0%, #276fb7 90%);
+    --input-shadow: 0 2px 4px rgba(0, 51, 102, 0.05);
+    --card-shadow: 0 4px 8px rgba(0, 51, 102, 0.1);
+    --hover-shadow: 0 6px 12px rgba(0, 51, 102, 0.15);
+    --body-bg: #f5f7fa;
+    --danger-color: #dc3545;
+}
+
+/* Variables para modo oscuro */
+[data-theme="dark"] {
+    --primary-color: #4a9eff;
+    --secondary-color: #1e88e5;
+    --text-color: #e0e0e0;
+    --border-color: #404040;
+    --form-bg: #2d2d2d;
+    --section-bg: #1c1c1c;
+    --header-gradient: linear-gradient(135deg, #003366 0%, #276fb7 90%);
+    --input-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+    --hover-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    --body-bg: #121212;
+}
+
+/* Estilos generales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Mejoras al body */
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background: var(--body-bg);
+    min-height: 100vh;
+}
+
+/* Campos específicos para tipos de equipos */
+.specific-fields {
+    display: none;
+}
+
+.specific-fields[style*="contents"] {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 15px;
+}
+
+/* Resto del CSS existente... */

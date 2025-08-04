@@ -55,7 +55,6 @@ return new class extends Migration
                 'Malo',
                 'Deshabilitado'
             ])->nullable();
-            $table->text('observations')->nullable();
             $table->timestamps();
         });
     }

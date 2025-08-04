@@ -8,6 +8,7 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('imgs/Emcaservicios.png') }}">
     <link rel="stylesheet" href="{{ asset('css/edit.css') }}?v={{ time() }}">
     <link rel="stylesheet" href="{{ asset('css/index.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/specific-fields.css') }}?v={{ time() }}">
     <script src="{{ asset('js/edit.js') }}?v={{ time() }}" defer></script>
     <script src="{{ asset('js/themeToggle.js') }}?v={{ time() }}" defer></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -41,8 +42,7 @@
                         <label for="area_id">Área</label>
                         <select name="area_id" id="area_id" required>
                             @foreach ($areas as $area)
-                                <option value="{{ $area->id }}"
-                                    {{ $equipment->area_id == $area->id ? 'selected' : '' }}>
+                                <option value="{{ $area->id }}" {{ $equipment->area_id == $area->id ? 'selected' : '' }}>
                                     {{ $area->name }}
                                 </option>
                             @endforeach
@@ -63,8 +63,7 @@
 
                     <div class="form-group">
                         <label for="company_name">Empresa</label>
-                        <input type="text" id="company_name" name="company_name"
-                            value="{{ $equipment->company_name }}">
+                        <input type="text" id="company_name" name="company_name" value="{{ $equipment->company_name }}">
                     </div>
 
                     <div class="form-group">
@@ -80,8 +79,7 @@
 
                     <div class="form-group">
                         <label for="manufacturer">Fabricante</label>
-                        <input type="text" id="manufacturer" name="manufacturer"
-                            value="{{ $equipment->manufacturer }}">
+                        <input type="text" id="manufacturer" name="manufacturer" value="{{ $equipment->manufacturer }}">
                     </div>
 
                     <div class="form-group">
@@ -97,8 +95,7 @@
 
                     <div class="form-group">
                         <label for="value">Valor del Equipo</label>
-                        <input type="number" id="value" name="value" step="0.01"
-                            value="{{ $equipment->value }}">
+                        <input type="number" id="value" name="value" step="0.01" value="{{ $equipment->value }}">
                     </div>
 
                     <div class="form-group">
@@ -117,16 +114,16 @@
                         <label for="equipment_type">Tipo de Equipo</label>
                         <select name="equipment_type" id="equipment_type" required onchange="toggleSpecificFields()">
                             <option value="">Seleccione el tipo de equipo</option>
-                            <option value="computador"
-                                {{ $equipment->equipment_type == 'computador' ? 'selected' : '' }}>Computador</option>
-                            <option value="impresora"
-                                {{ $equipment->equipment_type == 'impresora' ? 'selected' : '' }}>Impresora</option>
+                            <option value="computador" {{ $equipment->equipment_type == 'computador' ? 'selected' : '' }}>
+                                Computador</option>
+                            <option value="impresora" {{ $equipment->equipment_type == 'impresora' ? 'selected' : '' }}>
+                                Impresora</option>
                             <option value="ups" {{ $equipment->equipment_type == 'ups' ? 'selected' : '' }}>UPS
                             </option>
                             <option value="scanner" {{ $equipment->equipment_type == 'scanner' ? 'selected' : '' }}>
                                 Escáner</option>
-                            <option value="telefonia"
-                                {{ $equipment->equipment_type == 'telefonia' ? 'selected' : '' }}>Equipo de Telefonía
+                            <option value="telefonia" {{ $equipment->equipment_type == 'telefonia' ? 'selected' : '' }}>
+                                Equipo de Telefonía
                             </option>
                             <option value="otro" {{ $equipment->equipment_type == 'otro' ? 'selected' : '' }}>Otro
                             </option>
@@ -150,85 +147,38 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="processor">Procesador</label>
-                        <input type="text" id="processor" name="processor" value="{{ $equipment->processor }}">
+                        <label for="reference">Referencia</label>
+                        <input type="text" id="reference" name="reference" value="{{ $equipment->reference }}">
                     </div>
 
-                    <div class="form-group">
-                        <label for="operating_system">Sistema Operativo</label>
-                        <input type="text" id="operating_system" name="operating_system"
-                            value="{{ $equipment->operating_system }}">
-                    </div>
+                    <!-- Campos específicos para computador -->
+                    <div class="specific-fields computador-fields">
+                        <div class="form-group">
+                            <label for="processor">Procesador</label>
+                            <input type="text" id="processor" name="processor" value="{{ $equipment->processor }}">
+                        </div>
 
-                    <div class="form-group">
-                        <label for="ram_memory">Memoria RAM</label>
-                        <input type="text" id="ram_memory" name="ram_memory"
-                            value="{{ $equipment->ram_memory }}">
-                    </div>
+                        <div class="form-group">
+                            <label for="operating_system">Sistema Operativo</label>
+                            <input type="text" id="operating_system" name="operating_system"
+                                value="{{ $equipment->operating_system }}">
+                        </div>
 
-                    <div class="form-group">
-                        <label for="storage">Almacenamiento</label>
-                        <input type="text" id="storage" name="storage" value="{{ $equipment->storage }}">
+                        <div class="form-group">
+                            <label for="ram_memory">Memoria RAM</label>
+                            <input type="text" id="ram_memory" name="ram_memory" value="{{ $equipment->ram_memory }}">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="storage">Almacenamiento</label>
+                            <input type="text" id="storage" name="storage" value="{{ $equipment->storage }}">
+                        </div>
                     </div>
 
                     <div class="form-group full-width">
                         <label for="equipment_function">Función del Equipo</label>
-                        <textarea id="equipment_function" name="equipment_function" rows="4" placeholder="Para quess se utiliza, que info maneja..."> {{ $equipment->equipment_function }}</textarea>
-                    </div>
-
-                    <!-- Campos específicos para impresoras -->
-                    <div class="specific-fields printer-fields"
-                        style="display: {{ $equipment->equipment_type == 'impresora' ? 'block' : 'none' }}">
-                        <div class="specific-fields-grid">
-                            <div class="form-group">
-                                <label for="printing_technology">Tecnología de Impresión</label>
-                                <select name="printing_technology" id="printing_technology">
-                                    <option value="laser"
-                                        {{ $equipment->printing_technology == 'laser' ? 'selected' : '' }}>Láser
-                                    </option>
-                                    <option value="inkjet"
-                                        {{ $equipment->printing_technology == 'inkjet' ? 'selected' : '' }}>Inyección
-                                        de Tinta</option>
-                                    <option value="matrix"
-                                        {{ $equipment->printing_technology == 'matrix' ? 'selected' : '' }}>Matriz de
-                                        Puntos</option>
-                                    <option value="thermal"
-                                        {{ $equipment->printing_technology == 'thermal' ? 'selected' : '' }}>Térmica
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Campos específicos para equipos de red -->
-                    <div class="specific-fields network-fields"
-                        style="display: {{ $equipment->equipment_type == 'red' ? 'block' : 'none' }}">
-                        <div class="specific-fields-grid">
-                            <div class="form-group">
-                                <label for="ports_number">Número de Puertos</label>
-                                <input type="number" id="ports_number" name="ports_number"
-                                    value="{{ $equipment->ports_number }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="network_speed">Velocidad de Red</label>
-                                <input type="text" id="network_speed" name="network_speed"
-                                    value="{{ $equipment->network_speed }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="network_protocol">Protocolo de Red</label>
-                                <input type="text" id="network_protocol" name="network_protocol"
-                                    value="{{ $equipment->network_protocol }}">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Campo para otros tipos de equipo -->
-                    <div class="specific-fields other-fields"
-                        style="display: {{ $equipment->equipment_type == 'otro' ? 'block' : 'none' }}">
-                        <div class="form-group">
-                            <label for="technical_specifications">Especificaciones Técnicas</label>
-                            <textarea id="technical_specifications" name="technical_specifications" rows="4">{{ $equipment->technical_specifications }}</textarea>
-                        </div>
+                        <textarea id="equipment_function" name="equipment_function" rows="4"
+                            placeholder="Para qué se utiliza, qué info maneja...">{{ trim($equipment->equipment_function) }}</textarea>
                     </div>
                 </div>
             </section>
@@ -245,25 +195,21 @@
                             <option value="Regular" {{ $equipment->status == 'Regular' ? 'selected' : '' }}>Regular
                             </option>
                             <option value="Malo" {{ $equipment->status == 'Malo' ? 'selected' : '' }}>Malo</option>
-                            <option value="Deshabilitado"
-                                {{ $equipment->status == 'Deshabilitado' ? 'selected' : '' }}>Deshabilitado</option>
+                            <option value="Deshabilitado" {{ $equipment->status == 'Deshabilitado' ? 'selected' : '' }}>
+                                Deshabilitado</option>
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label for="maintenance_type">Tipo de Mantenimiento</label>
                         <select name="maintenance_type" id="maintenance_type">
-                            <option value="Preventive"
-                                {{ $equipment->maintenance_type == 'Preventive' ? 'selected' : '' }}>Preventivo
+                            <option value="Preventive" {{ $equipment->maintenance_type == 'Preventive' ? 'selected' : '' }}>Preventivo
                             </option>
-                            <option value="Corrective"
-                                {{ $equipment->maintenance_type == 'Corrective' ? 'selected' : '' }}>Correctivo
+                            <option value="Corrective" {{ $equipment->maintenance_type == 'Corrective' ? 'selected' : '' }}>Correctivo
                             </option>
-                            <option value="Installation"
-                                {{ $equipment->maintenance_type == 'Installation' ? 'selected' : '' }}>Instalación
+                            <option value="Installation" {{ $equipment->maintenance_type == 'Installation' ? 'selected' : '' }}>Instalación
                             </option>
-                            <option value="Disassembly"
-                                {{ $equipment->maintenance_type == 'Disassembly' ? 'selected' : '' }}>Desinstalación
+                            <option value="Disassembly" {{ $equipment->maintenance_type == 'Disassembly' ? 'selected' : '' }}>Desinstalación
                             </option>
                         </select>
                     </div>
@@ -276,8 +222,8 @@
 
                     <div class="form-group full-width">
                         <label for="maintenance_description">Descripción del Mantenimiento</label>
-                        <textarea id="maintenance_description" name="maintenance_description" rows="3"
-                            placeholder="Detalles del mantenimiento realizado..."> {{ $maintenance->description ?? '' }}</textarea>
+                        <textarea id="maintenance_description" name="description" rows="3"
+                            placeholder="Detalles del mantenimiento realizado...">{{ trim($maintenance->description ?? '') }}</textarea>
                     </div>
                 </div>
             </section>
@@ -323,8 +269,8 @@
             <section class="form-section">
                 <h2>Observaciones</h2>
                 <div class="form-group full-width">
-                    <textarea name="observations" id="observations" rows="4" 
-                    placeholder="Observaciones adicionales..." >{{($equipment->observations) }}</textarea>
+                    <textarea name="observations" id="observations" rows="4"
+                        placeholder="Observaciones adicionales...">{{ $latestObservation ? trim($latestObservation->observation) : '' }}</textarea>
                 </div>
             </section>
 

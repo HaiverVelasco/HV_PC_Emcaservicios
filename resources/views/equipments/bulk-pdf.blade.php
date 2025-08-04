@@ -340,10 +340,7 @@
                 <div class="equipment-card">
                     <div class="equipment-header">
                         <div class="equipment-name">{{ $equipment->equipment_name }}</div>
-                        <div class="inventory-code">Cód: {{ $equipment->inventory_code }}</div>
-                        <span class="status status-{{ str_replace(' ', '-', strtolower($equipment->status)) }}">
-                            {{ $equipment->status }}
-                        </span>
+                        <div class="inventory-code">No. Serial: {{ $equipment->inventory_code }}</div>
                     </div>
 
                     <!-- Información General -->
@@ -392,12 +389,6 @@
                                 <tr>
                                     <td class="label-cell">Resp. Indirecto:</td>
                                     <td class="value-cell">{{ $equipment->indirect_responsible ?: 'No especificado' }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="label-cell">Última Act.:</td>
-                                    <td class="value-cell">
-                                        {{ $equipment->last_update_date ? Carbon\Carbon::parse($equipment->last_update_date)->format('d/m/Y') : 'No registrada' }}
                                     </td>
                                 </tr>
                                 <tr>
