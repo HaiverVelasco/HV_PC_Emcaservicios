@@ -208,7 +208,7 @@
                                         <a href="{{ route('observations.index', ['equipment' => $equipment->id]) }}"
                                             class="btn-observations">
                                             📋 Observaciones
-                                            @if($equipment->observations && $equipment->observations->count() > 0)
+                                            @if($equipment->observations && is_object($equipment->observations) && method_exists($equipment->observations, 'count') && $equipment->observations->count() > 0)
                                                 <span class="obs-count">({{ $equipment->observations->count() }})</span>
                                             @else
                                                 <span class="obs-count">(0)</span>

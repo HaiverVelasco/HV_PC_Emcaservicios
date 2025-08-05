@@ -31,7 +31,6 @@ Route::post('/observations', [ObservationController::class, 'store'])->name('obs
 Route::delete('/observations/{observation}', [ObservationController::class, 'destroy'])->name('observations.destroy');
 Route::get('/observations/{observation}/pdf', [ObservationController::class, 'generatePDF'])->name('observations.pdf');
 
-
 // Rutas protegidas solo para administradores
 Route::middleware(['admin'])->group(function () {
     Route::prefix('equipment')->group(function () {
