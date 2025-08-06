@@ -270,9 +270,15 @@ document.addEventListener('DOMContentLoaded', function() {
         if (areaTitle) {
             const button = document.createElement('a');
             button.className = 'area-nav-button';
-            // Obtener solo el nombre del área, eliminando la parte de "Descargar QRs Descargar PDFs"
+            // Obtener solo el nombre del área, eliminando todos los textos adicionales y símbolos
             let areaName = areaTitle.textContent.trim();
-            areaName = areaName.replace(/Descargar QRs|Descargar PDFs/g, '').trim();
+            
+            // Primero eliminamos textos comunes
+            areaName = areaName.replace(/Descargar QRs|Descargar PDFs|Generar Excel/g, '').trim();
+            
+            // Eliminamos todos los caracteres especiales, incluyendo dos puntos, emojis, y otros símbolos
+            areaName = areaName.replace(/[^\w\sÁáÉéÍíÓóÚúÜüÑñ]/g, '').trim();
+            
             button.textContent = areaName;
             button.href = '#';
             
@@ -313,7 +319,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.target.classList.contains('area-nav-button')) {
             const selectedArea = e.target.textContent;
             dropdownButton.innerHTML = `
-                <span>📍 ${selectedArea}</span>
+                <span>${selectedArea}</span>
                 <span class="dropdown-icon">▼</span>
             `;
             areasNav.classList.remove('show');

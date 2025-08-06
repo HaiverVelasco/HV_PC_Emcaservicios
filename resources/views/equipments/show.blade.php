@@ -80,17 +80,25 @@
         @foreach ($areas as $area)
             <section class="area-section" style="border-color: {{ $area->color }}">
                 <h2 class="area-title" style="background-color: {{ $area->color }}">
-                    {{ $area->name }}
+                    <span class="area-name">{{ $area->name }}</span>
                     @if (isAdmin() && $area->equipment->count() > 0)
-                        <div class="download-buttons">
-                            <button class="btn-download-area-qr"
-                                onclick="downloadAreaQRs('{{ $area->id }}', '{{ $area->name }}')">
-                                Descargar QRs
+                        <div class="download-dropdown">
+                            <button class="btn-dropdown" aria-label="Opciones">
+                                <span class="dots-icon">&#8942;</span>
                             </button>
-                            <button class="btn-download-area-qr"
-                                onclick="downloadAreaPDFs('{{ $area->id }}', '{{ $area->name }}')">
-                                Descargar PDFs
-                            </button>
+                            <div class="dropdown-menu">
+                                <button class="dropdown-item" onclick="downloadAreaQRs('{{ $area->id }}', '{{ $area->name }}')">
+                                    <span class="item-icon">📱</span> Descargar QRs
+                                </button>
+                                <button class="dropdown-item"
+                                    onclick="downloadAreaPDFs('{{ $area->id }}', '{{ $area->name }}')">
+                                    <span class="item-icon">📄</span> Descargar PDFs
+                                </button>
+                                <button class="dropdown-item"
+                                    onclick="window.location.href='{{ route('reports.index', ['area_id' => $area->id]) }}'">
+                                    <span class="item-icon">📊</span> Generar Excel
+                                </button>
+                            </div>
                         </div>
                     @endif
                 </h2>
@@ -198,11 +206,12 @@
                                         <a href="{{ route('maintenance.index', $equipment->id) }}"
                                             class="btn-maintenance">Mantenimientos</a>
 
-                                        <button class="btn-qr" onclick="generateQR(
-                                                                                                                        '{{ $equipment->id }}', 
-                                                                                                                        '{{ $equipment->equipment_name }}', 
-                                                                                                                        '{{ route('equipment.pdf', $equipment->id) }}'
-                                                                                                                        )">
+                                        <button class="btn-qr"
+                                            onclick="generateQR(
+                                                                                                                                                        '{{ $equipment->id }}', 
+                                                                                                                                                        '{{ $equipment->equipment_name }}', 
+                                                                                                                                                        '{{ route('equipment.pdf', $equipment->id) }}'
+                                                                                                                                                        )">
                                             QR
                                         </button>
                                         <a href="{{ route('observations.index', ['equipment' => $equipment->id]) }}"

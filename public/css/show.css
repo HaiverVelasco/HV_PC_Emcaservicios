@@ -185,44 +185,125 @@ body {
     align-items: center;
 }
 
-/* Contenedor para los botones de descarga */
-.download-buttons {
-    display: flex;
-    gap: 28px;
-    align-items: center;
+.area-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
-/* Botón para descargar QRs y PDFs por área */
-.btn-download-area-qr {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(255, 255, 255, 0.2);
+/* Contenedor para el dropdown de opciones */
+.download-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Botón de tres puntos verticales */
+.btn-dropdown {
+    background-color: transparent;
     color: white;
-    border: 2px solid rgba(255, 255, 255, 0.6);
-    border-radius: 20px;
-    padding: 6px 14px;
-    font-size: 13px;
-    font-weight: 600;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
     cursor: pointer;
     transition: all 0.3s ease;
-    white-space: nowrap;
-    margin-left: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
 }
 
-.btn-download-area-qr::before {
-    content: '📱';
-    margin-right: 8px;
+.dots-icon {
+    font-size: 24px;
+    line-height: 1;
 }
 
-.btn-download-area-qr:hover {
-    background-color: rgba(255, 255, 255, 0.3);
-    border-color: rgba(255, 255, 255, 0.8);
-    transform: translateY(-1px);
+.btn-dropdown:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
 }
 
-.btn-download-area-qr:active {
-    transform: translateY(0);
+.btn-dropdown:active {
+    transform: scale(0.95);
+}
+
+/* Menú dropdown */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: white;
+    min-width: 200px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 8px;
+    animation: fadeIn 0.3s ease;
+}
+
+.download-dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+/* Estilo para los items del dropdown */
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    background-color: transparent;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.dropdown-item:last-child {
+    border-bottom: none;
+}
+
+.dropdown-item:hover {
+    background-color: rgba(39, 111, 183, 0.1);
+    color: var(--primary-color);
+    padding-left: 20px;
+}
+
+.item-icon {
+    margin-right: 12px;
+    font-size: 16px;
+}
+
+/* Animación de aparición */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Estilos para modo oscuro */
+[data-theme="dark"] .dropdown-menu {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .dropdown-item {
+    color: var(--text-color);
+    border-bottom-color: var(--border-color);
+}
+
+[data-theme="dark"] .dropdown-item:hover {
+    background-color: rgba(39, 111, 183, 0.2);
 }
 
 @media (max-width: 768px) {
@@ -230,11 +311,6 @@ body {
         flex-direction: column;
         gap: 10px;
         align-items: flex-start;
-    }
-
-    .btn-download-area-qr {
-        margin-left: 0;
-        align-self: flex-end;
     }
 }
 

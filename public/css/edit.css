@@ -60,9 +60,6 @@
     background-color: var(--form-bg);
 }
 
-[data-theme="dark"] .form-actions {
-    background-color: var(--section-bg);
-}
 
 /* Estilos generales */
 * {
@@ -227,8 +224,6 @@ textarea {
     display: flex;
     justify-content: flex-end;
     gap: 15px;
-    background-color: var(--section-bg);
-    border-top: 1px solid var(--border-color);
 }
 
 .btn-submit,

@@ -5,6 +5,7 @@ use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\ObservationController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\ReportController;
 
 // Rutas de autenticación
 Route::get('/', [LoginController::class, 'showLoginOptions'])->name('login');
@@ -33,6 +34,11 @@ Route::get('/observations/{observation}/pdf', [ObservationController::class, 'ge
 
 // Rutas protegidas solo para administradores
 Route::middleware(['admin'])->group(function () {
+    
+    // Rutas para reportes Excel
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::post('/reports/export', [ReportController::class, 'exportEquipment'])->name('reports.export');
+
     Route::prefix('equipment')->group(function () {
         Route::get('/create', [EquipmentController::class, 'create'])->name('equipment.create');
         Route::post('/', [EquipmentController::class, 'store'])->name('equipment.store');

@@ -709,7 +709,7 @@ window.downloadAreaQRs = function (areaId, areaName) {
     statusElement.textContent = `Preparando códigos QR para ${areaName}...`;
     const equipments = [];
     let areaSection = null;
-    const downloadButton = document.querySelector(`button[onclick*="downloadAreaQRs('${areaId}'"]`);
+    const downloadButton = document.querySelector(`.dropdown-item[onclick*="downloadAreaQRs('${areaId}'"]`);
     if (downloadButton) areaSection = downloadButton.closest('.area-section');
     if (!areaSection) {
         document.querySelectorAll('.area-section').forEach(section => {
@@ -811,24 +811,65 @@ window.downloadAreaPDFs = function (areaId, areaName) {
 
 // --- COLOR DE ÁREA ---
 function getAreaColor(areaId) {
-    const areaTitle = document.querySelector(`[onclick*="downloadAreaQRs('${areaId}'"]`);
-    if (areaTitle) {
-        const parentSection = areaTitle.closest('.area-section');
+    // Primero intentamos encontrar el dropdown que contiene el botón para este ID de área
+    const dropdown = document.querySelector(`.download-dropdown .dropdown-item[onclick*="downloadAreaQRs('${areaId}'"]`);
+    if (dropdown) {
+        const parentSection = dropdown.closest('.area-section');
         if (parentSection) return window.getComputedStyle(parentSection).borderColor;
     }
+    
+    // Si no lo encontramos, buscamos por la sección directamente
+    const areaSections = document.querySelectorAll('.area-section');
+    for (const section of areaSections) {
+        if (section.innerHTML.includes(`downloadAreaQRs('${areaId}'`)) {
+            return window.getComputedStyle(section).borderColor;
+        }
+    }
+    
     return '';
 }
 
-// --- MODALES ---
-document.querySelector('.close-modal')?.addEventListener('click', function () {
-    document.getElementById('qrModal').style.display = "none";
-});
-document.querySelector('.close-bulk-modal')?.addEventListener('click', function () {
-    document.getElementById('bulkQRModal').style.display = "none";
-});
-window.addEventListener('click', function (event) {
-    const modal = document.getElementById('qrModal');
-    const bulkModal = document.getElementById('bulkQRModal');
-    if (event.target === modal) modal.style.display = "none";
-    if (event.target === bulkModal) bulkModal.style.display = "none";
-});
+    // --- MODALES ---
+    document.querySelector('.close-modal')?.addEventListener('click', function () {
+        document.getElementById('qrModal').style.display = "none";
+    });
+    document.querySelector('.close-bulk-modal')?.addEventListener('click', function () {
+        document.getElementById('bulkQRModal').style.display = "none";
+    });
+    window.addEventListener('click', function (event) {
+        const modal = document.getElementById('qrModal');
+        const bulkModal = document.getElementById('bulkQRModal');
+        if (event.target === modal) modal.style.display = "none";
+        if (event.target === bulkModal) bulkModal.style.display = "none";
+        
+        // Cerrar todos los dropdowns al hacer clic fuera
+        const dropdowns = document.querySelectorAll('.download-dropdown');
+        dropdowns.forEach(dropdown => {
+            if (!dropdown.contains(event.target)) {
+                const menu = dropdown.querySelector('.dropdown-menu');
+                if (menu) menu.style.display = 'none';
+            }
+        });
+    });
+    
+    // Manejar los clicks en los botones dropdown
+    document.querySelectorAll('.btn-dropdown').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const menu = this.nextElementSibling;
+            
+            // Cerrar todos los demás menús
+            document.querySelectorAll('.dropdown-menu').forEach(otherMenu => {
+                if (otherMenu !== menu) {
+                    otherMenu.style.display = 'none';
+                }
+            });
+            
+            // Alternar la visualización del menú actual
+            if (menu.style.display === 'block') {
+                menu.style.display = 'none';
+            } else {
+                menu.style.display = 'block';
+            }
+        });
+    });
