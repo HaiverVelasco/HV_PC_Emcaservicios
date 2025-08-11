@@ -7,7 +7,8 @@
     <title>Login - EMCASERVICIOS</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="icon" type="image/x-icon" href="{{ asset('imgs/Emcaservicios.png') }}">
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
@@ -27,8 +28,8 @@
                 <!-- Información de la empresa -->
                 <div class="company-info">
                     <h2>EMCASERVICIOS</h2>
-                    <p>Empresa caucana dedicada a la prestación de servicios públicos 
-                        domiciliarios de acueducto, alcantarillado, aseo y actividades 
+                    <p>Empresa caucana dedicada a la prestación de servicios públicos
+                        domiciliarios de acueducto, alcantarillado, aseo y actividades
                         complementarias, la cual atienden lo dispuesto en el Plan Departamental de Agua.</p>
                 </div>
 
@@ -53,7 +54,7 @@
                         <span class="icon"><i class="fas fa-user-shield"></i></span>
                         Acceso Administrativo
                     </a>
-                    <a href="{{ route('equipment.index') }}" class="login-button guest">
+                    <a href="{{ route('visitor.preview') }}" class="login-button guest">
                         <span class="icon"><i class="fas fa-users"></i></span>
                         Acceso Visitante
                     </a>

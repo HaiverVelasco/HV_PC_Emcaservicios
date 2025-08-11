@@ -13,6 +13,12 @@ Route::get('/admin/login', [LoginController::class, 'showAdminLogin'])->name('lo
 Route::post('/admin/login', [LoginController::class, 'adminLogin'])->name('login.admin.submit');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
+// Ruta para visitantes
+Route::get('/visitor/preview', function () {
+    session(['is_visitor' => true]);
+    return view('preview');
+})->name('visitor.preview');
+
 // Rutas públicas para visualización básica
 Route::get('/equipments', [EquipmentController::class, 'index'])->name('equipment.index');
 Route::get('/equipment/list', [EquipmentController::class, 'create'])->name('equipment.list');
@@ -34,7 +40,12 @@ Route::get('/observations/{observation}/pdf', [ObservationController::class, 'ge
 
 // Rutas protegidas solo para administradores
 Route::middleware(['admin'])->group(function () {
-    
+
+    // Vista previa del administrador
+    Route::get('/admin/preview', function () {
+        return view('preview');
+    })->name('admin.preview');
+
     // Rutas para reportes Excel
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
     Route::post('/reports/export', [ReportController::class, 'exportEquipment'])->name('reports.export');

@@ -54,27 +54,27 @@ class LoginController extends Controller
 
         // Verificamos credenciales usando hash seguro
         if (
-            $credentials['username'] === $adminUsername && 
-            $adminPasswordHash && 
+            $credentials['username'] === $adminUsername &&
+            $adminPasswordHash &&
             Hash::check($credentials['password'], $adminPasswordHash)
         ) {
             // Regeneramos el id de sesión para prevenir session fixation
             $request->session()->regenerate();
-            
+
             // Establecemos la sesión de administrador con valor estricto true
             $request->session()->put('is_admin', true);
-            
+
             // Generamos y almacenamos un token de sesión único
             $token = Str::random(60);
             $request->session()->put('admin_token', $token);
-            
+
             // Establecemos el timestamp de expiración (2 horas desde ahora)
             $expiresAt = now()->addMinutes($this->tokenExpiration);
             $request->session()->put('admin_token_expires_at', $expiresAt);
-            
+
             // Guardar el timestamp de inicio de sesión para las alertas
             $request->session()->put('admin_session_start_time', now()->timestamp * 1000); // En milisegundos para JavaScript
-            
+
             // Registramos información de la sesión creada
             Log::info('Admin login successful', [
                 'session_id' => $request->session()->getId(),
@@ -82,8 +82,8 @@ class LoginController extends Controller
                 'token_generated' => !empty($token),
                 'expires_at' => $expiresAt
             ]);
-            
-            return redirect()->route('equipment.list')->with('success', '¡Bienvenido, Administrador!');
+
+            return redirect()->route('admin.preview')->with('success', '¡Bienvenido, Administrador!');
         }
 
         return back()->withErrors([
@@ -98,17 +98,17 @@ class LoginController extends Controller
             'had_is_admin' => $request->session()->has('is_admin'),
             'had_token' => $request->session()->has('admin_token')
         ]);
-        
+
         // Eliminamos las variables de sesión
         $request->session()->forget(['is_admin', 'admin_token', 'admin_token_expires_at']);
-        
+
         // Invalidamos la sesión y regeneramos el token CSRF
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        
+
         return redirect()->route('login')->with('info', 'Has cerrado sesión correctamente');
     }
-    
+
     /**
      * Verifica si la sesión de administrador está activa y no ha expirado
      */
@@ -117,12 +117,12 @@ class LoginController extends Controller
         if (session('is_admin') !== true) {
             return false;
         }
-        
+
         // Verificar si hay un token y una fecha de expiración
         if (!session('admin_token') || !session('admin_token_expires_at')) {
             return false;
         }
-        
+
         // Verificar si el token ha expirado
         $expiresAt = session('admin_token_expires_at');
         if (now()->gt($expiresAt)) {
@@ -131,7 +131,7 @@ class LoginController extends Controller
             session()->flash('error', 'EL TIEMPO EXPIRÓ, VUELVE A INICIAR SESIÓN');
             return false;
         }
-        
+
         return true;
     }
 }

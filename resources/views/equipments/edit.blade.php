@@ -8,6 +8,7 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('imgs/Emcaservicios.png') }}">
     <link rel="stylesheet" href="{{ asset('css/edit.css') }}?v={{ time() }}">
     <link rel="stylesheet" href="{{ asset('css/index.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/show.css') }}?v={{ time() }}">
     <link rel="stylesheet" href="{{ asset('css/specific-fields.css') }}?v={{ time() }}">
     <script src="{{ asset('js/edit.js') }}?v={{ time() }}" defer></script>
     <script src="{{ asset('js/themeToggle.js') }}?v={{ time() }}" defer></script>
@@ -24,6 +25,23 @@
                 <p>EMPRESA CAUCANA DE SERVICIOS PÚBLICOS S.A. E.S.P.</p>
                 <p>Carrera 4 N° 22N-02 / Edificio de Infraestructura, primer piso</p>
                 <p>Popayán - Cauca - Colombia</p>
+            </div>
+            <div class="social-links">
+                <a href="https://facebook.com/EmcaCauca" class="social-button facebook" title="Facebook">
+                    <i class="facebook"><img src="{{ asset('imgs/facebook.png') }}"></i>
+                </a>
+                <a href="https://instagram.com/emcaservicios" class="social-button instagram" title="Instagram">
+                    <i class="instagram"><img src="{{ asset('imgs/instagram.png') }}"></i>
+                </a>
+                <a href="https://tiktok.com/@emcaservicios" class="social-button tiktok" title="TikTok">
+                    <i class="tiktok"><img src="{{ asset('imgs/tiktok.png') }}"></i>
+                </a>
+                <a href="https://twitter.com/emcaservicios1" class="social-button X" title="X">
+                    <i class="X"> <img src="{{ asset('imgs/X.png') }}"></i>
+                </a>
+                <a href="https://youtube.com/emcaservicios" class="social-button youtube" title="YouTube">
+                    <i class="youtube"><img src="{{ asset('imgs/youtube.png') }}"></i>
+                </a>
             </div>
         </div>
     </header>

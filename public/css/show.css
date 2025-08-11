@@ -63,7 +63,7 @@ body {
 
 .text-center {
     text-align: center;
-    color: var(--primary-color);
+    color: #ffffff;
     margin-bottom: 20px;
     font-size: 24px;
 }
