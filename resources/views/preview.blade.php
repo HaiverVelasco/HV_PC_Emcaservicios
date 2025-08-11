@@ -120,7 +120,7 @@
                     <div class="info-grid">
                         <div class="info-card info-card-mision">
                             <div class="info-card-bar"></div>
-                            <img src="{{ asset('imgs/mision.png') }}" alt="Misión" class="info-card-img">
+                            <img src="{{ asset('imgs/Mision.png') }}" alt="Misión" class="info-card-img">
                             <h3>Nuestra Misión</h3>
                             <p>Somos una empresa caucana dedicada a la presentación de servicios públicos domiciliarios
                                 de
@@ -130,7 +130,7 @@
                         </div>
 
                         <div class="info-card">
-                            <img src="{{ asset('imgs/vision.png') }}" alt="Visión" class="info-card-img">
+                            <img src="{{ asset('imgs/Vision.png') }}" alt="Visión" class="info-card-img">
                             <h3>Nuestra Visión</h3>
                             <p>La empresa caucana de servicios publicos EMCASERVICIOS S.A E.S.P. sera reconocida a nivel
                                 departamental por su excelencia en la gestion integral del sector de agua potable,
@@ -139,7 +139,7 @@
                         </div>
 
                         <div class="info-card">
-                            <img src="{{ asset('imgs/valores.png') }}" alt="Valores" class="info-card-img">
+                            <img src="{{ asset('imgs/Valores.png') }}" alt="Valores" class="info-card-img">
                             <h3>Valores Corporativos</h3>
                             <p>Aumentar la cobertura, calidad y continuidad en el servicio de acueducto y alcantarillado
                                 en
