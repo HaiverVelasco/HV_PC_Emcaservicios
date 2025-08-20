@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generar Reporte de Equipos - EMCASERVICIOS</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('imgs/Emcaservicios.png') }}">
-    <link rel="stylesheet" href="{{ asset('css/show.css') }}?v={{ time() }}">
-    <link rel="stylesheet" href="{{ asset('css/edit.css') }}?v={{ time() }}">
-    <script src="{{ asset('js/themeToggle.js') }}?v={{ time() }}" defer></script>
+    <link rel="stylesheet" href="{{ asset('css/pages/show.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/pages/edit.css') }}?v={{ time() }}">
+    <script src="{{ asset('js/utils/themeToggle.js') }}?v={{ time() }}" defer></script>
     <style>
         /* Estilos base mejorados */
         .container {

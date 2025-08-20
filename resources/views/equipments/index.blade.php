@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Equipos-EMCASERVICIOS</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('imgs/Emcaservicios.png') }}">
-    <link rel="stylesheet" href="{{ asset('css/index.css') }}?v={{ time() }}">
-    <link rel="stylesheet" href="{{ asset('css/show.css') }}?v={{ time() }}">
-    <link rel="stylesheet" href="{{ asset('css/specific-fields.css') }}?v={{ time() }}">
-    <script src="{{ asset('js/index.js') }}?v={{ time() }}" defer></script>
-    <script src="{{ asset('js/themeToggle.js') }}?v={{ time() }}" defer></script>
+    <link rel="stylesheet" href="{{ asset('css/pages/index.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/pages/show.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/layout/specific-fields.css') }}?v={{ time() }}">
+    <script src="{{ asset('js/pages/index.js') }}?v={{ time() }}" defer></script>
+    <script src="{{ asset('js/utils/themeToggle.js') }}?v={{ time() }}" defer></script>
 </head>
 
 <body>
@@ -189,7 +189,7 @@
 
                     {{-- Campos Generales --}}
                     <div class="form-group">
-                        <label for="equipment_name">Nombre del Equipo</label>                       
+                        <label for="equipment_name">Nombre del Equipo</label>
                         <input type="text" id="equipment_name" name="equipment_name" required>
                     </div>
 
@@ -215,11 +215,11 @@
 
                 </div>
 
-                    <div class="form-group full-width">
-                        <label for="equipment_function">Función del Equipo</label>
-                        <textarea id="equipment_function" name="equipment_function" rows="3"
-                            placeholder="Para que se utiliza, que info maneja..."></textarea>
-                    </div>
+                <div class="form-group full-width">
+                    <label for="equipment_function">Función del Equipo</label>
+                    <textarea id="equipment_function" name="equipment_function" rows="3"
+                        placeholder="Para que se utiliza, que info maneja..."></textarea>
+                </div>
 
                 </div>
             </section>

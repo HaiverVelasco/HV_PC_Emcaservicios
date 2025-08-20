@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Equipo - EMCASERVICIOS</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('imgs/Emcaservicios.png') }}">
-    <link rel="stylesheet" href="{{ asset('css/edit.css') }}?v={{ time() }}">
-    <link rel="stylesheet" href="{{ asset('css/index.css') }}?v={{ time() }}">
-    <link rel="stylesheet" href="{{ asset('css/show.css') }}?v={{ time() }}">
-    <link rel="stylesheet" href="{{ asset('css/specific-fields.css') }}?v={{ time() }}">
-    <script src="{{ asset('js/edit.js') }}?v={{ time() }}" defer></script>
-    <script src="{{ asset('js/themeToggle.js') }}?v={{ time() }}" defer></script>
+    <link rel="stylesheet" href="{{ asset('css/pages/edit.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/pages/index.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/pages/show.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/layout/specific-fields.css') }}?v={{ time() }}">
+    <script src="{{ asset('js/pages/edit.js') }}?v={{ time() }}" defer></script>
+    <script src="{{ asset('js/utils/themeToggle.js') }}?v={{ time() }}" defer></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 

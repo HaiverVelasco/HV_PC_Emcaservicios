@@ -10,15 +10,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <!-- Estilos CSS -->
-    <link rel="stylesheet" href="{{ asset('css/show.css') }}?v={{ time() }}">
-    <link rel="stylesheet" href="{{ asset('css/index.css') }}?v={{ time() }}">
-    <link rel="stylesheet" href="{{ asset('css/edit.css') }}?v={{ time() }}">
-    <link rel="stylesheet" href="{{ asset('css/maintenance-unified.css') }}?v={{ time() }}">
-    <link rel="stylesheet" href="{{ asset('css/sessionTimer.css') }}?v={{ time() }}">
-    <link rel="stylesheet" href="{{ asset('css/custom-scrollbar.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/pages/show.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/pages/index.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/pages/edit.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/pages/maintenance-unified.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/components/sessionTimer.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/components/custom-scrollbar.css') }}?v={{ time() }}">
 
     <!-- Scripts -->
-    <script src="{{ asset('js/themeToggle.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('js/utils/themeToggle.js') }}?v={{ time() }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <style>
@@ -283,7 +283,7 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/maintenance.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('js/pages/maintenance.js') }}?v={{ time() }}"></script>
 
     @if (isAdmin())
         <script>
@@ -291,7 +291,7 @@
             const sessionStartTime = {{ session('admin_session_start_time', 0) }};
             const sessionExpiryTime = {{ session('admin_session_start_time', 0) + 120 * 60 * 1000 }};
         </script>
-        <script src="{{ asset('js/sessionTimer.js') }}?v={{ time() }}"></script>
+        <script src="{{ asset('js/utils/sessionTimer.js') }}?v={{ time() }}"></script>
     @endif
     <script>
         // Script para manejar las alertas

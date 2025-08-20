@@ -7,10 +7,11 @@
     <title>Login Administrativo - EMCASERVICIOS</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="icon" type="image/x-icon" href="{{ asset('imgs/Emcaservicios.png') }}">
-    <link rel="stylesheet" href="{{ asset('css/admin_login.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/pages/admin_login.css') }}">
 </head>
 
 <body>
@@ -30,8 +31,7 @@
             @csrf
             <div class="form-group">
                 <label for="username"><i class="fas fa-user"></i> Usuario</label>
-                <input type="text" id="username" name="username" placeholder="Ingrese su nombre de usuario"
-                    required>
+                <input type="text" id="username" name="username" placeholder="Ingrese su nombre de usuario" required>
             </div>
             <div class="form-group">
                 <label for="password"><i class="fas fa-lock"></i> Contraseña</label>

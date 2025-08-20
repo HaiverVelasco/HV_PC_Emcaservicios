@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Inventario - EMCASERVICIOS</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('imgs/Emcaservicios.png') }}">
-    <link rel="stylesheet" href="{{ asset('css/preview.css') }}?v={{ time() }}">
-    <link rel="stylesheet" href="{{ asset('css/show.css')}}?v={{ time() }}">
-    <link rel="stylesheet" href="{{ asset('css/index.css')}}?v={{ time() }}">
-    <link rel="stylesheet" href="{{ asset('css/social-media.css')}}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/pages/preview.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/pages/show.css')}}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/pages/index.css')}}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/layout/social-media.css')}}?v={{ time() }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="{{ asset('js/themeToggle.js') }}?v={{ time() }}" defer></script>
-    <script src="{{ asset('js/tabs.js') }}?v={{ time() }}" defer></script>
+    <script src="{{ asset('js/utils/themeToggle.js') }}?v={{ time() }}" defer></script>
+    <script src="{{ asset('js/components/tabs.js') }}?v={{ time() }}" defer></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
