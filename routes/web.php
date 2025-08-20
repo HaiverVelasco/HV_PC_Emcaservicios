@@ -14,10 +14,7 @@ Route::post('/admin/login', [LoginController::class, 'adminLogin'])->name('login
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Ruta para visitantes
-Route::get('/visitor/preview', function () {
-    session(['is_visitor' => true]);
-    return view('preview');
-})->name('visitor.preview');
+Route::get('/visitor/preview', function () { session(['is_visitor' => true]); return view('preview'); })->name('visitor.preview');
 
 // Rutas públicas para visualización básica
 Route::get('/equipments', [EquipmentController::class, 'index'])->name('equipment.index');
